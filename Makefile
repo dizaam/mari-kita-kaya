@@ -1,6 +1,9 @@
-CC		=	gcc
+CCLIN	=	gcc
+CCWIN	=	mingw
 SRC		=	map.c dadu.c player.c main.c
 CFLAG	=	-Wall
 
-all	:
-		$(CC) $(SRC) $(CFLAG)
+win :
+		$(CCWIN) $(SRC) $(CFLAG)
+lin	:
+		$(CCLIN) $(SRC) $(CFLAG)
