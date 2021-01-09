@@ -7,6 +7,7 @@
 #include "dadu.h"
 #include "player.h"
 #include "map.h"
+#include "properti.h"
 
 #define u unsigned
 //#define RAND_MAX 6
@@ -29,6 +30,8 @@ int main(){
     int p = 0;
 
     printMap();
+
+    printf("properti: %s\n", property[3].name);
 
     /*
     printf("berapa player? ");

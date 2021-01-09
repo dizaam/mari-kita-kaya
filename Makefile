@@ -1,6 +1,6 @@
 CCLIN	=	gcc
 CCWIN	=	mingw
-SRC		=	map.c dadu.c player.c main.c
+SRC		=	properti.c map.c dadu.c player.c main.c
 CFLAG	=	-Wall
 
 win :
