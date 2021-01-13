@@ -79,55 +79,10 @@ int main(){
     refresh();
     printMap();
 
-    
-    
-
-
-
-
-
-    
-
-
-
-    
-    
-
-
-    /*
-    while(1){
-        resetDadu(&dadu);
-        printf("\nturn ke: %d\n", i);
-        printf("giliran: %s\n", player[p].nama);
-
-        do{
-            kocokDadu(&dadu);
-
-            player[p].posisi += dadu.totaldd;
-
-            if(player[p].posisi>39){
-                player[p].posisi-=40;
-            }
-
-            printf("dadu1: %d\n", dadu.dadu1);
-            printf("dadu2: %d\n", dadu.dadu2);
-            printf("posisi sekarang: %d\n", player[p].posisi);
-            delay(2);
-
-            if(dadu.countdouble==3) break;
-
-        }while(dadu.isdouble);
 
         
-        i++;
-        if(p){
-            p=0;
-        }else{
-            p=1;
-        }
-    }
 
-    */
+    
     getch();
     endwin();
     return 0;
