@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <stdbool.h>
 #include "dadu.h"
 
 void resetDadu(dadu* dd){

@@ -1,6 +1,8 @@
 #ifndef _KARTU_H
 #define _KARTU_H
 
+#include "system.h"
+
 /*
     ada 20 kartu kesempatan:
 

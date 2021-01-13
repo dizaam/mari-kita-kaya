@@ -1,9 +1,8 @@
 CCLIN	=	gcc
-CCWIN	=	mingw
+STD		=	-std=c11
 SRC		=	properti.c map.c dadu.c player.c main.c
 CFLAG	=	-Wall
+LIB		= 	-lncurses
 
-win :
-		$(CCWIN) $(SRC) $(CFLAG)
-lin	:
-		$(CCLIN) $(SRC) $(CFLAG)
+all	:
+		$(CCLIN) $(SRC) $(CFLAG) $(LIB)

@@ -40,3 +40,7 @@ properti property[32] = {
     {{"Bandung Wetan"}, -1, 0, {200, 80, 240, 400, 400}},
 
 };
+
+void ShowHargaBangunan(properti* property){
+
+}

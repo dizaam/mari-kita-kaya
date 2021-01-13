@@ -1,6 +1,7 @@
 #ifndef _PROPERTI_H
 #define _PROPERTI_H
-#include <stdbool.h>
+
+#include "system.h"
 
 
 typedef struct properti{
@@ -11,5 +12,6 @@ typedef struct properti{
 }properti;
 
 extern properti property[32];
+void ShowHargaBangunan();
 
 #endif

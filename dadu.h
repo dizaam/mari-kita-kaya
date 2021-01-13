@@ -1,6 +1,7 @@
 #ifndef _DADU_H
 #define _DADU_H
-#include <time.h>
+
+#include "system.h"
 
 
 // membuat tipe data dadu 
