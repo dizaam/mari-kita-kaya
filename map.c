@@ -44,7 +44,11 @@ char map[40][100] = {
 void printMap(){
     for(int i=0; i<37; i++){
         for(int j=0; j<91; j++){
+<<<<<<< HEAD
             printw("%c",map[i][j]);
+=======
+            putchar(map[i][j]);
+>>>>>>> 0bb0a7e1d709db5abbca4e67bd2900d156bdb408
         }
         printw("\n");
     }
