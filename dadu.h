@@ -20,6 +20,6 @@ typedef struct dadu{
 void resetDadu(dadu* dd);
 
 // prosedur untuk mengocok dadu
-void kocokDadu(dadu* dd);
+void shakeDadu(dadu* dd);
 
 #endif

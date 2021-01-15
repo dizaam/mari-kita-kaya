@@ -32,16 +32,20 @@ int main(){
     int currentturn = 0;
     int currentplayer;
     
-    
+    dadu dd;
 
     for(int i=0; i<totalplayer; i++){
         printw("\nPLAYER %d SILAHKAN MENGOCOK DADU\n", i+1);
         printw("ketik apa saja untuk mengocok...");
         getch();
         
-        temp[i][0] = rand() % 12 +1;
+        resetDadu(&dd);
+        shakeDadu(&dd);
+        
+        temp[i][0] = dd.totaldd;
+        resetDadu(&dd);
         temp[i][1] = i;
-        printw("\nDadu yg didapat: %d\n", temp[i][0] = rand() % 12 +1);
+        printw("\nDadu yg didapat: %d\n", temp[i][0]);
     }
 
     printw("\n");
