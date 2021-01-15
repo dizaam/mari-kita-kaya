@@ -16,13 +16,7 @@ int main(){
     srand(time(NULL));
     initscr();
     refresh();
-    char trash;
     int totalplayer;
-    //dadu dadu;
-    //int petak;
-    
-    //int i = 1;
-    //int p = 0;
 
     printw("SETUP NEW GAME\n");
     printw("berapa player? (2-4): ");
@@ -35,7 +29,10 @@ int main(){
     printw("PENENTUAN GILIRAN\n");
     int temp[totalplayer][2];
     int turn[totalplayer];
-    int currentturn;
+    int currentturn = 0;
+    int currentplayer;
+    
+    
 
     for(int i=0; i<totalplayer; i++){
         printw("\nPLAYER %d SILAHKAN MENGOCOK DADU\n", i+1);
@@ -77,7 +74,36 @@ int main(){
 
     clear();
     refresh();
-    printMap();
+
+
+    while(currentturn < 4){
+        currentplayer = turn[currentturn];
+        
+
+
+
+
+
+
+
+        currentturn++;
+        while(!player[turn[currentturn]].isbankrupt){
+            currentturn++;
+            if(currentturn==4){
+                currentturn=0;
+            }
+        }   
+    }
+
+    
+
+
+
+
+
+
+
+    
 
 
         

@@ -4,16 +4,16 @@
 #include "system.h"
 
 typedef struct player{
-    bool isbangkrut;
+    bool isbankrupt;
     bool isbot;
-    bool isnapi;
+    bool isjailed;
 
-    int posisi; 
-    int totalrumah;
-    int uang; 
+    int position; 
+    int tourist;
+    int money; 
 }player;
 
-void InitPlayer(player* p, int arrsize);
+void InitPlayer(player* p, int playersize);
 char inputPlayerType();
 
 #endif

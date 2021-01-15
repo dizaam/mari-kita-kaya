@@ -4,6 +4,7 @@
 #include "system.h"
 
 extern char map[40][100];
+extern int board[32];
 
 void printMap();
 

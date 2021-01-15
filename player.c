@@ -6,20 +6,21 @@
 
 
 
-void InitPlayer(player* p, int arrsize){
-    for(int i=0; i<arrsize; i++){
+void InitPlayer(player* p, int playersize){
+    for(int i=0; i<playersize; i++){
         printw("\nPLAYER %d: \n", i+1);
+
         if (inputPlayerType()=='y'){
             (p+i)->isbot = true;
         }else{
             (p+i)->isbot = false;
         }
 
-        (p+i)->isbangkrut = false;
-        (p+i)->isnapi = false;
-        (p+i)->posisi = 0;
-        (p+i)->totalrumah = 0;
-        (p+i)->uang = 2000;
+        (p+i)->isbankrupt = false;
+        (p+i)->isjailed = false;
+        (p+i)->position = 0;
+        (p+i)->tourist = 0;
+        (p+i)->money = 2000;
     
     }
 }

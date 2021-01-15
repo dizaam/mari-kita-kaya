@@ -41,6 +41,42 @@ char map[40][100] = {
 	"#---------#---------^---------^---------^---------^---------^---------^---------#---------#"
 	};
 
+int board[32] = {
+	1,	// start
+	6,	// properti
+	5,	// kesempatan
+	6,	// properti
+	6,	// properti wisata
+	6,	// properti
+	6,	// properti
+	6,	// properti
+	3,	// hanya lewat
+	4,	// pajak
+	6,	// properti
+	6,	// properti
+	5,	// kesempatan
+	6,	// properti
+	6,	// properti wisata
+	6,	// properti
+	2,	// bebas parkir / pintu kemana saja
+	6,	// properti
+	5,	// kesempatan
+	6,	// properti
+	6,	// properti wisata
+	6,	// properti
+	6,	// properti
+	6,	// properti
+	0,	// masuk penjara
+	6,	// properti wisata
+	6,	// properti
+	6,	// properti 
+	5,	// kesempatan
+	6,	// properti
+	4,	// pajak
+	6,	// properti
+};
+
+
 void printMap(){
     for(int i=0; i<37; i++){
         for(int j=0; j<91; j++){

@@ -2,6 +2,10 @@
  *                              PDCurses                                *
  *----------------------------------------------------------------------*/
 
+#ifndef PDC_DLL_BUILD
+    #define PDC_DLL_BUILD
+#endif
+
 #ifndef __PDCURSES__
 #define __PDCURSES__ 1
 
