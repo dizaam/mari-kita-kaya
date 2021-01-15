@@ -8,7 +8,7 @@ void resetDadu(dadu* dd){
     dd->isdouble = false;
 }
 
-void kocokDadu(dadu* dd){
+void shakeDadu(dadu* dd){
     srand(time(NULL));
     dd->isdouble = false;
     dd->totaldd = 0;
