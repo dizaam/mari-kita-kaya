@@ -15,6 +15,7 @@ typedef struct dadu{
 }dadu;
 
 //dadu dadu;
+extern dadu dd;
 
 // prosedur untuk mereset nilai dadu
 void resetDadu(dadu* dd);

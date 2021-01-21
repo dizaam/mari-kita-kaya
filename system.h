@@ -25,5 +25,7 @@
 #include "map.h"
 #include "properti.h"
 #include "player.h"
+#include "menu.h"
+#include "game.h"
 
 #endif

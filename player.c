@@ -1,13 +1,14 @@
-#include <stdio.h>
-#include "player.h"
-#include <ctype.h>
+#include "system.h"
+
+pplayer player[4];
+int totalplayer = 0;
+int* turn = NULL;
+int currentturn = 0;
+int currentplayer = 0;
 
 
-
-
-
-void InitPlayer(player* p, int playersize){
-    for(int i=0; i<playersize; i++){
+void InitPlayer(pplayer* p, int size){
+    for(int i=0; i<size; i++){
         printw("\nPLAYER %d: \n", i+1);
 
         if (inputPlayerType()=='y'){

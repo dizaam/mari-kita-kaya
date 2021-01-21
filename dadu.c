@@ -1,5 +1,7 @@
 #include "dadu.h"
 
+dadu dd;
+
 void resetDadu(dadu* dd){
     dd->totaldd = 0;
     dd->dadu1 = 0;

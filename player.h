@@ -3,7 +3,9 @@
 
 #include "system.h"
 
-typedef struct player{
+
+
+typedef struct{
     bool isbankrupt;
     bool isbot;
     bool isjailed;
@@ -11,9 +13,15 @@ typedef struct player{
     int position; 
     int tourist;
     int money; 
-}player;
+}pplayer;
 
-void InitPlayer(player* p, int playersize);
+extern pplayer player[4];
+extern int totalplayer;
+extern int* turn;
+extern int currentturn;
+extern int currentplayer;
+
+void InitPlayer(pplayer* p, int size);
 char inputPlayerType();
 
 #endif

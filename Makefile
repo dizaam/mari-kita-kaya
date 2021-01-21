@@ -1,8 +1,9 @@
 CCLIN	=	gcc
+OUT		=	-o "MariKitaKaya"
 STD		=	-std=c11
-SRC		=	properti.c map.c dadu.c player.c main.c
+SRC		=	menu.c game.c properti.c map.c dadu.c player.c main.c
 CFLAG	=	-Wall
 LIB		= 	-lncurses
 
 all	:
-		$(CCLIN) $(SRC) $(CFLAG) $(LIB)
+		$(CCLIN) $(SRC) $(OUT) $(CFLAG) $(LIB)
