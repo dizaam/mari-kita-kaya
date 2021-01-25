@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include "map.h"
+#include "system.h"
+
+WINDOW* wmap = NULL;
+
 
 char map[40][100] = {
 	"#---------#---------^---------^---------^---------^---------^---------^---------#---------#",
@@ -76,12 +78,16 @@ int board[32] = {
 	6,	// properti
 };
 
+// modul untuk menampilkan papan monopoly
+void DrawMap(){
+	touchwin(wmap);
 
-void printMap(){
-    for(int i=0; i<37; i++){
-        for(int j=0; j<91; j++){
-            printw("%c",map[i][j]);
-        }
-        printw("\n");
+	for(int i=0; i<37; i++){
+        waddstr(wmap, map[i]);
+        waddch(wmap,'\n');
     }
+
+	wrefresh(wmap);
 }
+
+

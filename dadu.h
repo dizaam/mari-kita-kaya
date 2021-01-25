@@ -16,6 +16,7 @@ typedef struct dadu{
 
 //dadu dadu;
 extern dadu dd;
+extern char dicesymbol[10][10][10];
 
 // prosedur untuk mereset nilai dadu
 void resetDadu(dadu* dd);
