@@ -5,6 +5,7 @@ int totalplayer = 0;
 int* turn = NULL;
 int currentturn = 0;
 int currentplayer = 0;
+int playerchoose =0;
 
 
 void InitPlayer(pplayer* p, int size){

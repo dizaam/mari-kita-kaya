@@ -1,21 +1,24 @@
 #include "system.h"
 
+WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 WINDOW*  waction, *wpinfo, *wbinfo;
 
-char actionlist[5][30] = {
-    "Roll Dadu",
+char actionlist[2][30] = {
     "Beli Properti",
-    "Akhiri Giliran",
-    "Test",
-    "Test",
+    "Do Nothing",
 };
 
 // modul untuk menginisialisasi window
 void InitWindow(){
-    wmap = newwin(37,92,0,0);
-    waction = newwin(7,91,37,0);
-    wpinfo = newwin(25, 40, 0, 92);
-    wbinfo = newwin(19, 40, 25, 92);
+    wmap = newwin(37,91,0,0);
+    wactionborder = newwin(7,91,37,0);
+    waction = subwin(wactionborder, 5, 89, 38, 1);
+
+    wpinfoborder = newwin(25, 40, 0, 92);
+    wpinfo = subwin(wpinfoborder, 23, 38, 1, 93);
+
+    wbinfoborder = newwin(19, 40, 25, 92);
+    wbinfo = subwin(wbinfoborder, 17, 38, 26, 93);
 }
 
 
@@ -99,50 +102,50 @@ void SetupNewGame(){
 }
 
 // modul untuk menampilkan box pilihan
-void DrawActionBox(){
-    wclear(waction);
-    touchwin(waction);
+void DrawActionBorder(){
+    wclear(wactionborder);
+    touchwin(wactionborder);
 
-    wattrset(waction, A_ALTCHARSET);
-    box(waction, ACS_VLINE, ACS_HLINE);
+    wattrset(wactionborder, A_ALTCHARSET);
+    box(wactionborder, ACS_VLINE, ACS_HLINE);
 
-    wattroff(waction, A_ALTCHARSET);
-    wrefresh(waction);
+    wattroff(wactionborder, A_ALTCHARSET);
+    wrefresh(wactionborder);
 }
 
 // modul untuk menampilkan box informasi pemain
-void DrawPlayerInfoBox(){
-    wclear(wpinfo);
-    touchwin(wpinfo);
+void DrawPlayerInfoBorder(){
+    wclear(wpinfoborder);
+    touchwin(wpinfoborder);
 
-    wattrset(wpinfo, A_ALTCHARSET);
-    box(wpinfo, ACS_VLINE, ACS_HLINE);
+    wattrset(wpinfoborder, A_ALTCHARSET);
+    box(wpinfoborder, ACS_VLINE, ACS_HLINE);
 
-    wattroff(wpinfo, A_ALTCHARSET);
+    wattroff(wpinfoborder, A_ALTCHARSET);
 
-    wrefresh(wpinfo);
+    wrefresh(wpinfoborder);
 }
 
 // modul untuk menampilkan petak yang diinjak
-void DrawBoardInfoBox(){
-    wclear(wbinfo);
-    touchwin(wbinfo);
+void DrawBoardInfoBorder(){
+    wclear(wbinfoborder);
+    touchwin(wbinfoborder);
 
-    wattrset(wbinfo, A_ALTCHARSET);
-    box(wbinfo, ACS_VLINE, ACS_HLINE);
+    wattrset(wbinfoborder, A_ALTCHARSET);
+    box(wbinfoborder, ACS_VLINE, ACS_HLINE);
 
-    wattroff(wbinfo, A_ALTCHARSET);
+    wattroff(wbinfoborder, A_ALTCHARSET);
 
-    wrefresh(wbinfo);
+    wrefresh(wbinfoborder);
 }
 
 // modul untuk shorthand memanggil 3 modul 
 void DrawWidget(){
-    DrawActionBox();
+    DrawActionBorder();
 
-    DrawPlayerInfoBox();
+    DrawPlayerInfoBorder();
 
-    DrawBoardInfoBox();
+    DrawBoardInfoBorder();
 }
 
 void DrawActionList(int* highlight){
@@ -153,18 +156,18 @@ void DrawActionList(int* highlight){
     }
 
 
-    for(int i=0; i<5; i++){
+    for(int i=0; i<2; i++){
         if(i==*highlight){
             wattrset(waction, A_REVERSE);
         }
-        mvwaddstr(waction, 1 + i, 2, actionlist[i]);
+        mvwaddstr(waction, i, 2, actionlist[i]);
         wattroff(waction, A_REVERSE);
     }
 
     wrefresh(waction);
 }
 
-void DrawAction(){
+void DrawActionUnownedProperty(){
     touchwin(waction);
 
     int keyp = 0;
@@ -181,14 +184,21 @@ void DrawAction(){
             case KEY_UP:
                 highlight--;
                 DrawActionList(&highlight);
+                playerchoose = highlight;
                 break;
             case KEY_DOWN:
                 highlight++;
                 DrawActionList(&highlight);
+                playerchoose = highlight;
                 break;
         }
         wrefresh(waction);
     }while(keyp != '\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
+    
 
     wrefresh(waction);
 }
@@ -199,7 +209,7 @@ void DrawActionRollDice(){
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 1, 2, "Roll Dice");
+    mvwaddstr(waction, 0, 0, "Roll Dice");
     wattroff(waction, A_REVERSE);
 
     noecho();
@@ -208,7 +218,9 @@ void DrawActionRollDice(){
         keyp = wgetch(waction);
     }while(keyp!='\n');
 
-    mvwaddstr(waction, 1, 2, "                        ");
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
     wrefresh(waction);
 }
 
@@ -217,7 +229,7 @@ void DrawActionEndTurn(){
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 1, 2, "Akhiri Giliran");
+    mvwaddstr(waction, 0, 0, "Akhiri Giliran");
     wattroff(waction, A_REVERSE);
 
     noecho();
@@ -226,35 +238,36 @@ void DrawActionEndTurn(){
         keyp = wgetch(waction);
     }while(keyp!='\n');
 
-    mvwaddstr(waction, 1, 2, "                        ");
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
+
     wrefresh(waction);
 }
 
-
-
+// mengupdate box info player
 void UpdatePlayerInfo(){
     touchwin(wpinfo);
     
-    mvwprintw(wpinfo, 1,2,"Giliran Player %d", currentplayer+1);
+    char buff[10];
+    sprintf(buff, "%s %d", "PLAYER", currentplayer+1);
+    PrintCenter(wpinfo, -1, buff);
 
-    mvwprintw(wpinfo, 2,2,"Uang Player: %d", player[currentplayer].money);
-    mvwprintw(wpinfo, 3,2,"Posisi Player: %d", player[currentplayer].position);
-    
-    mvwprintw(wpinfo, 4,2,"Silahkan Mengocok Dadu");
+    mvwprintw(wpinfo, 1,1,"Uang     : %d", player[currentplayer].money);
+    mvwprintw(wpinfo, 2,1,"Posisi   : %d", player[currentplayer].position);
+    mvwprintw(wpinfo, 3,1,"Silahkan Mengocok Dadu...");
 
-    
     wrefresh(wpinfo);
-
 }
 
 // modul untuk menampilkan dadu yang didapat
 void DrawDiceResult(){
     touchwin(wpinfo);
     
-    mvwprintw(wpinfo, 7,2,"Dadu 1: %d", dd.dadu1);
-    mvwprintw(wpinfo, 8,2,"Dadu 2: %d", dd.dadu2);
-    mvwprintw(wpinfo, 9,2,"Total: %d", dd.totaldd);
-    
+    mvwprintw(wpinfo, 8,1,"Dadu 2: %d", dd.dadu2);
+    mvwprintw(wpinfo, 7,1,"Dadu 1: %d", dd.dadu1);
+    mvwprintw(wpinfo, 9,1,"Total: %d", dd.totaldd);
+
     wrefresh(wpinfo);
 
 }
@@ -264,16 +277,16 @@ void DrawDiceSymbol(){
     // start from line 6
     touchwin(wpinfo);
     for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 2, dicesymbol[dd.dadu1-1][i]);
+        mvwaddstr(wpinfo, 6+i, 1, dicesymbol[dd.dadu1-1][i]);
     }
 
     for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 12, dicesymbol[dd.dadu2-1][i]);
+        mvwaddstr(wpinfo, 6+i, 11, dicesymbol[dd.dadu2-1][i]);
     }
 
-    mvwprintw(wpinfo, 8,22,"= %d", dd.totaldd);
+    mvwprintw(wpinfo, 8,21,"= %d", dd.totaldd);
 
-    mvwprintw(wpinfo, 12, 2, "Melaju %d Langkah", dd.totaldd);
+    mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dd.totaldd);
     
     wrefresh(wpinfo);
 }
@@ -298,13 +311,18 @@ void UpdateBoardInfo(){
 
     wgetch(wbinfo);
 
-    mvwprintw(wbinfo, 1, 13, "Petak : %d", player[currentplayer].position);
+    char petak[10];
+    sprintf(petak, "%s %d", "PETAK", player[currentplayer].position);
+
+    
+
+    PrintCenter(wbinfo, -1, petak);
 
     switch(board[player[currentplayer].position]){
         case 0:
             // masuk penjara
-            mvwprintw(wbinfo, 2, 2, "Kamu Berada Di Persidangan");
-            mvwprintw(wbinfo, 3, 2, "Kamu Terbukti Melanggar Hukum! Pergi ke Penjara");
+            mvwprintw(wbinfo, 2, 1, "Kamu Berada Di Persidangan");
+            mvwprintw(wbinfo, 3, 1, "Kamu Terbukti Melanggar Hukum! Pergi ke Penjara");
             wgetch(wbinfo);
 
             player[currentplayer].position=8;
@@ -313,47 +331,94 @@ void UpdateBoardInfo(){
 
         case 1:
             // player berada pada petak start
-            mvwprintw(wbinfo, 2, 2, "Kamu Berada di Petak START");
-            wgetch(wbinfo);
-                    
+            mvwprintw(wbinfo, 2, 1, "Kamu Berada di Petak START");
+           
+            wgetch(wbinfo);      
             break;
                 
         case 2:
             // player berada pada petak bebas parkir
-            mvwprintw(wbinfo, 2, 2, "Bebas Parkir, Kamu Aman Disini");
+            mvwprintw(wbinfo, 2, 1, "Bebas Parkir, Kamu Aman Disini");
+          
             wgetch(wbinfo);
-
             break;
                 
         case 3:
             // penjara hanya lewat
-            mvwprintw(wbinfo, 2, 2, "Lapas Tempatnya Orang2 Melanggar Hukum");
+            mvwprintw(wbinfo, 2, 1, "Lapas Tempatnya Orang2 Melanggar Hukum");
+         
             wgetch(wbinfo);
-
             break;
                 
         case 4:
             // petak pajak, player membayar pajak
-            mvwprintw(wbinfo, 2, 2, "Bayar Pajak Dong!");
+            mvwprintw(wbinfo, 2, 1, "Bayar Pajak Dong!");
+         
             wgetch(wbinfo);
-
             break;
 
         case 5:
             // player mendapat kartu kesempatan
-            mvwprintw(wbinfo, 2, 2, "Kamu Berada di Petak Property!");
+            mvwprintw(wbinfo, 2, 1, "Kamu Mendapat Kartu Kesempatan");
+           
             wgetch(wbinfo);
-
             break;
                 
         case 6:
             // player berada pada petak properti
-            mvwprintw(wbinfo, 2, 2, "Kamu Berada di Petak Property!");
-            wgetch(wbinfo);
 
+            PrintCenter(wbinfo, 1, property[player[currentplayer].position].name);
+            ShowPropertyInfo();
+
+          
+            wgetch(wbinfo);
+            break;
+
+        case 7:
+            // player berada pada petak pariwisata
+            PrintCenter(wbinfo, 1, property[player[currentplayer].position].name);
+            ShowTourismInfo();
+
+            wgetch(wbinfo);
             break;
         }
 
+
+    wrefresh(wbinfo);
+}
+
+// menampilkan informasi petak property 
+void ShowPropertyInfo(){
+    touchwin(wbinfo);
+    char buff[8];
+
+    sprintf(buff, "%s %d", "LEVEL", property[player[currentplayer].position].level);
+    PrintCenter(wbinfo, 2, buff);
+
+    mvwprintw(wbinfo,5, 1, "       Harga Beli   :\t%d", property[player[currentplayer].position].price[0]);
+    mvwprintw(wbinfo,6, 1, "       Harga Upgrade:\t%d", property[player[currentplayer].position].upgradeprice);
+
+    PrintCenter(wbinfo, 7, "Harga Sewa");
+    mvwprintw(wbinfo,10, 1, "       Level  0 :\t%d", property[player[currentplayer].position].price[0]);
+    mvwprintw(wbinfo,11, 1, "       Level  1 :\t%d", property[player[currentplayer].position].price[1]);
+    mvwprintw(wbinfo,12, 1, "       Level  2 :\t%d", property[player[currentplayer].position].price[2]);
+    mvwprintw(wbinfo,13, 1, "       Level  3 :\t%d", property[player[currentplayer].position].price[3]);
+    mvwprintw(wbinfo,14, 1, "       Level MAX:\t%d", property[player[currentplayer].position].price[4]);
+
+    wrefresh(wbinfo);
+}
+
+// menampilkan informasi petak property 
+void ShowTourismInfo(){
+    touchwin(wbinfo);
+
+    mvwprintw(wbinfo,5, 2, "    Harga Beli   :\t\t%d", property[player[currentplayer].position].price[0]);
+
+    PrintCenter(wbinfo, 6, "Harga Sewa");
+    mvwprintw(wbinfo,8, 2, "   Memiliki 1 :\t\t%d", property[player[currentplayer].position].price[0]);
+    mvwprintw(wbinfo,9, 2, "   Memiliki 2 :\t\t%d", property[player[currentplayer].position].price[1]);
+    mvwprintw(wbinfo,10, 2, "   Memiliki 3 :\t\t%d", property[player[currentplayer].position].price[3]);
+    mvwprintw(wbinfo,11, 2, "   Memiliki 4 :\t    MENANG");
 
     wrefresh(wbinfo);
 }

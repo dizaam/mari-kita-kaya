@@ -9,6 +9,7 @@ typedef struct properti{
     int owner;
     int level;
     int price[5];
+    int upgradeprice;
 }properti;
 
 extern properti property[32];

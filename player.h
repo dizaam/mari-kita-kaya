@@ -15,11 +15,13 @@ typedef struct{
     int money; 
 }pplayer;
 
+
 extern pplayer player[4];
 extern int totalplayer;
 extern int* turn;
 extern int currentturn;
 extern int currentplayer;
+extern int playerchoose;
 
 void InitPlayer(pplayer* p, int size);
 char inputPlayerType();

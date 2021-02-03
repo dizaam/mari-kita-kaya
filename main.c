@@ -1,37 +1,57 @@
 #include "system.h"
 
-int main(){
-    srand(time(NULL));
-    initscr();
-
-    MainMenu();
-    clear();
-
-    switch(menuchoose){
+void Action(){
+    switch(board[player[currentplayer].position]){
         case 0:
-            // new game
-            SetupNewGame();
+            // penjara
             break;
-
         case 1:
-            // load game
-            addstr("not yet implemented :(\n");
+            // start
+
             break;
-        
         case 2:
-            // highscores
-            addstr("not yet implemented :(\n");
-            break;
+            // bebas parkir
 
+            break;
         case 3:
-            // exit
-            addstr("bye bye\n");
-            break;
+            // hanya lewat
 
+            break;
+        case 4:
+            // kantor pajak
+
+            break;
+        case 5:
+            // kesempatan
+
+            break;
+        case 6:
+            // properti
+            if(property[player[currentplayer].position].owner == -1){
+                DrawActionUnownedProperty();
+                if(playerchoose == 0){
+                    
+                }
+                
+
+            }else if(property[player[currentplayer].position].owner == currentplayer){
+
+            }
+            else{
+
+            }
+
+            break;
+        case 7:
+            // kantor pajak
+
+            break;
         default:
             break;
     }
-    
+}
+
+void PlayGame(){
     clear();
     refresh();
     InitWindow();
@@ -40,7 +60,13 @@ int main(){
         // mereset dadu untuk giliran player sekarang
         resetDadu(&dd);
         currentplayer = turn[currentturn];
-   
+
+        
+
+        if(player[currentplayer].isjailed){
+
+        }
+
         do{
             //clear();
             refresh();
@@ -71,6 +97,7 @@ int main(){
             }
             
             UpdateBoardInfo();
+            Action();
                    
         }while(dd.isdouble);
 
@@ -83,6 +110,41 @@ int main(){
                 currentturn=0;
             } 
         }while(player[turn[currentturn]].isbankrupt);    
+    }
+
+}
+
+int main(){
+    srand(time(NULL));
+    initscr();
+
+    MainMenu();
+    clear();
+
+    switch(menuchoose){
+        case 0:
+            // new game
+            SetupNewGame();
+            PlayGame();
+            break;
+
+        case 1:
+            // load game
+            addstr("not yet implemented :(\n");
+            break;
+        
+        case 2:
+            // highscores
+            addstr("not yet implemented :(\n");
+            break;
+
+        case 3:
+            // exit
+            addstr("bye bye\n");
+            break;
+
+        default:
+            break;
     }
     
     free(turn);

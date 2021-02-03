@@ -21,23 +21,24 @@ char menu[4][11] = {
 };
 
 // modul untuk memprint teks di tengah
-void PrintCenter(int row, char* text){
+void PrintCenter(WINDOW* win, int row, char* text){
     int len, indent, x;
-    getmaxyx(stdscr, indent, x);
+    getmaxyx(win, indent, x);
 
     // menentukan titik tengah
     len  = strlen(text);
     indent = x - len;
     indent /= 2;
 
-    mvaddstr(row+1, indent, text);
+    mvwprintw(win, row+1, indent, text);
+    //mvaddstr(row+1, indent, text);
     addstr("\n");
 }
 
 // modul untuk menampilkan logo
 void DrawLogo(){
     for(int i=0; i<8; i++){
-        PrintCenter(2+i,logo[i]);
+        PrintCenter(stdscr, 2+i,logo[i]);
     }
     addstr("\n\n");
 }
@@ -56,10 +57,10 @@ void DrawMenu(int* highlight){
         if (cnt==*highlight){
             attrset(A_REVERSE);
         }
-        PrintCenter(15+(cnt*2), menu[cnt]);
+        PrintCenter(stdscr, 15+(cnt*2), menu[cnt]);
         attroff(A_REVERSE);
     }
-    PrintCenter(24, "Use Arrow Key To Move...");
+    PrintCenter(stdscr, 24, "Use Arrow Key To Move...");
     refresh();
 }
 

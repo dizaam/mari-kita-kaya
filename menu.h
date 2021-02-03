@@ -7,7 +7,7 @@ extern int menuchoose;
 extern char logo[8][69];
 extern char menu[4][11];
 
-void PrintCenter(int row, char* text);
+void PrintCenter(WINDOW* win, int row, char* text);
 void DrawLogo();
 void DrawMenu(int* highlight);
 void MainMenu();
