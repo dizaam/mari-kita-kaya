@@ -3,8 +3,13 @@
 WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 WINDOW*  waction, *wpinfo, *wbinfo;
 
-char actionlist[2][30] = {
+char actionlistunowned[2][30] = {
     "Beli Properti",
+    "Do Nothing",
+};
+
+char actionlistupgrade[2][30] = {
+    "Upgrade Properti",
     "Do Nothing",
 };
 
@@ -97,6 +102,8 @@ void SetupNewGame(){
     }while ((totalplayer<2) || (totalplayer>4));
     
     InitPlayer(player, totalplayer);
+    initCard();
+    shuffleCard();
 
     TurnSetup();
 }
@@ -148,9 +155,18 @@ void DrawWidget(){
     DrawBoardInfoBorder();
 }
 
-void DrawActionList(int* highlight){
-    if(*highlight > 4){
-        *highlight = 4;
+void ShowInfoDouble(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 22, 1, "Double! Mengocok Lagi");
+
+    wrefresh(wpinfo);
+}
+
+void DrawActionListUnowned(int* highlight){
+    touchwin(waction);
+    if(*highlight > 1){
+        *highlight = 1;
     }else if(*highlight < 0){
         *highlight = 0;
     }
@@ -160,13 +176,14 @@ void DrawActionList(int* highlight){
         if(i==*highlight){
             wattrset(waction, A_REVERSE);
         }
-        mvwaddstr(waction, i, 2, actionlist[i]);
+        mvwaddstr(waction, i, 1, actionlistunowned[i]);
         wattroff(waction, A_REVERSE);
     }
 
     wrefresh(waction);
 }
 
+// opsi ketika properti belum mempunyai pemilik
 void DrawActionUnownedProperty(){
     touchwin(waction);
 
@@ -175,7 +192,7 @@ void DrawActionUnownedProperty(){
    
     keypad(waction, true);
 
-    DrawActionList(&highlight);
+    DrawActionListUnowned(&highlight);
     noecho();
     do{
         keyp = wgetch(waction);
@@ -183,12 +200,12 @@ void DrawActionUnownedProperty(){
         switch(keyp){
             case KEY_UP:
                 highlight--;
-                DrawActionList(&highlight);
+                DrawActionListUnowned(&highlight);
                 playerchoose = highlight;
                 break;
             case KEY_DOWN:
                 highlight++;
-                DrawActionList(&highlight);
+                DrawActionListUnowned(&highlight);
                 playerchoose = highlight;
                 break;
         }
@@ -202,6 +219,177 @@ void DrawActionUnownedProperty(){
 
     wrefresh(waction);
 }
+
+// notifikasi sukses membeli properti
+void ShowBuySucces(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 15, 0, "Sukses Membeli Property!");
+    mvwprintw(wpinfo, 16, 0, "Property %s Menjadi Milikmu!", property[player[currentplayer].position].name);
+    mvwprintw(wpinfo, 17, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].price[0], player[currentplayer].money-property[player[currentplayer].position].price[0]);
+
+
+    wrefresh(wpinfo);
+}
+
+// notifikasi gagal membeli properti
+void ShowBuyFailed(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 15, 0, "Gagal Membeli Property!");
+    mvwaddstr(wpinfo, 16, 0, "Uangmu Tidak Mencukupi :(");
+
+    wrefresh(wpinfo); 
+}
+
+void ShowOwnedByself(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 15, 0, "Properti Ini Milikmu");
+    mvwaddstr(wpinfo, 16, 0, "Upgrade Atau Akhiri Giliran");
+
+    wrefresh(wpinfo); 
+}
+
+void DrawActionListUpgrade(int* highlight){
+    touchwin(waction);
+    if(*highlight > 1){
+        *highlight = 1;
+    }else if(*highlight < 0){
+        *highlight = 0;
+    }
+
+
+    for(int i=0; i<2; i++){
+        if(i==*highlight){
+            wattrset(waction, A_REVERSE);
+        }
+        mvwaddstr(waction, i, 2, actionlistupgrade[i]);
+        wattroff(waction, A_REVERSE);
+    }
+
+    wrefresh(waction);
+}
+
+void DrawActionUpgradeProperty(){
+    touchwin(waction);
+
+    int keyp = 0;
+    int highlight = 0;
+   
+    keypad(waction, true);
+
+    DrawActionListUpgrade(&highlight);
+    noecho();
+    do{
+        keyp = wgetch(waction);
+
+        switch(keyp){
+            case KEY_UP:
+                highlight--;
+                DrawActionListUpgrade(&highlight);
+                playerchoose = highlight;
+                break;
+            case KEY_DOWN:
+                highlight++;
+                DrawActionListUpgrade(&highlight);
+                playerchoose = highlight;
+                break;
+        }
+        wrefresh(waction);
+    }while(keyp != '\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
+    
+
+    wrefresh(waction);  
+}
+
+// notifikasi sukses upgrade properti
+void ShowUpgradeSucces(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 18, 0, "Sukses Melakukan Upgrade");
+    mvwprintw(wpinfo, 19, 0, "Properti Menjadi Level %d", property[player[currentplayer].position].level);
+    mvwprintw(wpinfo, 20, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].upgradeprice, player[currentplayer].money-property[player[currentplayer].position].upgradeprice);
+
+    wrefresh(wpinfo);
+}
+
+//notifikasi gagal upgrade properti
+void ShowUpgradeFailed(int type){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 18, 0, "                                            ");
+    mvwaddstr(wpinfo, 19, 0, "                                            ");
+    mvwaddstr(wpinfo, 20, 0, "                                            ");
+
+    if(type==0){
+        mvwaddstr(wpinfo, 18, 0, "Gagal Melakukan Upgrade");
+        mvwaddstr(wpinfo, 19, 0, "Uang Tidak Mencukupi");
+    }else if(type==1){
+        mvwaddstr(wpinfo, 18, 0, "Gagal Melakukan Upgrade");
+        mvwaddstr(wpinfo, 19, 0, "Level Sudah Mencapai Maks");
+    }
+
+    wrefresh(wpinfo);
+}
+
+// notifikasi harga sewa
+void ShowRentInfo(){
+    touchwin(wpinfo);
+
+    mvwprintw(wpinfo, 15, 0, "Properti Ini Milik Player %d", property[player[currentplayer].position].owner+1);
+    mvwprintw(wpinfo, 16, 0, "Harga Sewa Sebesar %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level]);
+
+    wrefresh(wpinfo);
+}
+
+// sukses membayar sewa
+void ShowPayRentSucces(){
+    touchwin(wpinfo);
+
+    mvwprintw(wpinfo, 18, 0, "Sukses Membayar Sewa");
+    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level], player[currentplayer].money-property[player[currentplayer].position].price[property[player[currentplayer].position].level]);
+
+    wrefresh(wpinfo);
+}
+
+// uang pembayaran sewa tidak mencukupi
+void ShowPayRentFailed(){
+    touchwin(wpinfo);
+
+    mvwprintw(wpinfo, 18, 0, "Gagal Membayar Sewa");
+    mvwprintw(wpinfo, 19, 0, "Uang Tidak Mencukupi");
+    mvwprintw(wpinfo, 20, 0, "Silahkan Jual Properti Atau Bangkrut");
+
+    wrefresh(wpinfo);
+}
+
+// opsi pilihan player membayar sewa
+void DrawActionPayRent(){
+    touchwin(waction);
+    int keyp = 0;
+
+    wattrset(waction, A_REVERSE);
+    mvwaddstr(waction, 0, 0, "Bayar Sewa");
+    wattroff(waction, A_REVERSE);
+
+    noecho();
+
+    do{
+        keyp = wgetch(waction);
+    }while(keyp!='\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
+    wrefresh(waction);
+}
+
+
 
 // modul untuk menampilkan tombol untuk mengocok dadu
 void DrawActionRollDice(){
@@ -331,35 +519,35 @@ void UpdateBoardInfo(){
 
         case 1:
             // player berada pada petak start
-            mvwprintw(wbinfo, 2, 1, "Kamu Berada di Petak START");
+            mvwprintw(wbinfo, 2, 1, "START");
            
             wgetch(wbinfo);      
             break;
                 
         case 2:
             // player berada pada petak bebas parkir
-            mvwprintw(wbinfo, 2, 1, "Bebas Parkir, Kamu Aman Disini");
+            mvwprintw(wbinfo, 2, 1, "Bebas Parkir");
           
             wgetch(wbinfo);
             break;
                 
         case 3:
             // penjara hanya lewat
-            mvwprintw(wbinfo, 2, 1, "Lapas Tempatnya Orang2 Melanggar Hukum");
+            mvwprintw(wbinfo, 2, 1, "Hanya Lewat");
          
             wgetch(wbinfo);
             break;
                 
         case 4:
             // petak pajak, player membayar pajak
-            mvwprintw(wbinfo, 2, 1, "Bayar Pajak Dong!");
+            mvwprintw(wbinfo, 2, 1, "Kantor Pajak");
          
             wgetch(wbinfo);
             break;
 
         case 5:
             // player mendapat kartu kesempatan
-            mvwprintw(wbinfo, 2, 1, "Kamu Mendapat Kartu Kesempatan");
+            mvwprintw(wbinfo, 2, 1, "Kartu Kesempatan");
            
             wgetch(wbinfo);
             break;

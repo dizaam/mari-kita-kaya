@@ -21,7 +21,7 @@
 #include <time.h>
 
 #include "dadu.h"
-#include "kartu.h"
+#include "card.h"
 #include "map.h"
 #include "properti.h"
 #include "player.h"

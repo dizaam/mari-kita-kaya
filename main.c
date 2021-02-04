@@ -23,22 +23,61 @@ void Action(){
             break;
         case 5:
             // kesempatan
+            CardAction();
 
             break;
         case 6:
             // properti
             if(property[player[currentplayer].position].owner == -1){
+                playerchoose = 0;
+
                 DrawActionUnownedProperty();
                 if(playerchoose == 0){
+                    if(property[player[currentplayer].position].price[0] > player[currentplayer].money){
+                        ShowBuyFailed();
+                    }else{
+                        ShowBuySucces();
+                        player[currentplayer].money -= property[player[currentplayer].position].price[0];
+                        property[player[currentplayer].position].owner = currentplayer;
+                    }
                     
                 }
                 
 
             }else if(property[player[currentplayer].position].owner == currentplayer){
+                ShowOwnedByself();
+                playerchoose = 0;
 
-            }
-            else{
+                while(playerchoose != 1){
+                    DrawActionUpgradeProperty();
+                    if(playerchoose == 0){
+                        // uang kurang
+                        if(property[player[currentplayer].position].upgradeprice > player[currentplayer].money){
+                            ShowUpgradeFailed(0);
+                        }
+                        // level max
+                        else if(property[player[currentplayer].position].level==4){
+                            ShowUpgradeFailed(1);
+                        }
+                        // sukses
+                        else{
+                            property[player[currentplayer].position].level++;
+                            ShowUpgradeSucces();
+                            player[currentplayer].money -= property[player[currentplayer].position].upgradeprice;
+                        }
 
+                    }
+                }   
+
+            }else{
+                ShowRentInfo();
+                DrawActionPayRent();
+                if(player[currentplayer].money < property[player[currentplayer].position].price[property[player[currentplayer].position].level]){
+                    ShowPayRentFailed();
+                }else{
+                    ShowPayRentSucces();
+                    player[currentplayer].money -= property[player[currentplayer].position].price[property[player[currentplayer].position].level];
+                }
             }
 
             break;
@@ -99,6 +138,11 @@ void PlayGame(){
             UpdateBoardInfo();
             Action();
                    
+
+            if(dd.isdouble){
+                ShowInfoDouble();
+                wgetch(wpinfo);
+            }
         }while(dd.isdouble);
 
         DrawActionEndTurn();
