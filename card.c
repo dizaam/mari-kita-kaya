@@ -41,6 +41,7 @@ int rrandom(int low, int high) {
 }
  
 void initCard() {
+	// Procedure to initialize chance card
     int i;
     for (i = 0; i < DECKSIZE; i++) {
         deckCard[i] = i + 1;
@@ -58,6 +59,7 @@ void writeCard() {
 }
  
 void shuffleCard() {
+	// Procedure to shuffle the chance cards when they are first initialized
     int passes = 10;
     int n, cutSize, mp, op, tp, i;
     int *otherHand, *temp;
@@ -105,6 +107,7 @@ int getCardPosition() {
 }
 
 int getCard() {
+	// Function to take one chance card that is located at the top of the chance card queue
     int returnCard;
     if(card.position > 19) {
         card.position = 0;
