@@ -9,21 +9,23 @@ typedef struct{
     bool isbankrupt;
     bool isbot;
     bool isjailed;
+    bool jailcard;
 
+    int propertybought[32];
     int position; 
     int tourist;
     int money; 
-}pplayer;
+}PPLAYER;
 
 
-extern pplayer player[4];
+extern PPLAYER player[4];
 extern int totalplayer;
 extern int* turn;
 extern int currentturn;
 extern int currentplayer;
 extern int playerchoose;
 
-void InitPlayer(pplayer* p, int size);
+void InitPlayer(PPLAYER* p, int size);
 char inputPlayerType();
 
 #endif

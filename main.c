@@ -4,6 +4,11 @@ void Action(){
     switch(board[player[currentplayer].position]){
         case 0:
             // penjara
+            player[currentplayer].position=8;
+            player[currentplayer].isjailed=true;
+            
+
+
             break;
         case 1:
             // start
@@ -28,6 +33,7 @@ void Action(){
             break;
         case 6:
             // properti
+            // belum ada owner
             if(property[player[currentplayer].position].owner == -1){
                 playerchoose = 0;
 
@@ -43,7 +49,7 @@ void Action(){
                     
                 }
                 
-
+            // milik sendiri
             }else if(property[player[currentplayer].position].owner == currentplayer){
                 ShowOwnedByself();
                 playerchoose = 0;
@@ -69,21 +75,60 @@ void Action(){
                     }
                 }   
 
+            // milik pemain lain
             }else{
                 ShowRentInfo();
                 DrawActionPayRent();
                 if(player[currentplayer].money < property[player[currentplayer].position].price[property[player[currentplayer].position].level]){
                     ShowPayRentFailed();
+                    // test auto bankrut
+                    player[currentplayer].isbankrupt=true;
+                    
                 }else{
                     ShowPayRentSucces();
                     player[currentplayer].money -= property[player[currentplayer].position].price[property[player[currentplayer].position].level];
+                    player[property[player[currentplayer].position].owner].money += property[player[currentplayer].position].price[property[player[currentplayer].position].level];
                 }
             }
 
             break;
         case 7:
-            // kantor pajak
+            // tempat wisata
+            // belum ada owner
+            if(property[player[currentplayer].position].owner == -1){
+                playerchoose = 0;
 
+                DrawActionUnownedProperty();
+                if(playerchoose == 0){
+                    if(property[player[currentplayer].position].price[0] > player[currentplayer].money){
+                        ShowBuyFailed();
+                    }else{
+                        ShowBuySucces();
+                        player[currentplayer].money -= property[player[currentplayer].position].price[0];
+                        player[currentplayer].tourist++;
+                        // jika memiliki semua tempat wisata menang(not yet impelented)
+
+                        property[player[currentplayer].position].owner = currentplayer;
+                    }
+                    
+                }
+                
+            // milik sendiri
+            }else if(property[player[currentplayer].position].owner == currentplayer){
+                ShowOwnedByself();
+
+            // milik pemain lain
+            }else{
+                ShowRentInfo();
+                DrawActionPayRent();
+                if(player[currentplayer].money < property[player[currentplayer].position].price[0]*(player[currentplayer].tourist+1)){
+                    ShowPayRentFailed();
+                    
+                }else{
+                    ShowPayRentSucces();
+                    player[currentplayer].money -= property[player[currentplayer].position].price[property[player[currentplayer].position].level];
+                }
+            }
             break;
         default:
             break;
@@ -95,56 +140,121 @@ void PlayGame(){
     refresh();
     InitWindow();
 
-    while(currentturn < 4){
+    while(1){
         // mereset dadu untuk giliran player sekarang
         resetDadu(&dd);
         currentplayer = turn[currentturn];
 
-        
-
+        // jika pemain dipenjara
         if(player[currentplayer].isjailed){
-
-        }
-
-        do{
-            //clear();
             refresh();
 
             DrawMap();
-
+            
             DrawWidget();
 
             UpdatePlayerInfo();
 
-            DrawActionRollDice();
+            playerchoose = 0;
+            DrawActionJailed();
 
-            //DrawAction();
+            // player memilih mengocok dadu
+            if(playerchoose == 0){
+                DrawActionRollDice();
 
-            shakeDadu(&dd);
+                shakeDadu(&dd);
 
-            DrawDiceSymbol();
+                DrawDiceSymbol();
 
-            UpdatePosition();
-              
-            // check jika player sudah 3x double
-            if(dd.countdouble>3){
-                printw("Double 3x Curang!\n");
-                printw("Player Masuk Penjara\n");
-                player[currentplayer].position=8;
-                player[currentplayer].isjailed=true;
-                break;
-            }
+                if(dd.isdouble){
+                    player[currentplayer].isjailed=false;
+                    UpdatePosition();
+                    UpdateBoardInfo();
+                    Action();
+                }
             
-            UpdateBoardInfo();
-            Action();
-                   
+            // player memilih menggunakan kartu bebas penjara
+            }else if(playerchoose == 1){
+                ShowJailCardMessage();
+                if(player[currentplayer].jailcard){
+                    // mempunyai kartu bebas penjara
+                    player[currentplayer].jailcard = false;
+                    player[currentplayer].isjailed = false;
 
-            if(dd.isdouble){
-                ShowInfoDouble();
-                wgetch(wpinfo);
+                    DrawActionRollDice();
+                    
+                    shakeDadu(&dd);
+
+                    DrawDiceSymbol();
+
+                    UpdatePosition();
+                    
+                    UpdateBoardInfo();
+                    
+                    Action();
+
+                }
+
+            // player memilih menyogok petugas
+            }else if(playerchoose == 2){
+                ShowPayJailMessage();
+                if(player[currentplayer].money>=100){
+                    // uang cukup
+                    player[currentplayer].isjailed = false;
+                    player[currentplayer].money -= 100;
+
+                    DrawActionRollDice();
+
+                    shakeDadu(&dd);
+
+                    DrawDiceSymbol();
+
+                    UpdatePosition();
+
+                    UpdateBoardInfo();
+
+                    Action();
+
+                }
             }
-        }while(dd.isdouble);
 
+        }else{
+            do{
+                refresh();
+
+                DrawMap();
+
+                DrawWidget();
+
+                UpdatePlayerInfo();
+
+                DrawActionRollDice();
+
+                shakeDadu(&dd);
+
+                DrawDiceSymbol();
+
+                UpdatePosition();
+
+                // check jika player sudah 3x double
+                if(dd.countdouble>3){
+                    printw("Double 3x Curang!\n");
+                    printw("Player Masuk Penjara\n");
+                    player[currentplayer].position=8;
+                    player[currentplayer].isjailed=true;
+                    break;
+                }
+
+                UpdateBoardInfo();
+                Action();
+
+
+                if(dd.isdouble){
+                    ShowInfoDouble();
+                    wgetch(wpinfo);
+                }
+            }while(dd.isdouble);
+        }
         DrawActionEndTurn();
 
         // penggantian giliran

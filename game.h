@@ -7,6 +7,7 @@ extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
 extern char actionlistunowned[2][30];
 extern char actionlistupgrade[2][30];
+extern char actionlistjailed[3][30];
 
 void InitWindow();
 int* shakeTurn(int temp[totalplayer][2]);
@@ -20,7 +21,10 @@ void DrawWidget();
 
 void ShowInfoDouble();
 
-void DrawActionList(int* highlight);
+void DrawActionListJailed(int* highlight);
+void DrawActionJailed();
+void ShowJailCardMessage();
+void ShowPayJailMessage();
 void DrawActionUnownedProperty();
 void DrawActionListUpgrade(int* highlight);
 void DrawActionUpgradeProperty();

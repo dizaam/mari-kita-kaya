@@ -13,6 +13,13 @@ char actionlistupgrade[2][30] = {
     "Do Nothing",
 };
 
+char actionlistjailed[3][30] = {
+    "Kocok Dadu Sampai Double",
+    "Gunakan Kartu Bebas Penjara",
+    "Sogok Petugas",
+};
+
+
 // modul untuk menginisialisasi window
 void InitWindow(){
     wmap = newwin(37,91,0,0);
@@ -163,6 +170,87 @@ void ShowInfoDouble(){
     wrefresh(wpinfo);
 }
 
+// action list sedang dipenjara
+void DrawActionListJailed(int* highlight){
+    touchwin(waction);
+
+    if(*highlight > 2){
+        *highlight = 2;
+    }else if(*highlight < 0){
+        *highlight = 0;
+    }
+
+    for(int i=0; i<3; i++){
+        if(i==*highlight){
+            wattrset(waction, A_REVERSE);
+        }
+        mvwaddstr(waction, i, 2, actionlistjailed[i]);
+        wattroff(waction, A_REVERSE);
+    }
+
+    wrefresh(waction);
+}
+
+void DrawActionJailed(){
+    touchwin(waction);
+
+    int keyp = 0;
+    int highlight = 0;
+   
+    keypad(waction, true);
+
+    DrawActionListJailed(&highlight);
+    noecho();
+    do{
+        keyp = wgetch(waction);
+
+        switch(keyp){
+            case KEY_UP:
+                highlight--;
+                DrawActionListJailed(&highlight);
+                playerchoose = highlight;
+                break;
+            case KEY_DOWN:
+                highlight++;
+                DrawActionListJailed(&highlight);
+                playerchoose = highlight;
+                break;
+        }
+        wrefresh(waction);
+    }while(keyp != '\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                                                 ");
+    }
+    
+
+    wrefresh(waction);   
+}
+
+// jailed message
+void ShowJailCardMessage(){
+    touchwin(wpinfo);
+    if(player[currentplayer].jailcard){
+        mvwaddstr(wpinfo, 5, 0, "Menggunakan Kartu Bebas Penjara");
+    }else{
+        mvwaddstr(wpinfo, 5, 0, "Tidak Memiliki Kartu Bebas Penjara");
+    }
+
+    wrefresh(wpinfo);
+}
+
+void ShowPayJailMessage(){
+    touchwin(wpinfo);
+
+    if(player[currentplayer].money>=100){
+        mvwaddstr(wpinfo, 5, 0, "Membayar Petugas Sebesar 100");
+    }else{
+        mvwaddstr(wpinfo, 5, 0, "Uang Tidak Mencukupi");
+    }
+
+    wrefresh(wpinfo);
+}
+
 void DrawActionListUnowned(int* highlight){
     touchwin(waction);
     if(*highlight > 1){
@@ -176,7 +264,7 @@ void DrawActionListUnowned(int* highlight){
         if(i==*highlight){
             wattrset(waction, A_REVERSE);
         }
-        mvwaddstr(waction, i, 1, actionlistunowned[i]);
+        mvwaddstr(waction, i, 2, actionlistunowned[i]);
         wattroff(waction, A_REVERSE);
     }
 
@@ -374,7 +462,7 @@ void DrawActionPayRent(){
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 0, 0, "Bayar Sewa");
+    mvwaddstr(waction, 0, 2, "Bayar Sewa");
     wattroff(waction, A_REVERSE);
 
     noecho();
@@ -397,7 +485,7 @@ void DrawActionRollDice(){
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 0, 0, "Roll Dice");
+    mvwaddstr(waction, 0, 2, "Roll Dice");
     wattroff(waction, A_REVERSE);
 
     noecho();
@@ -417,7 +505,7 @@ void DrawActionEndTurn(){
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 0, 0, "Akhiri Giliran");
+    mvwaddstr(waction, 0, 2, "Akhiri Giliran");
     wattroff(waction, A_REVERSE);
 
     noecho();
@@ -443,7 +531,12 @@ void UpdatePlayerInfo(){
 
     mvwprintw(wpinfo, 1,1,"Uang     : %d", player[currentplayer].money);
     mvwprintw(wpinfo, 2,1,"Posisi   : %d", player[currentplayer].position);
-    mvwprintw(wpinfo, 3,1,"Silahkan Mengocok Dadu...");
+    if(player[currentplayer].isjailed){
+        mvwprintw(wpinfo, 3,1,"Kamu Dipenjara...");
+    }else{
+        mvwprintw(wpinfo, 3,1,"Silahkan Mengocok Dadu...");
+    }
+    
 
     wrefresh(wpinfo);
 }
@@ -474,7 +567,14 @@ void DrawDiceSymbol(){
 
     mvwprintw(wpinfo, 8,21,"= %d", dd.totaldd);
 
-    mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dd.totaldd);
+    if((player[currentplayer].isjailed) && (!dd.isdouble)){
+        mvwprintw(wpinfo, 12, 1, "Gagal Mendapat Double");
+    }else if ((player[currentplayer].isjailed) && (dd.isdouble)){
+        mvwprintw(wpinfo, 12, 1, "Double! Keluar Dari Penjara");
+    }else{
+        mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dd.totaldd);
+    }
+    
     
     wrefresh(wpinfo);
 }
@@ -512,9 +612,6 @@ void UpdateBoardInfo(){
             mvwprintw(wbinfo, 2, 1, "Kamu Berada Di Persidangan");
             mvwprintw(wbinfo, 3, 1, "Kamu Terbukti Melanggar Hukum! Pergi ke Penjara");
             wgetch(wbinfo);
-
-            player[currentplayer].position=8;
-            player[currentplayer].isjailed=true;
             break;
 
         case 1:
