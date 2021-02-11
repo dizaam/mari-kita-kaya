@@ -47,6 +47,7 @@ void initCard() {
     }
 
     card.position = 0;
+    shuffleCard();
 }
  
 void writeCard() {

@@ -13,21 +13,17 @@ void InitWindow();
 int* shakeTurn(int temp[totalplayer][2]);
 void TurnSetup();
 void SetupNewGame();
-
 void DrawActionBorder();
 void DrawPlayerInfoBorder();
 void DrawBoardInfoBorder();
 void DrawWidget();
-
 void ShowInfoDouble();
-
 void DrawActionListJailed(int* highlight);
 void DrawActionJailed();
 void ShowJailCardMessage();
 void ShowPayJailMessage();
 void ShowTaxInfo();
 void DrawActionPayTax();
-
 void DrawActionUnownedProperty();
 void DrawActionListUpgrade(int* highlight);
 void DrawActionUpgradeProperty();
@@ -39,16 +35,12 @@ void ShowPayRentSucces();
 void ShowPayRentFailed();
 void ShowUpgradeSucces();
 void ShowUpgradeFailed(int type);
-
 void DrawActionRollDice();
 void DrawActionEndTurn();
 void DrawActionPayRent();
-
 void UpdatePlayerInfo();
-
 void DrawDiceResult();
 void DrawDiceSymbol();
-
 void UpdatePosition();
 void UpdateBoardInfo();
 void ShowPropertyInfo();

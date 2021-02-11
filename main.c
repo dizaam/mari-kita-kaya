@@ -26,6 +26,8 @@ void Action(){
             // kantor pajak
             ShowTaxInfo();
             DrawActionPayTax();
+            // belum ada jika kurang uang
+
             break;
         case 5:
             // kesempatan
@@ -143,7 +145,7 @@ void PlayGame(){
 
     while(1){
         // mereset dadu untuk giliran player sekarang
-        resetDadu(&dd);
+        resetDice();
         currentplayer = turn[currentturn];
 
         // jika pemain dipenjara
@@ -163,11 +165,11 @@ void PlayGame(){
             if(playerchoose == 0){
                 DrawActionRollDice();
 
-                shakeDadu(&dd);
+                shakeDice();
 
                 DrawDiceSymbol();
 
-                if(dd.isdouble){
+                if(dice.isdouble){
                     player[currentplayer].isjailed=false;
                     UpdatePosition();
                     UpdateBoardInfo();
@@ -184,7 +186,7 @@ void PlayGame(){
 
                     DrawActionRollDice();
                     
-                    shakeDadu(&dd);
+                    shakeDice();
 
                     DrawDiceSymbol();
 
@@ -206,7 +208,7 @@ void PlayGame(){
 
                     DrawActionRollDice();
 
-                    shakeDadu(&dd);
+                    shakeDice();
 
                     DrawDiceSymbol();
 
@@ -231,14 +233,14 @@ void PlayGame(){
 
                 DrawActionRollDice();
 
-                shakeDadu(&dd);
+                shakeDice();
 
                 DrawDiceSymbol();
 
                 UpdatePosition();
 
                 // check jika player sudah 3x double
-                if(dd.countdouble>3){
+                if(dice.countdouble>3){
                     printw("Double 3x Curang!\n");
                     printw("Player Masuk Penjara\n");
                     player[currentplayer].position=8;
@@ -250,11 +252,11 @@ void PlayGame(){
                 Action();
 
 
-                if(dd.isdouble){
+                if(dice.isdouble){
                     ShowInfoDouble();
                     wgetch(wpinfo);
                 }
-            }while(dd.isdouble);
+            }while(dice.isdouble);
         }
         DrawActionEndTurn();
 

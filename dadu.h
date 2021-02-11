@@ -5,23 +5,23 @@
 
 
 // membuat tipe data dadu 
-typedef struct dadu{
-    int dadu1;
-    int dadu2;
-    int totaldd;
+typedef struct DDICE{
+    int dice1;
+    int dice2;
+    int totaldice;
     int countdouble;
     bool isdouble;
 
-}dadu;
+}DDICE;
 
 //dadu dadu;
-extern dadu dd;
+extern DDICE dice;
 extern char dicesymbol[10][10][10];
 
 // prosedur untuk mereset nilai dadu
-void resetDadu(dadu* dd);
+void resetDice();
 
 // prosedur untuk mengocok dadu
-void shakeDadu(dadu* dd);
+void shakeDice();
 
 #endif

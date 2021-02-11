@@ -1,6 +1,6 @@
 #include "system.h"
 
-PPLAYER player[4];
+PPLAYER* player = NULL;
 int totalplayer = 0;
 int* turn = NULL;
 int currentturn = 0;
@@ -8,24 +8,25 @@ int currentplayer = 0;
 int playerchoose =0;
 
 
-void InitPlayer(PPLAYER* p, int size){
-    for(int i=0; i<size; i++){
+void InitPlayer(){
+    player = (PPLAYER*) realloc(player, sizeof(PPLAYER)*totalplayer);
+
+    for(int i=0; i<totalplayer; i++){
         printw("\nPLAYER %d: \n", i+1);
 
         if (inputPlayerType()=='y'){
-            (p+i)->isbot = true;
+            player[i].isbot = true;
         }else{
-            (p+i)->isbot = false;
+            player[i].isbot = false;
         }
 
-        memset((p+i)->propertybought, -1, 32*sizeof(int));
-        (p+i)->isbankrupt = false;
-        (p+i)->isjailed = false;
-        (p+i)->jailcard = false;
-        (p+i)->position = 0;
-        (p+i)->tourist = 0;
-        (p+i)->money = 2000;
-    
+        memset(player[i].propertybought, -1, 32*sizeof(int));
+        player[i].isbankrupt = false;
+        player[i].isjailed = false;
+        player[i].jailcard = false;
+        player[i].position = 0;
+        player[i].tourist = 0;
+        player[i].money = 2000; 
     }
 }
 

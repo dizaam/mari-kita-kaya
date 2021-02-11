@@ -76,11 +76,11 @@ void TurnSetup(){
         printw("ketik apa saja untuk mengocok...");
         getch();
         
-        resetDadu(&dd);
-        shakeDadu(&dd);
+        resetDice();
+        shakeDice();
         
-        temp[i][0] = dd.totaldd;
-        resetDadu(&dd);
+        temp[i][0] = dice.totaldice;
+        resetDice();
         temp[i][1] = i;
         printw("\nDadu yg didapat: %d\n", temp[i][0]);
     }
@@ -99,7 +99,7 @@ void TurnSetup(){
 // menginisialisasi awal permainan
 void SetupNewGame(){
     addstr("SETUP NEW GAME\n");
- 
+
     // menentukan berapa player
     do{
         addstr("berapa player? (2-4): ");
@@ -108,11 +108,8 @@ void SetupNewGame(){
             addstr("Minimal 2 Player & Maksimal 4 Player !!!\n");
         }
     }while ((totalplayer<2) || (totalplayer>4));
-    
-    InitPlayer(player, totalplayer);
+    InitPlayer();
     initCard();
-    shuffleCard();
-
     TurnSetup();
 }
 
@@ -582,9 +579,9 @@ void UpdatePlayerInfo(){
 void DrawDiceResult(){
     touchwin(wpinfo);
     
-    mvwprintw(wpinfo, 8,1,"Dadu 2: %d", dd.dadu2);
-    mvwprintw(wpinfo, 7,1,"Dadu 1: %d", dd.dadu1);
-    mvwprintw(wpinfo, 9,1,"Total: %d", dd.totaldd);
+    mvwprintw(wpinfo, 8,1,"Dadu 2: %d", dice.dice2);
+    mvwprintw(wpinfo, 7,1,"Dadu 1: %d", dice.dice1);
+    mvwprintw(wpinfo, 9,1,"Total: %d", dice.totaldice);
 
     wrefresh(wpinfo);
 
@@ -595,21 +592,21 @@ void DrawDiceSymbol(){
     // start from line 6
     touchwin(wpinfo);
     for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 1, dicesymbol[dd.dadu1-1][i]);
+        mvwaddstr(wpinfo, 6+i, 1, dicesymbol[dice.dice1-1][i]);
     }
 
     for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 11, dicesymbol[dd.dadu2-1][i]);
+        mvwaddstr(wpinfo, 6+i, 11, dicesymbol[dice.dice2-1][i]);
     }
 
-    mvwprintw(wpinfo, 8,21,"= %d", dd.totaldd);
+    mvwprintw(wpinfo, 8,21,"= %d", dice.totaldice);
 
-    if((player[currentplayer].isjailed) && (!dd.isdouble)){
+    if((player[currentplayer].isjailed) && (!dice.isdouble)){
         mvwprintw(wpinfo, 12, 1, "Gagal Mendapat Double");
-    }else if ((player[currentplayer].isjailed) && (dd.isdouble)){
+    }else if ((player[currentplayer].isjailed) && (dice.isdouble)){
         mvwprintw(wpinfo, 12, 1, "Double! Keluar Dari Penjara");
     }else{
-        mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dd.totaldd);
+        mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dice.totaldice);
     }
     
     
@@ -620,7 +617,7 @@ void DrawDiceSymbol(){
 void UpdatePosition(){
     touchwin(wpinfo);
 
-    player[currentplayer].position += dd.totaldd;
+    player[currentplayer].position += dice.totaldice;
 
     if(player[currentplayer].position > 31){
         player[currentplayer].position = player[currentplayer].position-32;

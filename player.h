@@ -18,14 +18,14 @@ typedef struct{
 }PPLAYER;
 
 
-extern PPLAYER player[4];
+extern PPLAYER* player;
 extern int totalplayer;
 extern int* turn;
 extern int currentturn;
 extern int currentplayer;
 extern int playerchoose;
 
-void InitPlayer(PPLAYER* p, int size);
+void InitPlayer();
 char inputPlayerType();
 
 #endif

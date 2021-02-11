@@ -1,6 +1,6 @@
 #include "dadu.h"
 
-dadu dd;
+DDICE dice;
 
 char dicesymbol[10][10][10] = {
     {
@@ -47,27 +47,27 @@ char dicesymbol[10][10][10] = {
     },
 };
 
-void resetDadu(dadu* dd){
-    dd->totaldd = 0;
-    dd->dadu1 = 0;
-    dd->dadu2 = 0;
-    dd->countdouble = 0;
-    dd->isdouble = false;
+void resetDice(){
+    dice.totaldice = 0;
+    dice.dice1 = 0;
+    dice.dice2 = 0;
+    dice.countdouble = 0;
+    dice.isdouble = false;
 }
 
-void shakeDadu(dadu* dd){
+void shakeDice(){
     srand(time(NULL));
-    dd->isdouble = false;
-    dd->totaldd = 0;
+    dice.isdouble = false;
+    dice.totaldice = 0;
 
     
-    dd->dadu2 = rand() % 6 + 1;
-    dd->dadu1 = rand() % 6 + 1;
+    dice.dice2 = rand() % 6 + 1;
+    dice.dice1 = rand() % 6 + 1;
 
-    dd->totaldd = dd->dadu1 + dd->dadu2;
+    dice.totaldice = dice.dice1 + dice.dice2;
 
-    if(dd->dadu1==dd->dadu2){
-        dd->isdouble = true;
-        dd->countdouble++;
+    if(dice.dice1==dice.dice2){
+        dice.isdouble = true;
+        dice.countdouble++;
     }
 }
