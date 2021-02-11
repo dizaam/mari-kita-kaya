@@ -25,6 +25,9 @@ void DrawActionListJailed(int* highlight);
 void DrawActionJailed();
 void ShowJailCardMessage();
 void ShowPayJailMessage();
+void ShowTaxInfo();
+void DrawActionPayTax();
+
 void DrawActionUnownedProperty();
 void DrawActionListUpgrade(int* highlight);
 void DrawActionUpgradeProperty();

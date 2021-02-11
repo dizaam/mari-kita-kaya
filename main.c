@@ -24,7 +24,8 @@ void Action(){
             break;
         case 4:
             // kantor pajak
-
+            ShowTaxInfo();
+            DrawActionPayTax();
             break;
         case 5:
             // kesempatan

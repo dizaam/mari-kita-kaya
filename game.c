@@ -20,6 +20,7 @@ char actionlistjailed[3][30] = {
 };
 
 
+
 // modul untuk menginisialisasi window
 void InitWindow(){
     wmap = newwin(37,91,0,0);
@@ -239,6 +240,9 @@ void ShowJailCardMessage(){
     wrefresh(wpinfo);
 }
 
+
+
+// informasi status pembayaran suap petugas penajara
 void ShowPayJailMessage(){
     touchwin(wpinfo);
 
@@ -250,6 +254,39 @@ void ShowPayJailMessage(){
 
     wrefresh(wpinfo);
 }
+
+
+// modul untuk informasi pembayaran pajak
+void ShowTaxInfo(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 18, 0, "Bayar Pajak Sebesar 100");
+    
+    wrefresh(wpinfo);
+
+}
+
+// moudul untuk menampilkan aksi pembayaran pajak
+void DrawActionPayTax(){
+    touchwin(waction);
+    int keyp = 0;
+
+    wattrset(waction, A_REVERSE);
+    mvwaddstr(waction, 0, 2, "Bayar Pajak");
+    wattroff(waction, A_REVERSE);
+
+    noecho();
+
+    do{
+        keyp = wgetch(waction);
+    }while(keyp!='\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                        ");
+    }
+    wrefresh(waction);
+}
+
 
 void DrawActionListUnowned(int* highlight){
     touchwin(waction);
