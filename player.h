@@ -17,7 +17,6 @@ typedef struct{
     int money; 
 }PPLAYER;
 
-
 extern PPLAYER* player;
 extern int totalplayer;
 extern int* turn;

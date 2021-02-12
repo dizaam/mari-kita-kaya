@@ -19,6 +19,11 @@ char actionlistjailed[3][30] = {
     "Sogok Petugas",
 };
 
+char actionlistneedmoney[2][30] = {
+    "Jual Properti",
+    "Bangkrut",
+};
+
 
 
 // modul untuk menginisialisasi window
@@ -168,6 +173,7 @@ void ShowInfoDouble(){
     wrefresh(wpinfo);
 }
 
+
 // action list sedang dipenjara
 void DrawActionListJailed(int* highlight){
     touchwin(waction);
@@ -252,12 +258,88 @@ void ShowPayJailMessage(){
     wrefresh(wpinfo);
 }
 
+// pilihan ketika pemain kekurangan uang
+void DrawActionListNeedMoney(int* highlight){
+    touchwin(waction);
+
+    if(*highlight > 1){
+        *highlight = 1;
+    }else if(*highlight < 0){
+        *highlight = 0;
+    }
+
+    for(int i=0; i<2; i++){
+        if(i==*highlight){
+            wattrset(waction, A_REVERSE);
+        }
+        mvwaddstr(waction, i, 2, actionlistneedmoney[i]);
+        wattroff(waction, A_REVERSE);
+    }
+    wrefresh(waction);
+}
+
+void DrawActionNeedMoney(){
+    touchwin(waction);
+    int keyp = 0;
+    int highlight = 0;
+   
+    keypad(waction, true);
+
+    DrawActionListNeedMoney(&highlight);
+    noecho();
+    do{
+        keyp = wgetch(waction);
+
+        switch(keyp){
+            case KEY_UP:
+                highlight--;
+                DrawActionListNeedMoney(&highlight);
+                playerchoose = highlight;
+                break;
+            case KEY_DOWN:
+                highlight++;
+                DrawActionListNeedMoney(&highlight);
+                playerchoose = highlight;
+                break;
+        }
+        wrefresh(waction);
+    }while(keyp != '\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                                                 ");
+    }
+
+    wrefresh(waction);   
+}
+
 
 // modul untuk informasi pembayaran pajak
 void ShowTaxInfo(){
     touchwin(wpinfo);
 
     mvwaddstr(wpinfo, 18, 0, "Bayar Pajak Sebesar 100");
+    
+    wrefresh(wpinfo);
+
+}
+
+// pesan gagal bayar pajak
+void ShowFailedTaxInfo(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 18, 0, "Gagal Bayar Pajak                     ");
+    mvwaddstr(wpinfo, 19, 0, "Uang Tidak Mencukupi");
+    
+    wrefresh(wpinfo);
+
+}
+
+// pesan sukses membayar pajak
+void ShowSuccesTaxInfo(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 18, 0, "Sukses Membayar Pajak                  ");
+    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang 100 Menjadi %d", player[currentplayer].money);
     
     wrefresh(wpinfo);
 
@@ -511,15 +593,13 @@ void DrawActionPayRent(){
     wrefresh(waction);
 }
 
-
-
 // modul untuk menampilkan tombol untuk mengocok dadu
 void DrawActionRollDice(){
     touchwin(waction);
     int keyp = 0;
 
     wattrset(waction, A_REVERSE);
-    mvwaddstr(waction, 0, 2, "Roll Dice");
+    mvwaddstr(waction, 0, 2, "Lempar Dadu");
     wattroff(waction, A_REVERSE);
 
     noecho();

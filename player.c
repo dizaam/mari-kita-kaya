@@ -19,7 +19,6 @@ void InitPlayer(){
         }else{
             player[i].isbot = false;
         }
-
         memset(player[i].propertybought, -1, 32*sizeof(int));
         player[i].isbankrupt = false;
         player[i].isjailed = false;

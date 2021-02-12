@@ -6,9 +6,7 @@ void Action(){
             // penjara
             player[currentplayer].position=8;
             player[currentplayer].isjailed=true;
-            
-
-
+    
             break;
         case 1:
             // start
@@ -25,7 +23,31 @@ void Action(){
         case 4:
             // kantor pajak
             ShowTaxInfo();
+            
             DrawActionPayTax();
+            if(player[currentplayer].money < 100){
+                // uang kurang
+                ShowFailedTaxInfo();
+
+                playerchoose = 0;
+                DrawActionNeedMoney();
+                if(playerchoose == 0){
+                    // jual properti // not yet implemented
+                    
+                }else if(playerchoose == 1){
+                    // bangkrut
+                    player[currentplayer].isbankrupt=true;
+                }
+
+            }else{
+                // sukses bayar pajak
+                player[currentplayer].money -= 100;
+                ShowSuccesTaxInfo();
+
+            }
+            
+
+            
             // belum ada jika kurang uang
 
             break;
@@ -84,8 +106,15 @@ void Action(){
                 DrawActionPayRent();
                 if(player[currentplayer].money < property[player[currentplayer].position].price[property[player[currentplayer].position].level]){
                     ShowPayRentFailed();
-                    // test auto bankrut
-                    player[currentplayer].isbankrupt=true;
+                    playerchoose = 0;
+                    DrawActionNeedMoney();
+                    if(playerchoose == 0){
+                        // jual properti
+                    }else if(playerchoose == 1){
+                        // bangkrut
+                        player[currentplayer].isbankrupt=true;
+                    }
+                    
                     
                 }else{
                     ShowPayRentSucces();
@@ -100,7 +129,6 @@ void Action(){
             // belum ada owner
             if(property[player[currentplayer].position].owner == -1){
                 playerchoose = 0;
-
                 DrawActionUnownedProperty();
                 if(playerchoose == 0){
                     if(property[player[currentplayer].position].price[0] > player[currentplayer].money){
@@ -126,6 +154,14 @@ void Action(){
                 DrawActionPayRent();
                 if(player[currentplayer].money < property[player[currentplayer].position].price[0]*(player[currentplayer].tourist+1)){
                     ShowPayRentFailed();
+                    playerchoose = 0;
+                    DrawActionNeedMoney();
+                    if(playerchoose == 0){
+                        // jual properti
+                    }else if(playerchoose == 1){
+                        // bangkrut
+                        player[currentplayer].isbankrupt=true;
+                    }
                     
                 }else{
                     ShowPayRentSucces();

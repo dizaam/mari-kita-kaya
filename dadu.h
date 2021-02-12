@@ -11,10 +11,9 @@ typedef struct DDICE{
     int totaldice;
     int countdouble;
     bool isdouble;
-
 }DDICE;
 
-//dadu dadu;
+// variabel global
 extern DDICE dice;
 extern char dicesymbol[10][10][10];
 
