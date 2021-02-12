@@ -2,11 +2,6 @@
 
 WINDOW* wmap = NULL;
 
-
-#include "system.h"
-
-WINDOW* wmap = NULL;
-
 char map[40][100] = {
 	"#---------|---------------------------------------------------------------------|---------",
 	"|  BEBAS  |CIBENYING|  KESEM  |BATUNUNG.| MARIBAYA| ANTAPANI|  ANDIR  |SUMUR BDG|  MASUK  ",
