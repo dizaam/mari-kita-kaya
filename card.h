@@ -19,8 +19,8 @@ int getCardPosition();
 int getCard();
 void CardAction();
 
-void cardMovePlayer();
-void cardUpdateMoney(char* type);
+void cardMovePlayer(char* typeMove, int stepMove);
+void cardUpdateMoney(char* type, int money);
 
 void ShowCardInfo(char* text);
 

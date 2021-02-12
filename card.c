@@ -124,7 +124,8 @@ void CardAction() {
         case 0:
             // kartu ke-0
             // melaju ke start
-            ShowCardInfo("Melaju Ke Start");
+            ShowCardInfo("Menuju Ke Start");
+            cardMovePlayer("moveto", 0);
             
             break;
         case 1:
@@ -145,102 +146,123 @@ void CardAction() {
             // kartu ke-3
             // Mundur 3 Langkah
             ShowCardInfo("Mundur 3 Langkah");
+            cardMovePlayer("goto",-3);
             
             break;
         case 4:
             // kartu ke-4
             // Maju 3 Langkah
             ShowCardInfo("Maju 3 Langkah");
+            cardMovePlayer("goto",3);
             
             break;
         case 5:
             // kartu ke-5
             // Masuk Penjara
-            ShowCardInfo("Masuk Penjara");
+            ShowCardInfo("Anda Tersangka Korupsi, Masuk Penjara");
+            player[currentplayer].position = 8;
+            player[currentplayer].isjailed = true;
             
             break;
         case 6:
             // kartu ke-6
             // Melaju ke Tangkuban Perahu
-            ShowCardInfo("Melaju Ke Tangkuban Perahu");
+            ShowCardInfo("Menuju Ke Tangkuban Perahu");
+            cardMovePlayer("moveto",4);
             
             break;
         case 7:
             // kartu ke-7
             // Kembali ke Antapani
-            ShowCardInfo("Kembali Ke Antapani");
+            ShowCardInfo("Menuju Ke Antapani");
+            cardMovePlayer("moveto",21);
             
             break;
         case 8:
             // kartu ke-8
             // Melaju ke Bebas Parkir
-            ShowCardInfo("Melaju Ke Bebas Parkir");
+            ShowCardInfo("Menuju Ke Bebas Parkir");
+            cardMovePlayer("moveto",16);
             
             break;
         case 9:
             // kartu ke-9
-            // Semua Pemain Membayar Uang ke Bank
-            ShowCardInfo("Semua Pemain Membayar Uang Ke Bank");
+            // Semua Pemain Membayar Uang ke Bank ( outcome $50 )
+            ShowCardInfo("Semua Pemain Membayar Uang Ke Bank $50");
+            for(int i=0; i<totalplayer; i++){
+                cardUpdateMoney("outcome", 50);
+            }
             
             break;
         case 10:
             // kartu ke-10
-            // Anda Mendapat Hadiah Ulang Tahun dari Teman -> income ( 50 )
-            ShowCardInfo("Mendapat Hadiah Ulang Tahun Dari Teman");
+            // Anda Mendapat Hadiah Ulang Tahun -> income ( 50 )
+            ShowCardInfo("Mendapat Hadiah Ulang Tahun Sebesar $50");
+            cardUpdateMoney("income", 50);
             
             break;
         case 11:
             // kartu ke-11
             // Tidak Memakai Masker, Denda -> outcome ( 100 )
-            ShowCardInfo("Didenda Karena Tidak Memakai Masker");
+            ShowCardInfo("Denda $100 Karena Tidak Memakai Masker");
+            cardUpdateMoney("outcome", 100);
             
             break;
         case 12:
             // kartu ke-12
             // Mendapat Beasiswa -> income ( 150 )
-            ShowCardInfo("Mendapat Beasiswa");
+            ShowCardInfo("Mendapat Beasiswa Sebesar $150");
+            cardUpdateMoney("income", 150);
             
             break;
         case 13:
             // kartu ke-13
-            // Bayar Kartu 100 atau Ambil Kartu Kesempatan
-            ShowCardInfo("Bayar Kartu 100");
+            // Bayar Kartu -> outcome ( 100 )
+            ShowCardInfo("Bayar Kartu Sebesar $100");
+            cardUpdateMoney("outcome", 100);
             
             break;
         case 14:
             // kartu ke-14
             // Mendapat Warisan Sebesar 200 -> income ( 200 )
-            ShowCardInfo("Mendapat Warisan Sebesar 200");
+            ShowCardInfo("Mendapat Warisan Sebesar $200");
+            cardUpdateMoney("income", 200);
             
             break;
         case 15:
             // kartu ke-15
             // Bayar SWAB Test -> outcome ( 100 )
-            ShowCardInfo("Bayar SWAB Test");
+            ShowCardInfo("Bayar SWAB Test Sebesar $100");
+            cardUpdateMoney("outcome", 100);
             
             break;
         case 16:
             // kartu ke-16
             // Menerima Bunga dari Bank -> income ( 100 )
             ShowCardInfo("Menerima Bunga Dari Bank");
+            cardUpdateMoney("income", 100);
             
             break;
         case 17:
             // kartu ke-17
-            // Anda Menabrak Mobil Orang, Bayar Ganti Rugi -> outcome ( â€¦ )
+            // Anda Menabrak Mobil Orang, Bayar Ganti Rugi -> outcome ( 150 )
             ShowCardInfo("Bayar Ganti Rugi Menabrak");
+            cardUpdateMoney("outcome", 150);
             
             break;
         case 18:
             // kartu ke-18
-            // Anda Mendapat Undian -> income ( â€¦ )
-            ShowCardInfo("Mendapat Undian Lotere");
+            // Anda Mendapat Undian -> income ( 200 )
+            ShowCardInfo("Mendapat Undian Lotere $200");
+            cardUpdateMoney("income", 200);
             
             break;
         case 19:
             // kartu ke-19
-            // Anda Menjadi Calon Camat, Bayar ke Setiap Pemain -> outcome ( â€¦ )
+            // Anda Menjadi Calon Camat, Bayar ke KPU -> outcome ( 150 )
             ShowCardInfo("Menjadi Bupati Terpilih, Bayar Setiap Pemain 50");
+            cardUpdateMoney("outcome", 150);
+
             
             break;
         default:
@@ -248,17 +270,26 @@ void CardAction() {
     }
 }
 
-void cardMovePlayer() {
+void cardMovePlayer(char* typeMove, int stepMove) {
     // Proccess of Moving Player to some place
+    if(!strcmp(typeMove, "moveto")) {
+        player[currentplayer].position = stepMove;
+    } else if(!strcmp(typeMove, "goto")) {
+        player[currentplayer].position += stepMove;
 
+        if(player[currentplayer].position > 31){
+            player[currentplayer].position = player[currentplayer].position-32;
+            player[currentplayer].money += 200;
+        }
+    }
 }
 
-void cardUpdateMoney(char* type) {
+void cardUpdateMoney(char* type, int money) {
     // Proccess of updating money for player
     if(!strcmp(type, "income")) {
-        // Income
+        player[currentplayer].money += money;
     } else if(!strcmp(type, "outcome")) {
-        // Outcome
+        player[currentplayer].money -= money;
     }
 }
 
