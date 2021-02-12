@@ -33,10 +33,11 @@ void Action(){
                 DrawActionNeedMoney();
                 if(playerchoose == 0){
                     // jual properti // not yet implemented
-                    
+
                 }else if(playerchoose == 1){
                     // bangkrut
                     player[currentplayer].isbankrupt=true;
+                    SellAllOwnedProperty();
                 }
 
             }else{
@@ -113,6 +114,7 @@ void Action(){
                     }else if(playerchoose == 1){
                         // bangkrut
                         player[currentplayer].isbankrupt=true;
+                        SellAllOwnedProperty();
                     }
                     
                     
@@ -161,6 +163,7 @@ void Action(){
                     }else if(playerchoose == 1){
                         // bangkrut
                         player[currentplayer].isbankrupt=true;
+                        SellAllOwnedProperty();
                     }
                     
                 }else{

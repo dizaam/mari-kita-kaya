@@ -13,6 +13,6 @@ typedef struct properti{
 }properti;
 
 extern properti property[32];
-void ShowHargaBangunan();
+void SellAllOwnedProperty();
 
 #endif

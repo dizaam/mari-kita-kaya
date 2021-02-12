@@ -41,6 +41,11 @@ properti property[32] = {
 
 };
 
-void ShowHargaBangunan(properti* property){
-
+void SellAllOwnedProperty(){
+    for(int i=0; i<32; i++){
+        if(property[player[currentplayer].position].owner == currentplayer){
+            property[player[currentplayer].position].owner = -1;
+            property[player[currentplayer].position].level = 0;
+        }
+    }
 }
