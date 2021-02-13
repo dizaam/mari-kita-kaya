@@ -126,6 +126,8 @@ void CardAction() {
             // melaju ke start
             ShowCardInfo("Menuju Ke Start");
             cardMovePlayer("moveto", 0);
+            UpdateBoardInfo();
+            Action();
             
             break;
         case 1:
@@ -147,6 +149,8 @@ void CardAction() {
             // Mundur 3 Langkah
             ShowCardInfo("Mundur 3 Langkah");
             cardMovePlayer("goto",-3);
+            UpdateBoardInfo();
+            Action();
             
             break;
         case 4:
@@ -154,6 +158,8 @@ void CardAction() {
             // Maju 3 Langkah
             ShowCardInfo("Maju 3 Langkah");
             cardMovePlayer("goto",3);
+            UpdateBoardInfo();
+            Action();
             
             break;
         case 5:
@@ -169,6 +175,8 @@ void CardAction() {
             // Melaju ke Tangkuban Perahu
             ShowCardInfo("Menuju Ke Tangkuban Perahu");
             cardMovePlayer("moveto",4);
+            UpdateBoardInfo();
+            Action();
             
             break;
         case 7:
@@ -176,6 +184,8 @@ void CardAction() {
             // Kembali ke Antapani
             ShowCardInfo("Menuju Ke Antapani");
             cardMovePlayer("moveto",21);
+            UpdateBoardInfo();
+            Action();
             
             break;
         case 8:
@@ -187,11 +197,25 @@ void CardAction() {
             break;
         case 9:
             // kartu ke-9
-            // Semua Pemain Membayar Uang ke Bank ( outcome $50 )
-            ShowCardInfo("Semua Pemain Membayar Uang Ke Bank $50");
-            for(int i=0; i<totalplayer; i++){
-                cardUpdateMoney("outcome", 50);
+            // Pemain Membayar Utang ke Bank ( outcome $50 )
+            ShowCardInfo("Membayar Hutang Ke Bank $200");
+            
+            if(player[currentplayer].money < 200){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+                
+                ActionNeedMoney(playerchoose, 200);
+                
+            }else{
+
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 200);
+
             }
+            
             
             break;
         case 10:
@@ -206,6 +230,22 @@ void CardAction() {
             // Tidak Memakai Masker, Denda -> outcome ( 100 )
             ShowCardInfo("Denda $100 Karena Tidak Memakai Masker");
             cardUpdateMoney("outcome", 100);
+
+            if(player[currentplayer].money < 100){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+                
+                ActionNeedMoney(playerchoose, 100);
+                
+            }else{
+
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 100);
+
+            }
             
             break;
         case 12:
@@ -220,6 +260,22 @@ void CardAction() {
             // Bayar Kartu -> outcome ( 100 )
             ShowCardInfo("Bayar Kartu Sebesar $100");
             cardUpdateMoney("outcome", 100);
+
+            if(player[currentplayer].money < 100){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+                
+                ActionNeedMoney(playerchoose, 100);
+                
+            }else{
+
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 100);
+
+            }
             
             break;
         case 14:
@@ -234,6 +290,22 @@ void CardAction() {
             // Bayar SWAB Test -> outcome ( 100 )
             ShowCardInfo("Bayar SWAB Test Sebesar $100");
             cardUpdateMoney("outcome", 100);
+
+            if(player[currentplayer].money < 100){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+                
+                ActionNeedMoney(playerchoose, 100);
+                
+            }else{
+
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 100);
+
+            }
             
             break;
         case 16:
@@ -248,6 +320,22 @@ void CardAction() {
             // Anda Menabrak Mobil Orang, Bayar Ganti Rugi -> outcome ( 150 )
             ShowCardInfo("Bayar Ganti Rugi Menabrak");
             cardUpdateMoney("outcome", 150);
+
+            if(player[currentplayer].money < 150){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+                
+                ActionNeedMoney(playerchoose, 150);
+                
+            }else{
+
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 150);
+
+            }
             
             break;
         case 18:
@@ -262,6 +350,25 @@ void CardAction() {
             // Anda Menjadi Calon Camat, Bayar ke KPU -> outcome ( 150 )
             ShowCardInfo("Menjadi Bupati Terpilih, Bayar Setiap Pemain 50");
             cardUpdateMoney("outcome", 150);
+
+            if(player[currentplayer].money < 150){
+                // player kekurangan uang
+                ShowCardNeedMoney();
+                playerchoose = 0;
+
+                DrawActionNeedMoney();
+
+                ActionNeedMoney(playerchoose, 150);
+                
+            }else{
+                // player tidak kekurangan uang
+                cardUpdateMoney("outcome", 150);
+                for(int i=0; i<totalplayer; i++){
+                    if(i != currentplayer){
+                        player[i].money += 50;
+                    }
+                }
+            }
 
             
             break;
@@ -296,7 +403,16 @@ void cardUpdateMoney(char* type, int money) {
 void ShowCardInfo(char* text){
     touchwin(wpinfo);
 
-    mvwaddstr(wpinfo, 16, 0, text);
+    mvwaddstr(wpinfo, 15, 0, text);
+
+    wrefresh(wpinfo);
+}
+
+void ShowCardNeedMoney(){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 16, 0, "Uang Tidak Cukup");
+    mvwaddstr(wpinfo, 17, 0, "Jual Property Atau Bangkrut");
 
     wrefresh(wpinfo);
 }

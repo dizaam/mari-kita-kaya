@@ -17,6 +17,10 @@ void DrawActionBorder();
 void DrawPlayerInfoBorder();
 void DrawBoardInfoBorder();
 void DrawWidget();
+
+void Action();
+void PlayGame();
+
 void ShowInfoDouble();
 void DrawActionListJailed(int* highlight);
 void DrawActionJailed();
@@ -24,6 +28,7 @@ void ShowJailCardMessage();
 void ShowPayJailMessage();
 void DrawActionListNeedMoney(int* highlight);
 void DrawActionNeedMoney();
+void ActionNeedMoney(int playerchoose, int moneyneeded);
 void ShowSuccesAutoSell(int price);
 void ShowFailedAutoSell(int price);
 void ShowTaxInfo();

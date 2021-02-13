@@ -18,6 +18,7 @@ void shuffleCard();
 int getCardPosition();
 int getCard();
 void CardAction();
+void ShowCardNeedMoney();
 
 void cardMovePlayer(char* typeMove, int stepMove);
 void cardUpdateMoney(char* type, int money);
