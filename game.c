@@ -312,12 +312,39 @@ void DrawActionNeedMoney(){
     wrefresh(waction);   
 }
 
+void ShowSuccesAutoSell(int price){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 15, 0, "Menjual Beberapa Property                                       ");
+    mvwprintw(wpinfo, 16, 0, "Uang Didapat: %d                                                ", player[currentplayer].money);
+
+    mvwprintw(wpinfo, 18, 0, "Uang Dibutuhkan   : %d                                          ", price);
+    mvwprintw(wpinfo, 19, 0, "Uang Tersisa      : %d                                          ", player[currentplayer].money-price);
+    mvwaddstr(wpinfo, 20, 0, "Sukses Membayar Sewa                                            ");
+    
+
+    wrefresh(wpinfo);
+}
+
+void ShowFailedAutoSell(int price){
+    touchwin(wpinfo);
+
+    mvwaddstr(wpinfo, 15, 0, "Menjual Beberapa Property                                       ");
+    mvwprintw(wpinfo, 16, 0, "Uang Didapat: %d                                                ", player[currentplayer].money);
+
+    mvwprintw(wpinfo, 18, 0, "Uang Dibutuhkan   : %d                                          ", price);
+    mvwprintw(wpinfo, 19, 0, "Uang Tidak Mencukupi                                            ");
+    mvwaddstr(wpinfo, 20, 0, "Kamu Dinyatakan Bangkrut                                        ");
+
+    wrefresh(wpinfo);
+}
+
 
 // modul untuk informasi pembayaran pajak
 void ShowTaxInfo(){
     touchwin(wpinfo);
 
-    mvwaddstr(wpinfo, 18, 0, "Bayar Pajak Sebesar 100");
+    mvwaddstr(wpinfo, 15, 0, "Bayar Pajak Sebesar 100");
     
     wrefresh(wpinfo);
 
@@ -556,7 +583,7 @@ void ShowPayRentSucces(){
     touchwin(wpinfo);
 
     mvwprintw(wpinfo, 18, 0, "Sukses Membayar Sewa");
-    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level], player[currentplayer].money-property[player[currentplayer].position].price[property[player[currentplayer].position].level]);
+    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level], player[currentplayer].money);
 
     wrefresh(wpinfo);
 }

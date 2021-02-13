@@ -33,11 +33,21 @@ void Action(){
                 DrawActionNeedMoney();
                 if(playerchoose == 0){
                     // jual properti // not yet implemented
-
+                    AutoSellProperty(100);
+                    if(player[currentplayer].money < 100){
+                        // uang jual hasil properti TIDAK mencukupi
+                        ShowFailedAutoSell(100);
+                        player[currentplayer].isbankrupt=true;
+                        SetDefaultAllProperty();
+                    }else{
+                        // uang hasil jual properti mencukupi
+                        ShowSuccesAutoSell(100);
+                        player[currentplayer].money -= 100;
+                    }
                 }else if(playerchoose == 1){
                     // bangkrut
                     player[currentplayer].isbankrupt=true;
-                    SellAllOwnedProperty();
+                    SetDefaultAllProperty();
                 }
 
             }else{
@@ -46,10 +56,6 @@ void Action(){
                 ShowSuccesTaxInfo();
 
             }
-            
-
-            
-            // belum ada jika kurang uang
 
             break;
         case 5:
@@ -103,25 +109,41 @@ void Action(){
 
             // milik pemain lain
             }else{
+                int rentprice = property[player[currentplayer].position].price[property[player[currentplayer].position].level];
                 ShowRentInfo();
                 DrawActionPayRent();
-                if(player[currentplayer].money < property[player[currentplayer].position].price[property[player[currentplayer].position].level]){
+                if(player[currentplayer].money < rentprice){
+                    // player kekurangan uang
                     ShowPayRentFailed();
                     playerchoose = 0;
                     DrawActionNeedMoney();
                     if(playerchoose == 0){
                         // jual properti
+                        AutoSellProperty(rentprice);
+                        if(player[currentplayer].money < rentprice){
+                            // uang jual hasil properti TIDAK mencukupi
+                            ShowFailedAutoSell(rentprice);
+                            player[currentplayer].isbankrupt=true;
+                            SetDefaultAllProperty();
+                        }else{
+                            // uang hasil jual properti mencukupi
+                            ShowSuccesAutoSell(rentprice);
+                            player[currentplayer].money -= rentprice;
+                        }
                     }else if(playerchoose == 1){
                         // bangkrut
                         player[currentplayer].isbankrupt=true;
-                        SellAllOwnedProperty();
+                        SetDefaultAllProperty();
                     }
                     
-                    
                 }else{
+                    // pemain tidak kekurangan uang
+                    player[currentplayer].money -= rentprice;
+                    player[property[player[currentplayer].position].owner].money += rentprice;
+
                     ShowPayRentSucces();
-                    player[currentplayer].money -= property[player[currentplayer].position].price[property[player[currentplayer].position].level];
-                    player[property[player[currentplayer].position].owner].money += property[player[currentplayer].position].price[property[player[currentplayer].position].level];
+                    
+                    
                 }
             }
 
@@ -138,10 +160,9 @@ void Action(){
                     }else{
                         ShowBuySucces();
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
+                        property[player[currentplayer].position].owner = currentplayer;
                         player[currentplayer].tourist++;
                         // jika memiliki semua tempat wisata menang(not yet impelented)
-
-                        property[player[currentplayer].position].owner = currentplayer;
                     }
                     
                 }
@@ -152,23 +173,37 @@ void Action(){
 
             // milik pemain lain
             }else{
+                int rentprice = property[player[currentplayer].position].price[player[currentplayer].tourist-1];
                 ShowRentInfo();
                 DrawActionPayRent();
-                if(player[currentplayer].money < property[player[currentplayer].position].price[0]*(player[currentplayer].tourist+1)){
+                if(player[currentplayer].money < rentprice){
                     ShowPayRentFailed();
                     playerchoose = 0;
+
                     DrawActionNeedMoney();
                     if(playerchoose == 0){
                         // jual properti
+                        AutoSellProperty(rentprice);
+                        if(player[currentplayer].money < rentprice){
+                            // uang jual hasil properti TIDAK mencukupi
+                            ShowFailedAutoSell(rentprice);
+                            player[currentplayer].isbankrupt=true;
+                            SetDefaultAllProperty();
+                        }else{
+                            // uang hasil jual properti mencukupi
+                            ShowSuccesAutoSell(rentprice);
+                            player[currentplayer].money -= rentprice;
+                        }
                     }else if(playerchoose == 1){
                         // bangkrut
                         player[currentplayer].isbankrupt=true;
-                        SellAllOwnedProperty();
+                        SetDefaultAllProperty();
                     }
                     
                 }else{
+                    player[currentplayer].money -= rentprice;
                     ShowPayRentSucces();
-                    player[currentplayer].money -= property[player[currentplayer].position].price[property[player[currentplayer].position].level];
+                    
                 }
             }
             break;
@@ -295,7 +330,7 @@ void PlayGame(){
                     ShowInfoDouble();
                     wgetch(wpinfo);
                 }
-            }while(dice.isdouble);
+            }while((dice.isdouble) && (!player[currentplayer].isjailed) && (!player[currentplayer].isbankrupt));
         }
         DrawActionEndTurn();
 

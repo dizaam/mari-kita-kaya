@@ -13,6 +13,7 @@ typedef struct properti{
 }properti;
 
 extern properti property[32];
-void SellAllOwnedProperty();
+void SetDefaultAllProperty();
+void AutoSellProperty(int moneyneeded);
 
 #endif

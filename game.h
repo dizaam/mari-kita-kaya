@@ -24,6 +24,8 @@ void ShowJailCardMessage();
 void ShowPayJailMessage();
 void DrawActionListNeedMoney(int* highlight);
 void DrawActionNeedMoney();
+void ShowSuccesAutoSell(int price);
+void ShowFailedAutoSell(int price);
 void ShowTaxInfo();
 void ShowFailedTaxInfo();
 void ShowSuccesTaxInfo();
