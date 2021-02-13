@@ -3,6 +3,11 @@
 
 #include "system.h"
 
+#define PLAYER1_COLOR 1
+#define PLAYER2_COLOR 2
+#define PLAYER3_COLOR 3
+#define PLAYER4_COLOR 4
+
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
 extern char actionlistunowned[2][30];
@@ -10,7 +15,8 @@ extern char actionlistupgrade[2][30];
 extern char actionlistjailed[3][30];
 
 void InitWindow();
-int* shakeTurn(int temp[totalplayer][2]);
+void InitColor();
+int* shuffleTurn(int temp[totalplayer][2]);
 void TurnSetup();
 void SetupNewGame();
 void DrawActionBorder();
@@ -20,7 +26,9 @@ void DrawWidget();
 
 void Action();
 void PlayGame();
+void MovePlayer(char* typeMove, int stepMove);
 
+void ShowPlayerInfo();
 void ShowInfoDouble();
 void DrawActionListJailed(int* highlight);
 void DrawActionJailed();
@@ -49,10 +57,8 @@ void ShowUpgradeFailed(int type);
 void DrawActionRollDice();
 void DrawActionEndTurn();
 void DrawActionPayRent();
-void UpdatePlayerInfo();
 void DrawDiceResult();
 void DrawDiceSymbol();
-void UpdatePosition();
 void UpdateBoardInfo();
 void ShowPropertyInfo();
 void ShowTourismInfo();

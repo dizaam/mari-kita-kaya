@@ -22,6 +22,7 @@ char menu[4][11] = {
 
 // modul untuk memprint teks di tengah
 void PrintCenter(WINDOW* win, int row, char* text){
+    touchwin(win);
     int len, indent, x;
     getmaxyx(win, indent, x);
 
@@ -33,6 +34,7 @@ void PrintCenter(WINDOW* win, int row, char* text){
     mvwprintw(win, row+1, indent, text);
     //mvaddstr(row+1, indent, text);
     addstr("\n");
+    wrefresh(win);
 }
 
 // modul untuk menampilkan logo

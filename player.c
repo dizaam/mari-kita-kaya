@@ -25,8 +25,30 @@ void InitPlayer(){
         player[i].jailcard = false;
         player[i].position = 0;
         player[i].tourist = 0;
-        player[i].money = 2000; 
+        player[i].money = 2000;
+
+        switch (i){
+            case 0: 
+                player[i].pawn= '@';
+
+                break;
+            case 1:
+                player[i].pawn = '!';
+
+                break;
+            case 2:
+                player[i].pawn = '*';
+
+                break;
+            case 3:
+                player[i].pawn = '%';
+
+                break;
+            default:
+                break;
+        } 
     }
+
 }
 
 char inputPlayerType(){
@@ -39,3 +61,5 @@ char inputPlayerType(){
 
     return tolower(buffer);
 }
+
+

@@ -24,7 +24,14 @@ char actionlistneedmoney[2][30] = {
     "Bangkrut",
 };
 
-
+// menginisialisasi warna
+void InitColor(){
+    start_color();
+    init_pair(PLAYER1_COLOR, COLOR_BLUE, COLOR_WHITE);
+    init_pair(PLAYER2_COLOR, COLOR_RED, COLOR_WHITE);
+    init_pair(PLAYER3_COLOR, COLOR_GREEN, COLOR_WHITE);
+    init_pair(PLAYER4_COLOR, COLOR_YELLOW, COLOR_WHITE);
+}
 
 // modul untuk menginisialisasi window
 void InitWindow(){
@@ -41,7 +48,7 @@ void InitWindow(){
 
 
 // modul untuk mensortir giliran
-int* shakeTurn(int temp[totalplayer][2]){
+int* shuffleTurn(int temp[totalplayer][2]){
     int* turn = (int*) calloc(totalplayer, sizeof(int));
 
     // selection sort
@@ -91,7 +98,7 @@ void TurnSetup(){
     }
 
     printw("\n");
-    turn = shakeTurn(temp);
+    turn = shuffleTurn(temp);
 
     for(int i=0; i<totalplayer; i++){
         printw("Giliran ke-%d: Player %d\n", i+1, turn[i]+1);
@@ -158,6 +165,8 @@ void DrawBoardInfoBorder(){
 
 // modul untuk shorthand memanggil 3 modul 
 void DrawWidget(){
+    DrawMap();
+
     DrawActionBorder();
 
     DrawPlayerInfoBorder();
@@ -176,36 +185,30 @@ void PlayGame(){
         resetDice();
         currentplayer = turn[currentturn];
 
-        // jika pemain dipenjara
         if(player[currentplayer].isjailed){
+        // jika pemain dipenjara
             refresh();
-
             DrawMap();
-            
             DrawWidget();
-
-            UpdatePlayerInfo();
+            ShowPlayerInfo();
 
             playerchoose = 0;
             DrawActionJailed();
 
-            // player memilih mengocok dadu
             if(playerchoose == 0){
+            // player memilih mengocok dadu
                 DrawActionRollDice();
-
                 shakeDice();
-
                 DrawDiceSymbol();
-
                 if(dice.isdouble){
+                    // dadu berhasil double
                     player[currentplayer].isjailed=false;
-                    UpdatePosition();
+                    MovePlayer("goto", dice.totaldice);
                     UpdateBoardInfo();
                     Action();
                 }
-            
-            // player memilih menggunakan kartu bebas penjara
             }else if(playerchoose == 1){
+            // player memilih menggunakan kartu bebas penjara
                 ShowJailCardMessage();
                 if(player[currentplayer].jailcard){
                     // mempunyai kartu bebas penjara
@@ -213,21 +216,15 @@ void PlayGame(){
                     player[currentplayer].isjailed = false;
 
                     DrawActionRollDice();
-                    
                     shakeDice();
-
                     DrawDiceSymbol();
-
-                    UpdatePosition();
-                    
+                    MovePlayer("goto", dice.totaldice);
                     UpdateBoardInfo();
-                    
                     Action();
 
                 }
-
-            // player memilih menyogok petugas
             }else if(playerchoose == 2){
+            // player memilih menyogok petugas
                 ShowPayJailMessage();
                 if(player[currentplayer].money>=100){
                     // uang cukup
@@ -235,50 +232,37 @@ void PlayGame(){
                     player[currentplayer].money -= 100;
 
                     DrawActionRollDice();
-
                     shakeDice();
-
                     DrawDiceSymbol();
-
-                    UpdatePosition();
-
+                    MovePlayer("goto", dice.totaldice);
                     UpdateBoardInfo();
-
                     Action();
-
                 }
             }
 
         }else{
+        // pemain tidak dipenjara
             do{
                 refresh();
-
-                DrawMap();
-
                 DrawWidget();
-
-                UpdatePlayerInfo();
-
+                ShowPlayerInfo();
                 DrawActionRollDice();
-
                 shakeDice();
-
                 DrawDiceSymbol();
-
-                UpdatePosition();
-
+                
                 // check jika player sudah 3x double
-                if(dice.countdouble>3){
-                    printw("Double 3x Curang!\n");
-                    printw("Player Masuk Penjara\n");
-                    player[currentplayer].position=8;
+                if(dice.countdouble>=3){
+                    mvwaddstr(wpinfo, 18, 0, "Double 3x Curang!                           ");
+                    mvwaddstr(wpinfo, 18, 0, "Player Masuk Penjara                        ");
+                    MovePlayer("moveto", 8);
                     player[currentplayer].isjailed=true;
                     break;
+                }else{
+                    MovePlayer("goto", dice.totaldice);
                 }
-
+                
                 UpdateBoardInfo();
                 Action();
-
 
                 if(dice.isdouble){
                     ShowInfoDouble();
@@ -299,12 +283,12 @@ void PlayGame(){
 
 }
 
-// modul interaksi tiap2 petak
+// modul interaksi dengan tiap2 petak
 void Action(){
     switch(board[player[currentplayer].position]){
         case 0:
             // penjara
-            player[currentplayer].position=8;
+            MovePlayer("moveto", 8);
             player[currentplayer].isjailed=true;
     
             break;
@@ -328,7 +312,6 @@ void Action(){
             if(player[currentplayer].money < 100){
                 // uang kurang
                 ShowFailedTaxInfo();
-
                 playerchoose = 0;
                 DrawActionNeedMoney();
                 ActionNeedMoney(playerchoose, 100);
@@ -337,7 +320,6 @@ void Action(){
                 // sukses bayar pajak
                 player[currentplayer].money -= 100;
                 ShowSuccesTaxInfo();
-
             }
 
             break;
@@ -428,6 +410,7 @@ void Action(){
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
                         property[player[currentplayer].position].owner = currentplayer;
                         player[currentplayer].tourist++;
+
                         // jika memiliki semua tempat wisata menang(not yet impelented)
                     }
                     
@@ -462,12 +445,32 @@ void Action(){
 }
 
 
+// modul untuk mengubah posisi pemain
+void MovePlayer(char* typeMove, int stepMove){
+    touchwin(wpinfo);
+    RemovePawn();
 
+    // Proccess of Moving Player to some place
+    if(!strcmp(typeMove, "moveto")) {
+        player[currentplayer].position = stepMove;
+    } else if(!strcmp(typeMove, "goto")) {
+        player[currentplayer].position += stepMove;
+
+        if(player[currentplayer].position > 31){
+            player[currentplayer].position = player[currentplayer].position-32;
+            player[currentplayer].money += 200;
+        }
+    }
+
+
+    DrawPawn();
+    wrefresh(wpinfo);
+}
 
 void ShowInfoDouble(){
     touchwin(wpinfo);
 
-    mvwaddstr(wpinfo, 22, 1, "Double! Mengocok Lagi");
+    mvwaddstr(wpinfo, 22, 9, "Double! Mengocok Lagi");
 
     wrefresh(wpinfo);
 }
@@ -985,12 +988,30 @@ void DrawActionEndTurn(){
 }
 
 // mengupdate box info player
-void UpdatePlayerInfo(){
+void ShowPlayerInfo(){
     touchwin(wpinfo);
     
     char buff[10];
     sprintf(buff, "%s %d", "PLAYER", currentplayer+1);
+    switch(currentplayer){
+        case 0:
+            wattrset(wpinfo, COLOR_PAIR(PLAYER1_COLOR) | A_REVERSE);
+            break;
+        case 1:
+            wattrset(wpinfo, COLOR_PAIR(PLAYER2_COLOR) | A_REVERSE);
+            break;
+        case 2:
+            wattrset(wpinfo, COLOR_PAIR(PLAYER3_COLOR) | A_REVERSE);
+            break;
+        case 3:
+            wattrset(wpinfo, COLOR_PAIR(PLAYER4_COLOR) | A_REVERSE);
+            break;
+        default:
+            break;
+    }
     PrintCenter(wpinfo, -1, buff);
+    wattroff(wpinfo, COLOR_PAIR);
+    wattroff(wpinfo, A_REVERSE);
 
     mvwprintw(wpinfo, 1,1,"Uang     : %d", player[currentplayer].money);
     mvwprintw(wpinfo, 2,1,"Posisi   : %d", player[currentplayer].position);
@@ -1042,19 +1063,7 @@ void DrawDiceSymbol(){
     wrefresh(wpinfo);
 }
 
-// modul untuk mengupdate posisi pemain
-void UpdatePosition(){
-    touchwin(wpinfo);
 
-    player[currentplayer].position += dice.totaldice;
-
-    if(player[currentplayer].position > 31){
-        player[currentplayer].position = player[currentplayer].position-32;
-        player[currentplayer].money += 200;
-    }
-
-    wrefresh(wpinfo);
-}
 
 // modul untuk mengupdate petak yang diinjak
 void UpdateBoardInfo(){
@@ -1161,13 +1170,13 @@ void ShowPropertyInfo(){
 void ShowTourismInfo(){
     touchwin(wbinfo);
 
-    mvwprintw(wbinfo,5, 2, "    Harga Beli   :\t\t%d", property[player[currentplayer].position].price[0]);
+    mvwprintw(wbinfo,5, 2, "    Harga Beli:\t       %d", property[player[currentplayer].position].price[0]);
 
     PrintCenter(wbinfo, 6, "Harga Sewa");
-    mvwprintw(wbinfo,8, 2, "   Memiliki 1 :\t\t%d", property[player[currentplayer].position].price[0]);
-    mvwprintw(wbinfo,9, 2, "   Memiliki 2 :\t\t%d", property[player[currentplayer].position].price[1]);
-    mvwprintw(wbinfo,10, 2, "   Memiliki 3 :\t\t%d", property[player[currentplayer].position].price[3]);
-    mvwprintw(wbinfo,11, 2, "   Memiliki 4 :\t    MENANG");
+    mvwprintw(wbinfo,8, 2, "   Memiliki 1 :\t       %d", property[player[currentplayer].position].price[0]);
+    mvwprintw(wbinfo,9, 2, "   Memiliki 2 :\t      %d", property[player[currentplayer].position].price[1]);
+    mvwprintw(wbinfo,10, 2, "   Memiliki 3 :\t      %d", property[player[currentplayer].position].price[3]);
+    mvwprintw(wbinfo,11, 2, "   Memiliki 4 :\t   MENANG");
 
     wrefresh(wbinfo);
 }

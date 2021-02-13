@@ -37,7 +37,7 @@ char map[40][100] = {
 	"|  $ 100  |                                                                     |  $200   ",
 	"#-----------------------------------------------------------------------------------------",
 	"|  HANYA  |BUAHBATU |BOJONGLOA| CIBIRU  |  GN. TP | GEDEBAGE|  KESEM  | CIDADAP |  START  ",
-	"|         |         |         |         |         |         |         |         |         ",
+	"|         |         |         |         |         |         |         |         |  @!*%   ",
 	"|  LEWAT  |   $55   |   $50   |   $45   |   $50   |   $20   |  PATAN  |   $20   |  +$200  ",
 	"#---------|---------------------------------------------------------------------|---------"
 	};
@@ -84,11 +84,31 @@ void DrawMap(){
 	for(int i=0; i<37; i++){
 		for(int j=0; j<90; j++){
 			if(map[i][j] == '|'){
-				waddch(wmap, ACS_VLINE);
+				mvwaddch(wmap, i, j, ACS_VLINE);
 			}else if(map[i][j] == '-'){
-				waddch(wmap, ACS_HLINE);
+				mvwaddch(wmap, i, j, ACS_HLINE);
+			}else if(map[i][j] == '@'){
+				wattrset(wmap, COLOR_PAIR(PLAYER1_COLOR) | A_REVERSE);
+				mvwaddch(wmap, i, j, map[i][j]);
+				wattroff(wmap, COLOR_PAIR);
+				wattroff(wmap, A_REVERSE);
+			}else if (map[i][j] == '!'){
+				wattrset(wmap, COLOR_PAIR(PLAYER2_COLOR) | A_REVERSE);
+				mvwaddch(wmap, i, j, map[i][j]);
+				wattroff(wmap, COLOR_PAIR);
+				wattroff(wmap, A_REVERSE);
+			}else if (map[i][j] == '*'){
+				wattrset(wmap, COLOR_PAIR(PLAYER3_COLOR) | A_REVERSE);
+				mvwaddch(wmap, i, j, map[i][j]);
+				wattroff(wmap, COLOR_PAIR);
+				wattroff(wmap, A_REVERSE);
+			}else if (map[i][j] == '%'){
+				wattrset(wmap, COLOR_PAIR(PLAYER4_COLOR) | A_REVERSE);
+				mvwaddch(wmap, i, j, map[i][j]);
+				wattroff(wmap, COLOR_PAIR);
+				wattroff(wmap, A_REVERSE);
 			}else{
-				waddch(wmap, map[i][j]);
+				mvwaddch(wmap, i, j, map[i][j]);
 			}
 		}
         //waddstr(wmap, map[i]);
@@ -97,5 +117,195 @@ void DrawMap(){
 
 	box(wmap, ACS_VLINE, ACS_HLINE);
 
+	wrefresh(wmap);
+}
+
+MAPPOSITION getMapPosition(int position){
+	MAPPOSITION result;
+	switch (position){
+		case 0:
+			result.row = 34;
+			result.col = 83+currentplayer;
+			break;
+		case 1:
+			result.row = 34;
+			result.col = 73+currentplayer;
+			break;
+		case 2:
+			result.row = 34;
+			result.col = 63+currentplayer;
+			break;
+		case 3:
+			result.row = 34;
+			result.col = 53+currentplayer;
+			break;
+		case 4:
+			result.row = 34;
+			result.col = 43+currentplayer;
+			break;
+		case 5:
+			result.row = 34;
+			result.col = 33+currentplayer;
+			break;
+		case 6:
+			result.row = 34;
+			result.col = 23+currentplayer;
+			break;
+		case 7:
+			result.row = 34;
+			result.col = 13+currentplayer;
+			break;
+		case 8:
+			result.row = 34;
+			result.col = 3+currentplayer;
+			break;
+		case 9:
+			result.row = 30;
+			result.col = 3+currentplayer;
+			break;
+		case 10:
+			result.row = 26;
+			result.col = 3+currentplayer;
+			break;
+		case 11:
+			result.row = 22;
+			result.col = 3+currentplayer;
+			break;
+		case 12:
+			result.row = 18;
+			result.col = 3+currentplayer;
+			break;
+		case 13:
+			result.row = 14;
+			result.col = 3+currentplayer;
+			break;
+		case 14:
+			result.row = 10;
+			result.col = 3+currentplayer;
+			break;
+		case 15:
+			result.row = 6;
+			result.col = 3+currentplayer;
+			break;
+		case 16:
+			result.row = 2;
+			result.col = 3+currentplayer;
+			break;
+		case 17:
+			result.row = 2;
+			result.col = 13+currentplayer;
+			break;
+		case 18:
+			result.row = 2;
+			result.col = 23+currentplayer;
+			break;
+		case 19:
+			result.row = 2;
+			result.col = 33+currentplayer;
+			break;
+		case 20:
+			result.row = 2;
+			result.col = 43+currentplayer;
+			break;
+		case 21:
+			result.row = 2;
+			result.col = 53+currentplayer;
+			break;
+		case 22:
+			result.row = 2;
+			result.col = 63+currentplayer;
+			break;
+		case 23:
+			result.row = 2;
+			result.col = 73+currentplayer;
+			break;
+		case 24:
+			result.row = 2;
+			result.col = 83+currentplayer;
+			break;
+		case 25:
+			result.row = 6;
+			result.col = 83+currentplayer;
+			break;
+		case 26:
+			result.row = 10;
+			result.col = 83+currentplayer;
+			break;
+		case 27:
+			result.row = 14;
+			result.col = 83+currentplayer;
+			break;
+		case 28:
+			result.row = 18;
+			result.col = 83+currentplayer;
+			break;
+		case 29:
+			result.row = 22;
+			result.col = 83+currentplayer;
+			break;
+		case 30:
+			result.row = 26;
+			result.col = 83+currentplayer;
+			break;
+		case 31:
+			result.row = 30;
+			result.col = 83+currentplayer;
+			break;
+		default:
+			break;
+	}
+
+	return result;
+}
+
+void RemovePawn(){
+	touchwin(wmap);
+	MAPPOSITION currentpos = getMapPosition(player[currentplayer].position);
+	switch(currentplayer){
+		case 0:
+			map[currentpos.row][currentpos.col]=' ';
+			DrawMap();
+			break;
+		case 1:
+			map[currentpos.row][currentpos.col]=' ';
+			DrawMap();
+			break;
+		case 2:
+			map[currentpos.row][currentpos.col]=' ';
+			DrawMap();
+			break;
+		case 3:
+			map[currentpos.row][currentpos.col]=' ';
+			DrawMap();
+			break;
+		default:
+			break;	
+	}
+	wrefresh(wmap);
+}
+
+void DrawPawn(){
+	touchwin(wmap);
+	MAPPOSITION currentpos = getMapPosition(player[currentplayer].position);
+	switch(currentplayer){
+		case 0:
+			map[currentpos.row][currentpos.col]='@';
+			DrawMap();
+			break;
+		case 1:
+			map[currentpos.row][currentpos.col]='!';
+			DrawMap();
+			break;
+		case 2:
+			map[currentpos.row][currentpos.col]='*';
+			DrawMap();
+			break;
+		case 3:
+			map[currentpos.row][currentpos.col]='%';
+			DrawMap();
+			break;
+		default:
+			break;	
+	}
 	wrefresh(wmap);
 }

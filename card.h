@@ -20,7 +20,6 @@ int getCard();
 void CardAction();
 void ShowCardNeedMoney();
 
-void cardMovePlayer(char* typeMove, int stepMove);
 void cardUpdateMoney(char* type, int money);
 
 void ShowCardInfo(char* text);

@@ -15,7 +15,11 @@ typedef struct{
     int position; 
     int tourist;
     int money; 
+
+    char pawn;
 }PPLAYER;
+
+
 
 extern PPLAYER* player;
 extern int totalplayer;

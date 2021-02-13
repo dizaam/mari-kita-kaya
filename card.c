@@ -125,7 +125,7 @@ void CardAction() {
             // kartu ke-0
             // melaju ke start
             ShowCardInfo("Menuju Ke Start");
-            cardMovePlayer("moveto", 0);
+            MovePlayer("moveto", 0);
             UpdateBoardInfo();
             Action();
             
@@ -148,7 +148,7 @@ void CardAction() {
             // kartu ke-3
             // Mundur 3 Langkah
             ShowCardInfo("Mundur 3 Langkah");
-            cardMovePlayer("goto",-3);
+            MovePlayer("goto",-3);
             UpdateBoardInfo();
             Action();
             
@@ -157,7 +157,7 @@ void CardAction() {
             // kartu ke-4
             // Maju 3 Langkah
             ShowCardInfo("Maju 3 Langkah");
-            cardMovePlayer("goto",3);
+            MovePlayer("goto",3);
             UpdateBoardInfo();
             Action();
             
@@ -166,7 +166,7 @@ void CardAction() {
             // kartu ke-5
             // Masuk Penjara
             ShowCardInfo("Anda Tersangka Korupsi, Masuk Penjara");
-            player[currentplayer].position = 8;
+            MovePlayer("moveto", 8);
             player[currentplayer].isjailed = true;
             
             break;
@@ -174,7 +174,7 @@ void CardAction() {
             // kartu ke-6
             // Melaju ke Tangkuban Perahu
             ShowCardInfo("Menuju Ke Tangkuban Perahu");
-            cardMovePlayer("moveto",4);
+            MovePlayer("moveto",4);
             UpdateBoardInfo();
             Action();
             
@@ -183,7 +183,7 @@ void CardAction() {
             // kartu ke-7
             // Kembali ke Antapani
             ShowCardInfo("Menuju Ke Antapani");
-            cardMovePlayer("moveto",21);
+            MovePlayer("moveto",21);
             UpdateBoardInfo();
             Action();
             
@@ -192,7 +192,7 @@ void CardAction() {
             // kartu ke-8
             // Melaju ke Bebas Parkir
             ShowCardInfo("Menuju Ke Bebas Parkir");
-            cardMovePlayer("moveto",16);
+            MovePlayer("moveto",16);
             
             break;
         case 9:
@@ -258,7 +258,7 @@ void CardAction() {
         case 13:
             // kartu ke-13
             // Bayar Kartu -> outcome ( 100 )
-            ShowCardInfo("Bayar Kartu Sebesar $100");
+            ShowCardInfo("Bayar UKT Sebesar $100");
             cardUpdateMoney("outcome", 100);
 
             if(player[currentplayer].money < 100){
@@ -311,14 +311,14 @@ void CardAction() {
         case 16:
             // kartu ke-16
             // Menerima Bunga dari Bank -> income ( 100 )
-            ShowCardInfo("Menerima Bunga Dari Bank");
+            ShowCardInfo("Menang Giveaway $100 Dari Bank");
             cardUpdateMoney("income", 100);
             
             break;
         case 17:
             // kartu ke-17
             // Anda Menabrak Mobil Orang, Bayar Ganti Rugi -> outcome ( 150 )
-            ShowCardInfo("Bayar Ganti Rugi Menabrak");
+            ShowCardInfo("Bayar Ganti Rugi $150");
             cardUpdateMoney("outcome", 150);
 
             if(player[currentplayer].money < 150){
@@ -348,7 +348,7 @@ void CardAction() {
         case 19:
             // kartu ke-19
             // Anda Menjadi Calon Camat, Bayar ke KPU -> outcome ( 150 )
-            ShowCardInfo("Menjadi Bupati Terpilih, Bayar Setiap Pemain 50");
+            ShowCardInfo("Bayar Setiap Pemain $50");
             cardUpdateMoney("outcome", 150);
 
             if(player[currentplayer].money < 150){
@@ -369,25 +369,9 @@ void CardAction() {
                     }
                 }
             }
-
-            
             break;
         default:
             break;
-    }
-}
-
-void cardMovePlayer(char* typeMove, int stepMove) {
-    // Proccess of Moving Player to some place
-    if(!strcmp(typeMove, "moveto")) {
-        player[currentplayer].position = stepMove;
-    } else if(!strcmp(typeMove, "goto")) {
-        player[currentplayer].position += stepMove;
-
-        if(player[currentplayer].position > 31){
-            player[currentplayer].position = player[currentplayer].position-32;
-            player[currentplayer].money += 200;
-        }
     }
 }
 
