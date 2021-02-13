@@ -1010,8 +1010,7 @@ void ShowPlayerInfo(){
             break;
     }
     PrintCenter(wpinfo, -1, buff);
-    wattroff(wpinfo, COLOR_PAIR);
-    wattroff(wpinfo, A_REVERSE);
+    wattrset(wpinfo, A_NORMAL);
 
     mvwprintw(wpinfo, 1,1,"Uang     : %d", player[currentplayer].money);
     mvwprintw(wpinfo, 2,1,"Posisi   : %d", player[currentplayer].position);

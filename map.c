@@ -90,23 +90,19 @@ void DrawMap(){
 			}else if(map[i][j] == '@'){
 				wattrset(wmap, COLOR_PAIR(PLAYER1_COLOR) | A_REVERSE);
 				mvwaddch(wmap, i, j, map[i][j]);
-				wattroff(wmap, COLOR_PAIR);
-				wattroff(wmap, A_REVERSE);
+				wattrset(wmap, A_NORMAL);
 			}else if (map[i][j] == '!'){
 				wattrset(wmap, COLOR_PAIR(PLAYER2_COLOR) | A_REVERSE);
 				mvwaddch(wmap, i, j, map[i][j]);
-				wattroff(wmap, COLOR_PAIR);
-				wattroff(wmap, A_REVERSE);
+				wattrset(wmap, A_NORMAL);
 			}else if (map[i][j] == '*'){
 				wattrset(wmap, COLOR_PAIR(PLAYER3_COLOR) | A_REVERSE);
 				mvwaddch(wmap, i, j, map[i][j]);
-				wattroff(wmap, COLOR_PAIR);
-				wattroff(wmap, A_REVERSE);
+				wattrset(wmap, A_NORMAL);
 			}else if (map[i][j] == '%'){
 				wattrset(wmap, COLOR_PAIR(PLAYER4_COLOR) | A_REVERSE);
 				mvwaddch(wmap, i, j, map[i][j]);
-				wattroff(wmap, COLOR_PAIR);
-				wattroff(wmap, A_REVERSE);
+				wattrset(wmap, A_NORMAL);
 			}else{
 				mvwaddch(wmap, i, j, map[i][j]);
 			}
