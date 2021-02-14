@@ -1433,7 +1433,42 @@ void saveGame() {
         sg.property[loop] = property[loop];
     }
 
+    // Saving Map
+    memcpy(sg.map, map, sizeof(map));
+
     fwrite(&sg,sizeof(savedgame),1,fp);
     
     fclose(fp);
+}
+
+// modul untuk meload game
+void loadGame(){
+	FILE *fp;
+	fp = fopen("savegame.dat","r");
+	savedgame sg;
+	
+	if(fp==NULL) {
+		fprintf(stderr,"Failed to open file");
+		exit(1);
+	}
+	
+	fread(&sg,sizeof(savedgame),1,fp);
+    totalplayer = sg.totalplayer;
+    player = (PPLAYER*) realloc(player, sizeof(PPLAYER)*totalplayer);
+    turn = (int*) realloc(turn, sizeof(int)*totalplayer);
+
+    for(int i=0; i<totalplayer; i++){
+        player[i] = sg.player[i];
+        turn[i] = sg.turn[i];
+    }
+    
+    currentturn = sg.currentturn;
+    card = sg.card;
+    memcpy(deckCard, &sg.deckCard, sizeof(sg.deckCard));
+    memcpy(property, &sg.property, sizeof(sg.property));
+    memcpy(map, &sg.map, sizeof(sg.map));
+
+
+	fclose(fp);
+	
 }

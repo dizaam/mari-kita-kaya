@@ -23,6 +23,8 @@ typedef struct savedgame{
     int deckCard[20];
 
     properti property[32];
+
+    char map[40][100];
 }savedgame;
 
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
@@ -92,6 +94,7 @@ void ShowScore();
 int getAsset(int thisplayer);
 int getScore(int wintype, int asset);
 void saveGame();
+void loadGame();
 
 
 #endif

@@ -18,7 +18,8 @@ int main(){
 
         case 1:
             // load game
-            addstr("not yet implemented :(\n");
+            loadGame();
+            PlayGame();
             break;
         
         case 2:
