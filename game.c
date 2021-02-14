@@ -1227,7 +1227,11 @@ void ShowTourismInfo(){
 
 // modul untuk mengecek default win
 bool isDefaultWin(){
-    playerwinner = currentplayer;
+    for(int i=0; i<totalplayer; i++){
+        if(!player[i].isbankrupt){
+            playerwinner = i;
+        }
+    }
     wintype = 0;
     return (remainingplayer==1) ? true:false;
 }
