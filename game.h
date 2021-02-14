@@ -3,10 +3,15 @@
 
 #include "system.h"
 
-#define PLAYER1_COLOR 1
-#define PLAYER2_COLOR 2
-#define PLAYER3_COLOR 3
-#define PLAYER4_COLOR 4
+#define PROP0_COLOR 0
+#define PROP1_COLOR 1
+#define PROP2_COLOR 2
+#define PROP3_COLOR 3
+#define PROP4_COLOR 4
+#define PLAYER1_COLOR 5
+#define PLAYER2_COLOR 6
+#define PLAYER3_COLOR 7
+#define PLAYER4_COLOR 8
 
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;

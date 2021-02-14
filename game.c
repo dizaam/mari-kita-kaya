@@ -27,6 +27,11 @@ char actionlistneedmoney[2][30] = {
 // menginisialisasi warna
 void InitColor(){
     start_color();
+    init_pair(PROP0_COLOR, COLOR_WHITE, COLOR_BLACK);
+    init_pair(PROP1_COLOR, COLOR_BLUE, COLOR_BLACK);
+    init_pair(PROP2_COLOR, COLOR_RED, COLOR_BLACK);
+    init_pair(PROP3_COLOR, COLOR_GREEN, COLOR_BLACK);
+    init_pair(PROP4_COLOR, COLOR_YELLOW, COLOR_BLACK);
     init_pair(PLAYER1_COLOR, COLOR_BLUE, COLOR_WHITE);
     init_pair(PLAYER2_COLOR, COLOR_RED, COLOR_WHITE);
     init_pair(PLAYER3_COLOR, COLOR_GREEN, COLOR_WHITE);
@@ -342,6 +347,7 @@ void Action(){
                         ShowBuySucces();
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
                         property[player[currentplayer].position].owner = currentplayer;
+                        DrawMap();
                     }
                     
                 }
@@ -375,7 +381,7 @@ void Action(){
             // milik pemain lain
             }else{
                 int rentprice = property[player[currentplayer].position].price[property[player[currentplayer].position].level];
-                ShowRentInfo();
+                ShowRentInfo(rentprice);
                 DrawActionPayRent();
                 if(player[currentplayer].money < rentprice){
                     // player kekurangan uang
@@ -389,7 +395,7 @@ void Action(){
                     player[currentplayer].money -= rentprice;
                     player[property[player[currentplayer].position].owner].money += rentprice;
 
-                    ShowPayRentSucces();
+                    ShowPayRentSucces(rentprice);
                     
                     
                 }
@@ -397,7 +403,7 @@ void Action(){
 
             break;
         case 7:
-            // tempat wisata
+        // tempat wisata
             // belum ada owner
             if(property[player[currentplayer].position].owner == -1){
                 playerchoose = 0;
@@ -410,6 +416,7 @@ void Action(){
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
                         property[player[currentplayer].position].owner = currentplayer;
                         player[currentplayer].tourist++;
+                        DrawMap();
 
                         // jika memiliki semua tempat wisata menang(not yet impelented)
                     }
@@ -422,8 +429,8 @@ void Action(){
 
             // milik pemain lain
             }else{
-                int rentprice = property[player[currentplayer].position].price[player[currentplayer].tourist-1];
-                ShowRentInfo();
+                int rentprice = property[player[currentplayer].position].price[player[property[player[currentplayer].position].owner].tourist-1];
+                ShowRentInfo(rentprice);
                 DrawActionPayRent();
                 if(player[currentplayer].money < rentprice){
                     ShowPayRentFailed();
@@ -434,7 +441,7 @@ void Action(){
                     
                 }else{
                     player[currentplayer].money -= rentprice;
-                    ShowPayRentSucces();
+                    ShowPayRentSucces(rentprice);
                     
                 }
             }
@@ -462,8 +469,10 @@ void MovePlayer(char* typeMove, int stepMove){
         }
     }
 
-
-    DrawPawn();
+    if(!player[currentplayer].isbankrupt){
+        DrawPawn();
+    }
+    
     wrefresh(wpinfo);
 }
 
@@ -625,6 +634,7 @@ void ActionNeedMoney(int playerchoose, int moneyneeded){
             ShowFailedAutoSell(moneyneeded);
             player[currentplayer].isbankrupt=true;
             SetDefaultAllProperty();
+            MovePlayer("moveto", 0);
         }else{
             // uang hasil jual properti mencukupi
             ShowSuccesAutoSell(moneyneeded);
@@ -634,7 +644,10 @@ void ActionNeedMoney(int playerchoose, int moneyneeded){
         // bangkrut
         player[currentplayer].isbankrupt=true;
         SetDefaultAllProperty();
+        MovePlayer("moveto", 0);
+        
     }
+    DrawMap();
 }
 
 void ShowSuccesAutoSell(int price){
@@ -894,21 +907,21 @@ void ShowUpgradeFailed(int type){
 }
 
 // notifikasi harga sewa
-void ShowRentInfo(){
+void ShowRentInfo(int rentprice){
     touchwin(wpinfo);
 
     mvwprintw(wpinfo, 15, 0, "Properti Ini Milik Player %d", property[player[currentplayer].position].owner+1);
-    mvwprintw(wpinfo, 16, 0, "Harga Sewa Sebesar %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level]);
+    mvwprintw(wpinfo, 16, 0, "Harga Sewa Sebesar %d", rentprice);
 
     wrefresh(wpinfo);
 }
 
 // sukses membayar sewa
-void ShowPayRentSucces(){
+void ShowPayRentSucces(int rentprice){
     touchwin(wpinfo);
 
     mvwprintw(wpinfo, 18, 0, "Sukses Membayar Sewa");
-    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang %d Menjadi %d", property[player[currentplayer].position].price[property[player[currentplayer].position].level], player[currentplayer].money);
+    mvwprintw(wpinfo, 19, 0, "Uangmu Berkurang %d Menjadi %d", rentprice, player[currentplayer].money);
 
     wrefresh(wpinfo);
 }

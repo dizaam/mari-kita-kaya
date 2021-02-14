@@ -57,6 +57,9 @@ void AutoSellProperty(int moneyneeded){
             
             property[i].owner = -1;
             property[i].level = 0;
+            if((i==4) || (i==14) || (i==20) || (i==25)){
+                player[currentplayer].tourist--;
+            }
         }
     }
 

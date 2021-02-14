@@ -111,8 +111,83 @@ void DrawMap(){
         waddch(wmap,'\n');
     }
 
+	DrawProperty();
+
 	box(wmap, ACS_VLINE, ACS_HLINE);
 
+	wrefresh(wmap);
+}
+
+void DrawProperty(){
+	touchwin(wmap);
+
+	wattrset(wmap, COLOR_PAIR(property[1].owner+1));
+	mvwaddstr(wmap, 33, 72, "CIDADAP");
+
+	wattrset(wmap, COLOR_PAIR(property[3].owner+1));
+	mvwaddstr(wmap, 33, 52, "GEDEBAGE");
+	
+	wattrset(wmap, COLOR_PAIR(property[4].owner+1));
+	mvwaddstr(wmap, 33, 43, "GN. TP");
+	
+	wattrset(wmap, COLOR_PAIR(property[5].owner+1));
+	mvwaddstr(wmap, 33, 32, "CIBIRU");
+	
+	wattrset(wmap, COLOR_PAIR(property[6].owner+1));
+	mvwaddstr(wmap, 33, 21, "BOJONGLOA");
+	
+	wattrset(wmap, COLOR_PAIR(property[7].owner+1));
+	mvwaddstr(wmap, 33, 11, "BUAHBATU");
+	
+	wattrset(wmap, COLOR_PAIR(property[10].owner+1));
+	mvwaddstr(wmap, 25, 2, "CICENDO");
+	
+	wattrset(wmap, COLOR_PAIR(property[11].owner+1));
+	mvwaddstr(wmap, 21, 1, "ARCAMANIK");
+	
+	wattrset(wmap, COLOR_PAIR(property[13].owner+1));
+	mvwaddstr(wmap, 13, 1, "LENGKONG");
+	
+	wattrset(wmap, COLOR_PAIR(property[14].owner+1));
+	mvwaddstr(wmap, 9, 4, "TSM");
+	
+	wattrset(wmap, COLOR_PAIR(property[15].owner+1));
+	mvwaddstr(wmap, 5, 3, "REGOL");
+	
+	wattrset(wmap, COLOR_PAIR(property[17].owner+1));
+	mvwaddstr(wmap, 1, 11, "CIBENYING");
+
+	wattrset(wmap, COLOR_PAIR(property[19].owner+1));
+	mvwaddstr(wmap, 1, 31, "BATUNUNG.");
+
+	wattrset(wmap, COLOR_PAIR(property[20].owner+1));
+	mvwaddstr(wmap, 1, 42, "MARIBAYA");
+
+	wattrset(wmap, COLOR_PAIR(property[21].owner+1));
+	mvwaddstr(wmap, 1, 52, "ANTAPANI");
+
+	wattrset(wmap, COLOR_PAIR(property[22].owner+1));
+	mvwaddstr(wmap, 1, 63, "ANDIR");
+
+	wattrset(wmap, COLOR_PAIR(property[23].owner+1));
+	mvwaddstr(wmap, 1, 71, "SUMUR BDG");
+
+	wattrset(wmap, COLOR_PAIR(property[25].owner+1));
+	mvwaddstr(wmap, 5, 82, "DAGO DP");
+
+	wattrset(wmap, COLOR_PAIR(property[26].owner+1));
+	mvwaddstr(wmap, 9, 82, "KIRCON");
+	
+	wattrset(wmap, COLOR_PAIR(property[27].owner+1));
+	mvwaddstr(wmap, 13, 81, "SUKAJADI");
+
+	wattrset(wmap, COLOR_PAIR(property[29].owner+1));
+	mvwaddstr(wmap, 21, 82, "COBLONG");
+
+	wattrset(wmap, COLOR_PAIR(property[31].owner+1));
+	mvwaddstr(wmap, 29, 81, "BDG WETAN");
+
+	wattrset(wmap, A_NORMAL);
 	wrefresh(wmap);
 }
 

@@ -14,6 +14,7 @@ extern char map[40][100];
 extern int board[32];
 
 void DrawMap();
+void DrawProperty();
 void printMap();
 MAPPOSITION getMapPosition(int position);
 void DrawPawn();
