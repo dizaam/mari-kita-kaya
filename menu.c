@@ -13,6 +13,33 @@ char logo[8][69]= {
     "                                                        |___/       ",
 };
 
+char logodefaultwin[6][62]={
+" _   _  _____  _____  _____  _____ ______ __   __    _  _  _ ",
+"| | | ||_   _|/  __ \\|_   _||  _  || ___ \\\\ \\ / /   | || || |",
+"| | | |  | |  | /  \\/  | |  | | | || |_/ / \\ V /    | || || |",
+"| | | |  | |  | |      | |  | | | ||    /   \\ /     | || || |",
+"\\ \\_/ / _| |_ | \\__/\\  | |  \\ \\_/ /| |\\ \\   | |     |_||_||_|",
+" \\___/  \\___/  \\____/  \\_/   \\___/ \\_| \\_|  \\_/     (_)(_)(_)",                                                                                                                         
+};
+
+char logolinewin[6][93]={
+" _      _____  _   _  _____     _   _  _____  _____  _____  _____ ______ __   __    _  _  _ ",
+"| |    |_   _|| \\ | ||  ___|   | | | ||_   _|/  __ \\|_   _||  _  || ___ \\\\ \\ / /   | || || |",
+"| |      | |  |  \\| || |__     | | | |  | |  | /  \\/  | |  | | | || |_/ / \\ V /    | || || |",
+"| |      | |  | . ` ||  __|    | | | |  | |  | |      | |  | | | ||    /   \\ /     | || || |",
+"| |____ _| |_ | |\\  || |___    \\ \\_/ / _| |_ | \\__/\\  | |  \\ \\_/ /| |\\ \\   | |     |_||_||_|",
+"\\_____/ \\___/ \\_| \\_/\\____/     \\___/  \\___/  \\____/  \\_/   \\___/ \\_| \\_|  \\_/     (_)(_)(_)",                                                                                                                                                                                    
+};
+
+char logotourismwin[6][115]={
+" _____  _____  _   _ ______  _____  _____ ___  ___    _   _  _____  _____  _____  _____ ______ __   __    _  _  _ ",
+"|_   _||  _  || | | || ___ \\|_   _|/  ___||  \\/  |   | | | ||_   _|/  __ \\|_   _||  _  || ___ \\\\ \\ / /   | || || |",
+"  | |  | | | || | | || |_/ /  | |  \\ `--. | .  . |   | | | |  | |  | /  \\/  | |  | | | || |_/ / \\ V /    | || || |",
+"  | |  | | | || | | ||    /   | |   `--. \\| |\\/| |   | | | |  | |  | |      | |  | | | ||    /   \\ /     | || || |",
+"  | |  \\ \\_/ /| |_| || |\\ \\  _| |_ /\\__/ /| |  | |   \\ \\_/ / _| |_ | \\__/\\  | |  \\ \\_/ /| |\\ \\   | |     |_||_||_|",
+"  \\_/   \\___/  \\___/ \\_| \\_| \\___/ \\____/ \\_|  |_/    \\___/  \\___/  \\____/  \\_/   \\___/ \\_| \\_|  \\_/     (_)(_)(_)",                                                                                                                                                                                                                            
+};
+
 char menu[4][11] = {
     {"New Game"},
     {"Load Game"},
@@ -37,7 +64,7 @@ void PrintCenter(WINDOW* win, int row, char* text){
     wrefresh(win);
 }
 
-// modul untuk menampilkan logo
+// modul untuk menampilkan logo judul permainan
 void DrawLogo(){
     for(int i=0; i<8; i++){
         PrintCenter(stdscr, 2+i,logo[i]);
@@ -102,3 +129,29 @@ void MainMenu(){
     echo();
 }
 
+
+// modul untuk menampilkan logo default win
+void DrawLogoDefaultWin(){
+    for(int i=0; i<6; i++){
+        PrintCenter(stdscr, 2+i,logodefaultwin[i]);
+    }
+    addstr("\n\n");
+}
+
+// modul untuk menampilkan logo line win
+void DrawLogoLineWin(){
+    for(int i=0; i<6; i++){
+        PrintCenter(stdscr, 2+i,logolinewin[i]);
+    }
+    addstr("\n");
+    PrintCenter(stdscr, 10, "Score x3 !");
+}
+
+// modul untuk menampilkan logo tourism win
+void DrawLogoTourismWin(){
+    for(int i=0; i<6; i++){
+        PrintCenter(stdscr, 2+i,logotourismwin[i]);
+    }
+    addstr("\n");
+    PrintCenter(stdscr, 10, "Score x5 !");
+}

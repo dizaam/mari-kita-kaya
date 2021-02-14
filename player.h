@@ -11,10 +11,10 @@ typedef struct{
     bool isjailed;
     bool jailcard;
 
-    int propertybought[32];
     int position; 
-    int tourist;
-    int money; 
+    int touristcount;
+    int linecount[3];
+    int money;
 
     char pawn;
 }PPLAYER;
@@ -27,8 +27,11 @@ extern int* turn;
 extern int currentturn;
 extern int currentplayer;
 extern int playerchoose;
+extern int remainingplayer;
+extern int playerwinner;
 
 void InitPlayer();
 char inputPlayerType();
+void PlayerBankrupt();
 
 #endif

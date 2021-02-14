@@ -24,6 +24,8 @@ char actionlistneedmoney[2][30] = {
     "Bangkrut",
 };
 
+int wintype = 0;
+
 // menginisialisasi warna
 void InitColor(){
     start_color();
@@ -277,13 +279,46 @@ void PlayGame(){
         }
         DrawActionEndTurn();
 
-        // penggantian giliran
-        do{
-            currentturn++;
-            if(currentturn==totalplayer){
-                currentturn=0;
-            } 
-        }while(player[turn[currentturn]].isbankrupt);    
+
+        if(isDefaultWin()){
+            // default win
+            clear();
+            touchwin(stdscr);
+            DrawLogoDefaultWin();
+            ShowScore();
+            refresh();
+            getch();
+            break;
+        
+        }else if(isTourismWin()){
+            // tourism win
+            clear();
+            touchwin(stdscr);
+            DrawLogoTourismWin();
+            ShowScore();
+            refresh();
+            getch();
+            break;
+            
+        }else if(isLineWin()){
+            // line win
+            clear();
+            touchwin(stdscr);
+            DrawLogoLineWin();
+            ShowScore();
+            refresh();
+            getch();
+            break;
+            
+        }else{
+            // penggantian giliran
+            do{
+                currentturn++;
+                if(currentturn==totalplayer){
+                    currentturn=0;
+                } 
+            }while(player[turn[currentturn]].isbankrupt);    
+        }
     }
 
 }
@@ -347,6 +382,7 @@ void Action(){
                         ShowBuySucces();
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
                         property[player[currentplayer].position].owner = currentplayer;
+                        player[currentplayer].linecount[property[player[currentplayer].position].line]++;
                         DrawMap();
                     }
                     
@@ -394,10 +430,7 @@ void Action(){
                     // pemain tidak kekurangan uang
                     player[currentplayer].money -= rentprice;
                     player[property[player[currentplayer].position].owner].money += rentprice;
-
                     ShowPayRentSucces(rentprice);
-                    
-                    
                 }
             }
 
@@ -415,10 +448,9 @@ void Action(){
                         ShowBuySucces();
                         player[currentplayer].money -= property[player[currentplayer].position].price[0];
                         property[player[currentplayer].position].owner = currentplayer;
-                        player[currentplayer].tourist++;
+                        player[currentplayer].touristcount++;
+                        player[currentplayer].linecount[property[player[currentplayer].position].line]++;
                         DrawMap();
-
-                        // jika memiliki semua tempat wisata menang(not yet impelented)
                     }
                     
                 }
@@ -429,7 +461,7 @@ void Action(){
 
             // milik pemain lain
             }else{
-                int rentprice = property[player[currentplayer].position].price[player[property[player[currentplayer].position].owner].tourist-1];
+                int rentprice = property[player[currentplayer].position].price[player[property[player[currentplayer].position].owner].touristcount-1];
                 ShowRentInfo(rentprice);
                 DrawActionPayRent();
                 if(player[currentplayer].money < rentprice){
@@ -466,6 +498,10 @@ void MovePlayer(char* typeMove, int stepMove){
         if(player[currentplayer].position > 31){
             player[currentplayer].position = player[currentplayer].position-32;
             player[currentplayer].money += 200;
+        }
+
+        if(player[currentplayer].position < 0){
+            player[currentplayer].position = 32+player[currentplayer].position;
         }
     }
 
@@ -631,21 +667,17 @@ void ActionNeedMoney(int playerchoose, int moneyneeded){
         AutoSellProperty(moneyneeded);
         if(player[currentplayer].money < moneyneeded){
             // uang jual hasil properti TIDAK mencukupi
+            // player bangkrut
             ShowFailedAutoSell(moneyneeded);
-            player[currentplayer].isbankrupt=true;
-            SetDefaultAllProperty();
-            MovePlayer("moveto", 0);
+            PlayerBankrupt();
         }else{
             // uang hasil jual properti mencukupi
             ShowSuccesAutoSell(moneyneeded);
             player[currentplayer].money -= moneyneeded;
         }
     }else if(playerchoose == 1){
-        // bangkrut
-        player[currentplayer].isbankrupt=true;
-        SetDefaultAllProperty();
-        MovePlayer("moveto", 0);
-        
+        // player memilih bangkrut
+        PlayerBankrupt();
     }
     DrawMap();
 }
@@ -1191,4 +1223,107 @@ void ShowTourismInfo(){
     mvwprintw(wbinfo,11, 2, "   Memiliki 4 :\t   MENANG");
 
     wrefresh(wbinfo);
+}
+
+// modul untuk mengecek default win
+bool isDefaultWin(){
+    playerwinner = currentplayer;
+    wintype = 0;
+    return (remainingplayer==1) ? true:false;
+}
+
+// modul untuk mengecek line win
+bool isLineWin(){
+    bool ret = false;
+
+    for(int i=0; i<totalplayer; i++){
+        if(player[i].linecount[0]==6){
+            ret = true;
+        }else if(player[i].linecount[1]==5){
+            ret = true;
+        }else if(player[i].linecount[2]==6){
+            ret = true;
+        }else if(player[i].linecount[3]==5){
+            ret = true;
+        }
+    }
+
+    wintype = 1;
+    playerwinner = currentplayer;
+    return ret;
+}
+
+// modul untuk mengecek tourism win
+bool isTourismWin(){
+    bool ret = false;
+
+    for(int i=0; i<totalplayer; i++){
+        if(player[i].touristcount==4){
+
+            ret = true;
+        }
+    }
+    
+    wintype = 2;
+    playerwinner = currentplayer;
+    return ret;
+}
+
+
+
+// modul untuk menampilkan score
+void ShowScore(){
+    char moneytext[100];
+    char assettext[100];
+    char scoretext[100];
+    char playertext[100];
+
+    int asset = getAsset(currentplayer);
+    int score = getScore(wintype, asset);
+
+    sprintf(playertext,"Player %d Menang !", playerwinner+1);
+    sprintf(moneytext, "Total Uang  : %d", player[currentplayer].money);
+    sprintf(assettext, "Total Asset : %d", asset);
+    sprintf(scoretext, "Score       : %d", score);
+
+    PrintCenter(stdscr, 13, playertext);
+    PrintCenter(stdscr, 15, moneytext);
+    PrintCenter(stdscr, 17, assettext);
+    PrintCenter(stdscr, 19, scoretext);
+
+}
+
+// modul untuk mengetahui asset pemain
+int getAsset(int thisplayer){
+    int asset = player[thisplayer].money;
+
+    for(int i=0; i<32; i++){
+        if (property[i].owner == thisplayer){
+            asset += property[i].upgradeprice * property[i].level + property[i].price[0];
+        }
+    }
+
+    return asset;
+}
+
+
+// modul untuk mengetahui score
+int getScore(int wintype, int asset){
+    int score = 0;
+
+    switch (wintype){
+        case 0:
+            score = asset;
+            break;
+        case 1:
+            score = asset*3;
+            break;
+        case 2:
+            score = asset*5;
+            break;
+        default:
+            break;
+    }   
+
+    return score;
 }

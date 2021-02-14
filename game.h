@@ -19,6 +19,8 @@ extern char actionlistunowned[2][30];
 extern char actionlistupgrade[2][30];
 extern char actionlistjailed[3][30];
 
+extern int wintype;
+
 void InitWindow();
 void InitColor();
 int* shuffleTurn(int temp[totalplayer][2]);
@@ -67,6 +69,13 @@ void DrawDiceSymbol();
 void UpdateBoardInfo();
 void ShowPropertyInfo();
 void ShowTourismInfo();
+
+bool isDefaultWin();
+bool isTourismWin();
+bool isLineWin();
+void ShowScore();
+int getAsset(int thisplayer);
+int getScore(int wintype, int asset);
 
 
 #endif
