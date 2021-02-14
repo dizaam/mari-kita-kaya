@@ -1,5 +1,4 @@
-#include "properti.h"
-#include "string.h"
+#include "system.h"
 
 properti property[32] = {
     /*

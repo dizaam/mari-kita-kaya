@@ -19,6 +19,12 @@ char actionlistjailed[3][30] = {
     "Sogok Petugas",
 };
 
+char actionlistoptiongame[3][30] = {
+    "Lanjutkan Permainan",
+    "Simpan Permainan",
+    "Exit Game",
+};
+
 char actionlistneedmoney[2][30] = {
     "Jual Properti",
     "Bangkrut",
@@ -317,7 +323,20 @@ void PlayGame(){
                 if(currentturn==totalplayer){
                     currentturn=0;
                 } 
-            }while(player[turn[currentturn]].isbankrupt);    
+            }while(player[turn[currentturn]].isbankrupt);
+
+            do{
+                playerchoose = 0;
+                DrawActionOptionGame();
+                if(playerchoose == 0) {
+                    // continue game
+                } else if(playerchoose == 1) {
+                    // save game
+                    saveGame();
+                } else if(playerchoose == 2) {
+                    // exit game
+                }
+            }while(playerchoose == 1);  
         }
     }
 
@@ -1032,6 +1051,61 @@ void DrawActionEndTurn(){
     wrefresh(waction);
 }
 
+void DrawActionListOptionGame(int* highlight){
+    touchwin(waction);
+
+    if(*highlight > 2){
+        *highlight = 2;
+    }else if(*highlight < 0){
+        *highlight = 0;
+    }
+
+    for(int i=0; i<3; i++){
+        if(i==*highlight){
+            wattrset(waction, A_REVERSE);
+        }
+        mvwaddstr(waction, i, 2, actionlistoptiongame[i]);
+        wattroff(waction, A_REVERSE);
+    }
+
+    wrefresh(waction);
+}
+
+void DrawActionOptionGame(){
+    touchwin(waction);
+
+    int keyp = 0;
+    int highlight = 0;
+   
+    keypad(waction, true);
+
+    DrawActionListOptionGame(&highlight);
+    noecho();
+    do{
+        keyp = wgetch(waction);
+
+        switch(keyp){
+            case KEY_UP:
+                highlight--;
+                DrawActionListOptionGame(&highlight);
+                playerchoose = highlight;
+                break;
+            case KEY_DOWN:
+                highlight++;
+                DrawActionListOptionGame(&highlight);
+                playerchoose = highlight;
+                break;
+        }
+        wrefresh(waction);
+    }while(keyp != '\n');
+
+    for(int i=0; i<5; i++){
+        mvwaddstr(waction, i, 0, "                                                 ");
+    }
+
+    wrefresh(waction);   
+}
+
 // mengupdate box info player
 void ShowPlayerInfo(){
     touchwin(wpinfo);
@@ -1330,4 +1404,36 @@ int getScore(int wintype, int asset){
     }   
 
     return score;
+}
+
+// modul untuk save game
+void saveGame() {
+    FILE *fp;	
+    fp = fopen("savegame.dat","w");
+    
+    if(fp==NULL) {
+        // show error message "system error while saving"
+    }
+
+    savedgame sg;
+    // Saving Player & Turn Player
+    sg.totalplayer = totalplayer;
+    for(int loop=0; loop<totalplayer; loop++) {
+        sg.player[loop] = player[loop];
+        sg.turn[loop] = turn[loop];
+    }
+    sg.currentturn = currentturn;
+
+    // Saving Chance Card
+    sg.card = card;
+    memcpy(sg.deckCard, deckCard, sizeof(deckCard));
+
+    // Saving Property
+    for(int loop=0; loop<32; loop++) {
+        sg.property[loop] = property[loop];
+    }
+
+    fwrite(&sg,sizeof(savedgame),1,fp);
+    
+    fclose(fp);
 }

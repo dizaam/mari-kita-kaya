@@ -13,11 +13,24 @@
 #define PLAYER3_COLOR 7
 #define PLAYER4_COLOR 8
 
+typedef struct savedgame{
+    PPLAYER player[4];
+    int turn[4];
+    int totalplayer;
+    int currentturn;
+
+    CCARD card;
+    int deckCard[20];
+
+    properti property[32];
+}savedgame;
+
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
 extern char actionlistunowned[2][30];
 extern char actionlistupgrade[2][30];
 extern char actionlistjailed[3][30];
+extern char actionlistoptiongame[3][30];
 
 extern int wintype;
 
@@ -63,6 +76,8 @@ void ShowUpgradeSucces();
 void ShowUpgradeFailed(int type);
 void DrawActionRollDice();
 void DrawActionEndTurn();
+void DrawActionListOptionGame(int* highlight);
+void DrawActionOptionGame();
 void DrawActionPayRent();
 void DrawDiceResult();
 void DrawDiceSymbol();
@@ -76,6 +91,7 @@ bool isLineWin();
 void ShowScore();
 int getAsset(int thisplayer);
 int getScore(int wintype, int asset);
+void saveGame();
 
 
 #endif
