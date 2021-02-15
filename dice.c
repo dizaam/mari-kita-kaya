@@ -60,6 +60,7 @@ void shakeDice(){
     dice.isdouble = false;
     dice.totaldice = 0;
 
+
     dice.dice2 = rand() % 6 + 1;
     dice.dice1 = rand() % 6 + 1;
 

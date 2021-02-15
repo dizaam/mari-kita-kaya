@@ -1373,67 +1373,67 @@ int getScore(int wintype, int asset){
 
 // modul untuk save game
 void SaveGame() {
-    FILE *fp;	
-    fp = fopen("savegame.dat","w");
+    FILE *savefile;	
+    savefile = fopen("savegame.dat","w");
     
-    if(fp==NULL) {
+    if(savefile==NULL) {
         // show error message "system error while saving"
     }
 
-    savedgame sg;
+    SAVEDATA savegame;
     // Saving Player & Turn Player
-    sg.totalplayer = totalplayer;
+    savegame.totalplayer = totalplayer;
     for(int loop=0; loop<totalplayer; loop++) {
-        sg.player[loop] = player[loop];
-        sg.turn[loop] = turn[loop];
+        savegame.player[loop] = player[loop];
+        savegame.turn[loop] = turn[loop];
     }
-    sg.currentturn = currentturn;
+    savegame.currentturn = currentturn;
 
     // Saving Chance Card
-    sg.card = card;
-    memcpy(sg.deckCard, deckCard, sizeof(deckCard));
+    savegame.card = card;
+    memcpy(savegame.deckCard, deckCard, sizeof(deckCard));
 
     // Saving Property
     for(int loop=0; loop<32; loop++) {
-        sg.property[loop] = property[loop];
+        savegame.property[loop] = property[loop];
     }
 
     // Saving Map
-    memcpy(sg.map, map, sizeof(map));
+    memcpy(savegame.map, map, sizeof(map));
 
-    fwrite(&sg,sizeof(savedgame),1,fp);
+    fwrite(&savegame,sizeof(SAVEDATA),1,savefile);
     
-    fclose(fp);
+    fclose(savefile);
 }
 
 // modul untuk meload game
 void LoadGame(){
-	FILE *fp;
-	fp = fopen("savegame.dat","r");
-	savedgame sg;
+	FILE *savefile;
+	savefile = fopen("savegame.dat","r");
+	SAVEDATA savegame;
 	
-	if(fp==NULL) {
-		fprintf(stderr,"Failed to open file");
+	if(savefile==NULL) {
+		savefilerintf(stderr,"Failed to open file");
 		exit(1);
 	}
 	
-	fread(&sg,sizeof(savedgame),1,fp);
-    totalplayer = sg.totalplayer;
+	fread(&savegame,sizeof(SAVEDATA),1,savefile);
+    totalplayer = savegame.totalplayer;
     player = (PPLAYER*) realloc(player, sizeof(PPLAYER)*totalplayer);
     turn = (int*) realloc(turn, sizeof(int)*totalplayer);
 
     for(int i=0; i<totalplayer; i++){
-        player[i] = sg.player[i];
-        turn[i] = sg.turn[i];
+        player[i] = savegame.player[i];
+        turn[i] = savegame.turn[i];
     }
     
-    currentturn = sg.currentturn;
-    card = sg.card;
-    memcpy(deckCard, &sg.deckCard, sizeof(sg.deckCard));
-    memcpy(property, &sg.property, sizeof(sg.property));
-    memcpy(map, &sg.map, sizeof(sg.map));
+    currentturn = savegame.currentturn;
+    card = savegame.card;
+    memcpy(deckCard, &savegame.deckCard, sizeof(savegame.deckCard));
+    memcpy(property, &savegame.property, sizeof(savegame.property));
+    memcpy(map, &savegame.map, sizeof(savegame.map));
 
 
-	fclose(fp);
+	fclose(savefile);
 	
 }

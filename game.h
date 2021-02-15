@@ -13,7 +13,7 @@
 #define PLAYER3_COLOR 7
 #define PLAYER4_COLOR 8
 
-typedef struct savedgame{
+typedef struct SAVEDATA{
     PPLAYER player[4];
     int turn[4];
     int totalplayer;
@@ -25,7 +25,7 @@ typedef struct savedgame{
     PPROPERTY property[32];
 
     char map[40][100];
-}savedgame;
+}SAVEDATA;
 
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
