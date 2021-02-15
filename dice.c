@@ -47,7 +47,7 @@ char dicesymbol[10][10][10] = {
     },
 };
 
-void resetDice(){
+void ResetDice(){
     dice.totaldice = 0;
     dice.dice1 = 0;
     dice.dice2 = 0;
@@ -55,7 +55,7 @@ void resetDice(){
     dice.isdouble = false;
 }
 
-void shakeDice(){
+void ShakeDice(){
     srand(time(NULL));
     dice.isdouble = false;
     dice.totaldice = 0;

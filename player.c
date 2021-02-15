@@ -72,7 +72,7 @@ char inputPlayerType(){
 void PlayerBankrupt(){
     player[currentplayer].isbankrupt=true;
     --remainingplayer;
-    SetDefaultAllProperty();
+    SetDefaultProperty();
     RemovePawn();
 }
 

@@ -14,7 +14,7 @@ typedef struct PPROPERTY{
 }PPROPERTY;
 
 extern PPROPERTY property[32];
-void SetDefaultAllProperty();
+void SetDefaultProperty();
 void AutoSellProperty(int moneyneeded);
 
 #endif

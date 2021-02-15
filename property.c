@@ -40,7 +40,7 @@ PPROPERTY property[32] = {
 
 };
 
-void SetDefaultAllProperty(){
+void SetDefaultProperty(){
     for(int i=0; i<32; i++){
         if(property[i].owner == currentplayer){
             property[i].owner = -1;

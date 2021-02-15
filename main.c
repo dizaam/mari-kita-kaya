@@ -12,7 +12,7 @@ int main(){
     switch(menuchoose){
         case 0:
             // new game
-            SetupNewGame();
+            NewGame();
             PlayGame();
             break;
 

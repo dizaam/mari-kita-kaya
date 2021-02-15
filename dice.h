@@ -18,10 +18,10 @@ extern DDICE dice;
 extern char dicesymbol[10][10][10];
 
 // prosedur untuk mereset nilai dadu
-void resetDice();
+void ResetDice();
 
 // prosedur untuk mengocok dadu
-void shakeDice();
+void ShakeDice();
 
 void DrawDiceSymbol();
 

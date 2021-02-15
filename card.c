@@ -50,13 +50,6 @@ void InitCard() {
     ShuffleCard();
 }
  
-void WriteCard() {
-    int i;
-
-    for (i = 0; i < DECKSIZE; ++i) {
-        printf(", %d", deckCard[i]);
-    }
-}
  
 void ShuffleCard() {
     int passes = 10;

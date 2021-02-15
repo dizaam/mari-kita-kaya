@@ -101,11 +101,11 @@ void TurnSetup(){
         printw("ketik apa saja untuk mengocok...");
         getch();
         
-        resetDice();
-        shakeDice();
+        ResetDice();
+        ShakeDice();
         
         temp[i][0] = dice.totaldice;
-        resetDice();
+        ResetDice();
         temp[i][1] = i;
         printw("\nDadu yg didapat: %d\n", temp[i][0]);
     }
@@ -122,7 +122,7 @@ void TurnSetup(){
 }
 
 // menginisialisasi awal permainan
-void SetupNewGame(){
+void NewGame(){
     addstr("SETUP NEW GAME\n");
 
     // menentukan berapa player
@@ -195,7 +195,7 @@ void PlayGame(){
 
     while(1){
         // mereset dadu untuk giliran player sekarang
-        resetDice();
+        ResetDice();
         currentplayer = turn[currentturn];
 
         if(player[currentplayer].isjailed){
@@ -211,7 +211,7 @@ void PlayGame(){
             if(playerchoose == 0){
             // player memilih mengocok dadu
                 DrawActionRollDice();
-                shakeDice();
+                ShakeDice();
                 DrawDiceSymbol();
                 if(dice.isdouble){
                     // dadu berhasil double
@@ -229,7 +229,7 @@ void PlayGame(){
                     player[currentplayer].isjailed = false;
 
                     DrawActionRollDice();
-                    shakeDice();
+                    ShakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
                     ShowBoardInfo();
@@ -245,7 +245,7 @@ void PlayGame(){
                     player[currentplayer].money -= 100;
 
                     DrawActionRollDice();
-                    shakeDice();
+                    ShakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
                     ShowBoardInfo();
@@ -260,7 +260,7 @@ void PlayGame(){
                 DrawWidget();
                 ShowPlayerInfo();
                 DrawActionRollDice();
-                shakeDice();
+                ShakeDice();
                 DrawDiceSymbol();
                 
                 // check jika player sudah 3x double
@@ -317,14 +317,8 @@ void PlayGame(){
             break;
             
         }else{
-            // penggantian giliran
-            do{
-                currentturn++;
-                if(currentturn==totalplayer){
-                    currentturn=0;
-                } 
-            }while(player[turn[currentturn]].isbankrupt);
-
+            ChangeTurn();
+        
             do{
                 playerchoose = 0;
                 DrawActionOptionGame();
@@ -502,6 +496,16 @@ void Action(){
     }
 }
 
+// modul untuk mengganti giliran
+void ChangeTurn(){
+    do{
+        currentturn++;
+        if(currentturn==totalplayer){
+            currentturn=0;
+        } 
+    }while(player[turn[currentturn]].isbankrupt);
+}
+
 
 // modul untuk mengubah posisi pemain
 void MovePlayer(char* typeMove, int stepMove){
@@ -597,7 +601,7 @@ void DrawActionJailed(){
     wrefresh(waction);   
 }
 
-// jailed message
+// informasi menggunakan kartu bebas penjara
 void ShowJailCardMessage(){
     touchwin(wpinfo);
     if(player[currentplayer].jailcard){
@@ -608,8 +612,6 @@ void ShowJailCardMessage(){
 
     wrefresh(wpinfo);
 }
-
-
 
 // informasi status pembayaran suap petugas penajara
 void ShowPayJailMessage(){
@@ -1413,7 +1415,7 @@ void LoadGame(){
 	SAVEDATA savegame;
 	
 	if(savefile==NULL) {
-		savefilerintf(stderr,"Failed to open file");
+		fprintf(stderr,"Failed to open file");
 		exit(1);
 	}
 	
