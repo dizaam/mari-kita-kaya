@@ -1,7 +1,7 @@
-#ifndef _DADU_H
-#define _DADU_H
+#ifndef _DICE_H
+#define _DICE_H
 
-#include "system.h"
+#include "allheader.h"
 
 
 // membuat tipe data dadu 
@@ -22,5 +22,7 @@ void resetDice();
 
 // prosedur untuk mengocok dadu
 void shakeDice();
+
+void DrawDiceSymbol();
 
 #endif

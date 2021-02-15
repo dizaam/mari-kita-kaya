@@ -1,5 +1,5 @@
-#ifndef _SYSTEM_H
-#define _SYSTEM_H
+#ifndef _ALLHEADER_H
+#define _ALLHEADER_H
 
 #ifdef __linux__
     #include <ncurses.h>
@@ -20,10 +20,10 @@
 #include <string.h>
 #include <time.h>
 
-#include "dadu.h"
+#include "dice.h"
 #include "card.h"
 #include "map.h"
-#include "properti.h"
+#include "property.h"
 #include "player.h"
 #include "menu.h"
 #include "game.h"

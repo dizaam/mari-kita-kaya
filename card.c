@@ -1,4 +1,4 @@
-#include "system.h"
+#include "allheader.h"
 
 /*
 Daftar Kartu Kesempatan:
@@ -40,17 +40,17 @@ int rrandom(int low, int high) {
     return val + low;
 }
  
-void initCard() {
+void InitCard() {
     int i;
     for (i = 0; i < DECKSIZE; i++) {
         deckCard[i] = i + 1;
     }
 
     card.position = 0;
-    shuffleCard();
+    ShuffleCard();
 }
  
-void writeCard() {
+void WriteCard() {
     int i;
 
     for (i = 0; i < DECKSIZE; ++i) {
@@ -58,7 +58,7 @@ void writeCard() {
     }
 }
  
-void shuffleCard() {
+void ShuffleCard() {
     int passes = 10;
     int n, cutSize, mp, op, tp, i;
     int *otherHand, *temp;
@@ -126,7 +126,7 @@ void CardAction() {
             // melaju ke start
             ShowCardInfo("Menuju Ke Start");
             MovePlayer("moveto", 0);
-            UpdateBoardInfo();
+            ShowBoardInfo();
             Action();
             
             break;
@@ -149,7 +149,7 @@ void CardAction() {
             // Mundur 3 Langkah
             ShowCardInfo("Mundur 3 Langkah");
             MovePlayer("goto",-3);
-            UpdateBoardInfo();
+            ShowBoardInfo();
             Action();
             
             break;
@@ -158,7 +158,7 @@ void CardAction() {
             // Maju 3 Langkah
             ShowCardInfo("Maju 3 Langkah");
             MovePlayer("goto",3);
-            UpdateBoardInfo();
+            ShowBoardInfo();
             Action();
             
             break;
@@ -175,7 +175,7 @@ void CardAction() {
             // Melaju ke Tangkuban Perahu
             ShowCardInfo("Menuju Ke Tangkuban Perahu");
             MovePlayer("moveto",4);
-            UpdateBoardInfo();
+            ShowBoardInfo();
             Action();
             
             break;
@@ -184,7 +184,7 @@ void CardAction() {
             // Kembali ke Antapani
             ShowCardInfo("Menuju Ke Antapani");
             MovePlayer("moveto",21);
-            UpdateBoardInfo();
+            ShowBoardInfo();
             Action();
             
             break;
@@ -212,7 +212,7 @@ void CardAction() {
             }else{
 
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 200);
+                CardUpdateMoney("outcome", 200);
 
             }
             
@@ -222,14 +222,14 @@ void CardAction() {
             // kartu ke-10
             // Anda Mendapat Hadiah Ulang Tahun -> income ( 50 )
             ShowCardInfo("Mendapat Hadiah Ulang Tahun Sebesar $50");
-            cardUpdateMoney("income", 50);
+            CardUpdateMoney("income", 50);
             
             break;
         case 11:
             // kartu ke-11
             // Tidak Memakai Masker, Denda -> outcome ( 100 )
             ShowCardInfo("Denda $100 Karena Tidak Memakai Masker");
-            cardUpdateMoney("outcome", 100);
+            CardUpdateMoney("outcome", 100);
 
             if(player[currentplayer].money < 100){
                 // player kekurangan uang
@@ -243,7 +243,7 @@ void CardAction() {
             }else{
 
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 100);
+                CardUpdateMoney("outcome", 100);
 
             }
             
@@ -252,14 +252,14 @@ void CardAction() {
             // kartu ke-12
             // Mendapat Beasiswa -> income ( 150 )
             ShowCardInfo("Mendapat Beasiswa Sebesar $150");
-            cardUpdateMoney("income", 150);
+            CardUpdateMoney("income", 150);
             
             break;
         case 13:
             // kartu ke-13
             // Bayar Kartu -> outcome ( 100 )
             ShowCardInfo("Bayar UKT Sebesar $100");
-            cardUpdateMoney("outcome", 100);
+            CardUpdateMoney("outcome", 100);
 
             if(player[currentplayer].money < 100){
                 // player kekurangan uang
@@ -273,7 +273,7 @@ void CardAction() {
             }else{
 
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 100);
+                CardUpdateMoney("outcome", 100);
 
             }
             
@@ -282,14 +282,14 @@ void CardAction() {
             // kartu ke-14
             // Mendapat Warisan Sebesar 200 -> income ( 200 )
             ShowCardInfo("Mendapat Warisan Sebesar $200");
-            cardUpdateMoney("income", 200);
+            CardUpdateMoney("income", 200);
             
             break;
         case 15:
             // kartu ke-15
             // Bayar SWAB Test -> outcome ( 100 )
             ShowCardInfo("Bayar SWAB Test Sebesar $100");
-            cardUpdateMoney("outcome", 100);
+            CardUpdateMoney("outcome", 100);
 
             if(player[currentplayer].money < 100){
                 // player kekurangan uang
@@ -303,7 +303,7 @@ void CardAction() {
             }else{
 
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 100);
+                CardUpdateMoney("outcome", 100);
 
             }
             
@@ -312,14 +312,14 @@ void CardAction() {
             // kartu ke-16
             // Menerima Bunga dari Bank -> income ( 100 )
             ShowCardInfo("Menang Giveaway $100 Dari Bank");
-            cardUpdateMoney("income", 100);
+            CardUpdateMoney("income", 100);
             
             break;
         case 17:
             // kartu ke-17
             // Anda Menabrak Mobil Orang, Bayar Ganti Rugi -> outcome ( 150 )
             ShowCardInfo("Bayar Ganti Rugi $150");
-            cardUpdateMoney("outcome", 150);
+            CardUpdateMoney("outcome", 150);
 
             if(player[currentplayer].money < 150){
                 // player kekurangan uang
@@ -333,7 +333,7 @@ void CardAction() {
             }else{
 
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 150);
+                CardUpdateMoney("outcome", 150);
 
             }
             
@@ -342,14 +342,14 @@ void CardAction() {
             // kartu ke-18
             // Anda Mendapat Undian -> income ( 200 )
             ShowCardInfo("Mendapat Undian Lotere $200");
-            cardUpdateMoney("income", 200);
+            CardUpdateMoney("income", 200);
             
             break;
         case 19:
             // kartu ke-19
             // Anda Menjadi Calon Camat, Bayar ke KPU -> outcome ( 150 )
             ShowCardInfo("Bayar Setiap Pemain $50");
-            cardUpdateMoney("outcome", 150);
+            CardUpdateMoney("outcome", 150);
 
             if(player[currentplayer].money < 150){
                 // player kekurangan uang
@@ -362,7 +362,7 @@ void CardAction() {
                 
             }else{
                 // player tidak kekurangan uang
-                cardUpdateMoney("outcome", 150);
+                CardUpdateMoney("outcome", 150);
                 for(int i=0; i<totalplayer; i++){
                     if(i != currentplayer){
                         player[i].money += 50;
@@ -375,7 +375,7 @@ void CardAction() {
     }
 }
 
-void cardUpdateMoney(char* type, int money) {
+void CardUpdateMoney(char* type, int money) {
     // Proccess of updating money for player
     if(!strcmp(type, "income")) {
         player[currentplayer].money += money;

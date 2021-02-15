@@ -1,4 +1,4 @@
-#include "system.h"
+#include "allheader.h"
 
 PPLAYER* player = NULL;
 int totalplayer = 0;

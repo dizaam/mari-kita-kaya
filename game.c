@@ -1,4 +1,4 @@
-#include "system.h"
+#include "allheader.h"
 
 WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 WINDOW*  waction, *wpinfo, *wbinfo;
@@ -134,7 +134,7 @@ void SetupNewGame(){
         }
     }while ((totalplayer<2) || (totalplayer>4));
     InitPlayer();
-    initCard();
+    InitCard();
     TurnSetup();
 }
 
@@ -217,7 +217,7 @@ void PlayGame(){
                     // dadu berhasil double
                     player[currentplayer].isjailed=false;
                     MovePlayer("goto", dice.totaldice);
-                    UpdateBoardInfo();
+                    ShowBoardInfo();
                     Action();
                 }
             }else if(playerchoose == 1){
@@ -232,7 +232,7 @@ void PlayGame(){
                     shakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
-                    UpdateBoardInfo();
+                    ShowBoardInfo();
                     Action();
 
                 }
@@ -248,7 +248,7 @@ void PlayGame(){
                     shakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
-                    UpdateBoardInfo();
+                    ShowBoardInfo();
                     Action();
                 }
             }
@@ -274,7 +274,7 @@ void PlayGame(){
                     MovePlayer("goto", dice.totaldice);
                 }
                 
-                UpdateBoardInfo();
+                ShowBoardInfo();
                 Action();
 
                 if(dice.isdouble){
@@ -332,7 +332,7 @@ void PlayGame(){
                     // continue game
                 } else if(playerchoose == 1) {
                     // save game
-                    saveGame();
+                    SaveGame();
                 } else if(playerchoose == 2) {
                     // exit game
                 }
@@ -1143,48 +1143,13 @@ void ShowPlayerInfo(){
     wrefresh(wpinfo);
 }
 
-// modul untuk menampilkan dadu yang didapat
-void DrawDiceResult(){
-    touchwin(wpinfo);
-    
-    mvwprintw(wpinfo, 8,1,"Dadu 2: %d", dice.dice2);
-    mvwprintw(wpinfo, 7,1,"Dadu 1: %d", dice.dice1);
-    mvwprintw(wpinfo, 9,1,"Total: %d", dice.totaldice);
 
-    wrefresh(wpinfo);
 
-}
-
-// modul untuk menampilkan gambar dadu yang dikocok
-void DrawDiceSymbol(){
-    // start from line 6
-    touchwin(wpinfo);
-    for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 1, dicesymbol[dice.dice1-1][i]);
-    }
-
-    for(int i=0; i<10; i++){
-        mvwaddstr(wpinfo, 6+i, 11, dicesymbol[dice.dice2-1][i]);
-    }
-
-    mvwprintw(wpinfo, 8,21,"= %d", dice.totaldice);
-
-    if((player[currentplayer].isjailed) && (!dice.isdouble)){
-        mvwprintw(wpinfo, 12, 1, "Gagal Mendapat Double");
-    }else if ((player[currentplayer].isjailed) && (dice.isdouble)){
-        mvwprintw(wpinfo, 12, 1, "Double! Keluar Dari Penjara");
-    }else{
-        mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dice.totaldice);
-    }
-    
-    
-    wrefresh(wpinfo);
-}
 
 
 
 // modul untuk mengupdate petak yang diinjak
-void UpdateBoardInfo(){
+void ShowBoardInfo(){
     touchwin(wbinfo);
     wclear(wbinfo);
 
@@ -1407,7 +1372,7 @@ int getScore(int wintype, int asset){
 }
 
 // modul untuk save game
-void saveGame() {
+void SaveGame() {
     FILE *fp;	
     fp = fopen("savegame.dat","w");
     
@@ -1442,7 +1407,7 @@ void saveGame() {
 }
 
 // modul untuk meload game
-void loadGame(){
+void LoadGame(){
 	FILE *fp;
 	fp = fopen("savegame.dat","r");
 	savedgame sg;

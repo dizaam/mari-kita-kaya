@@ -1,7 +1,7 @@
 #ifndef _MENU_H
 #define _MENU_H
 
-#include "system.h"
+#include "allheader.h"
 
 extern int menuchoose;
 extern char logo[8][69];

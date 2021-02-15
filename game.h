@@ -1,7 +1,7 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "system.h"
+#include "allheader.h"
 
 #define PROP0_COLOR 0
 #define PROP1_COLOR 1
@@ -22,7 +22,7 @@ typedef struct savedgame{
     CCARD card;
     int deckCard[20];
 
-    properti property[32];
+    PPROPERTY property[32];
 
     char map[40][100];
 }savedgame;
@@ -81,9 +81,8 @@ void DrawActionEndTurn();
 void DrawActionListOptionGame(int* highlight);
 void DrawActionOptionGame();
 void DrawActionPayRent();
-void DrawDiceResult();
-void DrawDiceSymbol();
-void UpdateBoardInfo();
+
+void ShowBoardInfo();
 void ShowPropertyInfo();
 void ShowTourismInfo();
 
@@ -93,8 +92,8 @@ bool isLineWin();
 void ShowScore();
 int getAsset(int thisplayer);
 int getScore(int wintype, int asset);
-void saveGame();
-void loadGame();
+void SaveGame();
+void LoadGame();
 
 
 #endif

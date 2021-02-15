@@ -1,7 +1,7 @@
 #ifndef _MAP_H
 #define _MAP_H
 
-#include "system.h"
+#include "allheader.h"
 
 typedef struct MAPPOSITION{
     int row;
@@ -15,7 +15,6 @@ extern int board[32];
 
 void DrawMap();
 void DrawProperty();
-void printMap();
 MAPPOSITION getMapPosition(int position);
 void DrawPawn();
 void RemovePawn();

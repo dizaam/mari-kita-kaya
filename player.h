@@ -1,11 +1,11 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "system.h"
+#include "allheader.h"
 
 
 
-typedef struct{
+typedef struct PPLAYER{
     bool isbankrupt;
     bool isbot;
     bool isjailed;

@@ -1,19 +1,19 @@
-#ifndef _PROPERTI_H
-#define _PROPERTI_H
+#ifndef _PROPERTY_H
+#define _PROPERTY_H
 
-#include "system.h"
+#include "allheader.h"
 
 
-typedef struct properti{
+typedef struct PPROPERTY{
     char name[50];
     int owner;
     int level;
     int price[5];
     int upgradeprice;
     int line;
-}properti;
+}PPROPERTY;
 
-extern properti property[32];
+extern PPROPERTY property[32];
 void SetDefaultAllProperty();
 void AutoSellProperty(int moneyneeded);
 

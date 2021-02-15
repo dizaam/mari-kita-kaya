@@ -1,4 +1,4 @@
-#include "system.h"
+#include "allheader.h"
 
 int menuchoose;
 

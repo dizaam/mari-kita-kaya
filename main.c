@@ -1,4 +1,4 @@
-#include "system.h"
+#include "allheader.h"
 
 
 int main(){
@@ -18,7 +18,7 @@ int main(){
 
         case 1:
             // load game
-            loadGame();
+            LoadGame();
             PlayGame();
             break;
         

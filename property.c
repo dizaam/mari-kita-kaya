@@ -1,6 +1,6 @@
-#include "system.h"
+#include "allheader.h"
 
-properti property[32] = {
+PPROPERTY property[32] = {
     /*
         nama tempat, pemilik, level, harga sesuai level, harga upgrade, line/baris mana
     */

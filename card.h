@@ -1,6 +1,6 @@
 #ifndef _CARD_H
 #define _CARD_H
-#include "system.h"
+#include "allheader.h"
 
 typedef struct CCARD{
     int position;
@@ -12,15 +12,15 @@ extern CCARD card;
 extern int deckCard[DECKSIZE];
 
 int rrandom(int low, int high);
-void initCard();
-void writeCard();
-void shuffleCard();
+void InitCard();
+void WriteCard();
+void ShuffleCard();
 int getCardPosition();
 int getCard();
 void CardAction();
 void ShowCardNeedMoney();
 
-void cardUpdateMoney(char* type, int money);
+void CardUpdateMoney(char* type, int money);
 
 void ShowCardInfo(char* text);
 
