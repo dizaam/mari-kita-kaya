@@ -141,10 +141,10 @@ void NewGame(){
             addstr("Minimal 2 Player & Maksimal 4 Player !!!\n");
         }
     }while ((totalplayer<2) || (totalplayer>4));
+    InitPlayer();
     if(bot.istherebot) {
         SetupBot();
     }
-    InitPlayer();
     InitCard();
     TurnSetup();
 }
