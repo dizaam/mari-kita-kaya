@@ -20,6 +20,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "bot.h"
 #include "dice.h"
 #include "card.h"
 #include "map.h"

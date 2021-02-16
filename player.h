@@ -15,6 +15,7 @@ typedef struct PPLAYER{
     int touristcount;
     int linecount[3];
     int money;
+    int jailcount;
 
     char pawn;
 }PPLAYER;

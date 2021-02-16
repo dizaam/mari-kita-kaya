@@ -97,9 +97,17 @@ void TurnSetup(){
 
     // masing2 player mengocok dadu untuk menentukan gilirannya
     for(int i=0; i<totalplayer; i++){
-        printw("\nPLAYER %d SILAHKAN MENGOCOK DADU\n", i+1);
-        printw("ketik apa saja untuk mengocok...");
-        getch();
+        if(player[i].isbot) {
+            // Jika BOT maka Auto Turn
+            printw("\nBOT %d SILAHKAN MENGOCOK DADU\n", i+1);
+            printw("ketik apa saja untuk mengocok...");
+            napms(1500);
+        } else {
+            // Jika PLAYER 
+            printw("\nPLAYER %d SILAHKAN MENGOCOK DADU\n", i+1);
+            printw("ketik apa saja untuk mengocok...");
+            getch();
+        }
         
         ResetDice();
         ShakeDice();
@@ -133,6 +141,9 @@ void NewGame(){
             addstr("Minimal 2 Player & Maksimal 4 Player !!!\n");
         }
     }while ((totalplayer<2) || (totalplayer>4));
+    if(bot.istherebot) {
+        SetupBot();
+    }
     InitPlayer();
     InitCard();
     TurnSetup();
@@ -206,13 +217,32 @@ void PlayGame(){
             ShowPlayerInfo();
 
             playerchoose = 0;
-            DrawActionJailed();
+            if(player[currentplayer].jailcount > 2) {
+                playerchoose = 2;
+                player[currentplayer].jailcount = 0;
+            } else {
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotLeaveJail();
+                } else {
+                    // Jika PLAYER maka memilih opsi keluar penjara
+                    DrawActionJailed();
+                }
+            }
 
             if(playerchoose == 0){
             // player memilih mengocok dadu
-                DrawActionRollDice();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                } else {
+                    // Jika PLAYER maka diberi opsi melempar dadu
+                    DrawActionRollDice();
+                }
                 ShakeDice();
                 DrawDiceSymbol();
+                player[currentplayer].jailcount += 1;
                 if(dice.isdouble){
                     // dadu berhasil double
                     player[currentplayer].isjailed=false;
@@ -227,8 +257,15 @@ void PlayGame(){
                     // mempunyai kartu bebas penjara
                     player[currentplayer].jailcard = false;
                     player[currentplayer].isjailed = false;
+                    player[currentplayer].jailcount = 0;
 
-                    DrawActionRollDice();
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                    } else {
+                        // Jika PLAYER maka diberi opsi melempar dadu
+                        DrawActionRollDice();
+                    }
                     ShakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
@@ -243,8 +280,15 @@ void PlayGame(){
                     // uang cukup
                     player[currentplayer].isjailed = false;
                     player[currentplayer].money -= 100;
+                    player[currentplayer].jailcount = 0;
 
-                    DrawActionRollDice();
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                    } else {
+                        // Jika PLAYER maka diberi opsi melempar dadu
+                        DrawActionRollDice();
+                    }
                     ShakeDice();
                     DrawDiceSymbol();
                     MovePlayer("goto", dice.totaldice);
@@ -259,7 +303,13 @@ void PlayGame(){
                 refresh();
                 DrawWidget();
                 ShowPlayerInfo();
-                DrawActionRollDice();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                } else {
+                    // Jika PLAYER maka diberi opsi melempar dadu
+                    DrawActionRollDice();
+                }
                 ShakeDice();
                 DrawDiceSymbol();
                 
@@ -279,11 +329,23 @@ void PlayGame(){
 
                 if(dice.isdouble){
                     ShowInfoDouble();
-                    wgetch(wpinfo);
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                    } else {
+                        // Jika PLAYER maka diberi opsi input
+                        wgetch(wpinfo);
+                    }
                 }
             }while((dice.isdouble) && (!player[currentplayer].isjailed) && (!player[currentplayer].isbankrupt));
         }
-        DrawActionEndTurn();
+        if(player[currentplayer].isbot) {
+            // Jika BOT maka Auto Turn
+            napms(1500);
+        } else {
+            // Jika PLAYER maka diberi opsi akhiri giliran
+            DrawActionEndTurn();
+        }
 
 
         if(isDefaultWin()){
@@ -321,7 +383,14 @@ void PlayGame(){
         
             do{
                 playerchoose = 0;
-                DrawActionOptionGame();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    playerchoose = 0;
+                } else {
+                    // Jika PLAYER maka diberi opsi memilih
+                    DrawActionOptionGame();
+                }
                 if(playerchoose == 0) {
                     // continue game
                 } else if(playerchoose == 1) {
@@ -361,12 +430,23 @@ void Action(){
             // kantor pajak
             ShowTaxInfo();
             
-            DrawActionPayTax();
+            if(player[currentplayer].isbot) {
+                napms(1500);
+            } else {
+                DrawActionPayTax();
+            }
             if(player[currentplayer].money < 100){
                 // uang kurang
                 ShowFailedTaxInfo();
                 playerchoose = 0;
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                } else {
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 ActionNeedMoney(playerchoose, 100);
 
             }else{
@@ -387,7 +467,14 @@ void Action(){
             if(property[player[currentplayer].position].owner == -1){
                 playerchoose = 0;
 
-                DrawActionUnownedProperty();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotVisitProperty();
+                } else {
+                    // Jika PLAYER 
+                    DrawActionUnownedProperty();
+                }
                 if(playerchoose == 0){
                     if(property[player[currentplayer].position].price[0] > player[currentplayer].money){
                         ShowBuyFailed();
@@ -407,7 +494,14 @@ void Action(){
                 playerchoose = 0;
 
                 while(playerchoose != 1){
-                    DrawActionUpgradeProperty();
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                        BotUpgrade();
+                    } else {
+                        // Jika PLAYER 
+                        DrawActionUpgradeProperty();
+                    }
                     if(playerchoose == 0){
                         // uang kurang
                         if(property[player[currentplayer].position].upgradeprice > player[currentplayer].money){
@@ -431,12 +525,25 @@ void Action(){
             }else{
                 int rentprice = property[player[currentplayer].position].price[property[player[currentplayer].position].level];
                 ShowRentInfo(rentprice);
-                DrawActionPayRent();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                } else {
+                    // Jika PLAYER 
+                    DrawActionPayRent();
+                }
                 if(player[currentplayer].money < rentprice){
                     // player kekurangan uang
                     ShowPayRentFailed();
                     playerchoose = 0;
-                    DrawActionNeedMoney();
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                        BotNeedMoney();
+                    } else {
+                        // Jika PLAYER 
+                        DrawActionNeedMoney();
+                    }
                     ActionNeedMoney(playerchoose, rentprice);
                     
                 }else{
@@ -453,7 +560,14 @@ void Action(){
             // belum ada owner
             if(property[player[currentplayer].position].owner == -1){
                 playerchoose = 0;
-                DrawActionUnownedProperty();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotVisitTourism();
+                } else {
+                    // Jika PLAYER 
+                    DrawActionUnownedProperty();
+                }
                 if(playerchoose == 0){
                     if(property[player[currentplayer].position].price[0] > player[currentplayer].money){
                         ShowBuyFailed();
@@ -476,12 +590,25 @@ void Action(){
             }else{
                 int rentprice = property[player[currentplayer].position].price[player[property[player[currentplayer].position].owner].touristcount-1];
                 ShowRentInfo(rentprice);
-                DrawActionPayRent();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                } else {
+                    // Jika PLAYER 
+                    DrawActionPayRent();
+                }
                 if(player[currentplayer].money < rentprice){
                     ShowPayRentFailed();
                     playerchoose = 0;
 
-                    DrawActionNeedMoney();
+                    if(player[currentplayer].isbot) {
+                        // Jika BOT maka Auto Turn
+                        napms(1500);
+                        BotNeedMoney();
+                    } else {
+                        // Jika PLAYER 
+                        DrawActionNeedMoney();
+                    }
                     ActionNeedMoney(playerchoose, rentprice);
                     
                 }else{
@@ -1155,7 +1282,13 @@ void ShowBoardInfo(){
     touchwin(wbinfo);
     wclear(wbinfo);
 
-    wgetch(wbinfo);
+    if(player[currentplayer].isbot) {
+        // Jika BOT maka Auto Turn
+        napms(1500);
+    } else {
+        // Jika PLAYER maka meminta input
+        wgetch(wbinfo);
+    }
 
     char petak[10];
     sprintf(petak, "%s %d", "PETAK", player[currentplayer].position);
@@ -1169,42 +1302,78 @@ void ShowBoardInfo(){
             // masuk penjara
             mvwprintw(wbinfo, 2, 1, "Kamu Berada Di Persidangan");
             mvwprintw(wbinfo, 3, 1, "Kamu Terbukti Melanggar Hukum! Pergi ke Penjara");
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
 
         case 1:
             // player berada pada petak start
             mvwprintw(wbinfo, 2, 1, "START");
            
-            wgetch(wbinfo);      
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }        
             break;
                 
         case 2:
             // player berada pada petak bebas parkir
             mvwprintw(wbinfo, 2, 1, "Bebas Parkir");
           
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
                 
         case 3:
             // penjara hanya lewat
             mvwprintw(wbinfo, 2, 1, "Hanya Lewat");
          
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
                 
         case 4:
             // petak pajak, player membayar pajak
             mvwprintw(wbinfo, 2, 1, "Kantor Pajak");
          
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
 
         case 5:
             // player mendapat kartu kesempatan
             mvwprintw(wbinfo, 2, 1, "Kartu Kesempatan");
            
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
                 
         case 6:
@@ -1214,7 +1383,13 @@ void ShowBoardInfo(){
             ShowPropertyInfo();
 
           
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
 
         case 7:
@@ -1222,7 +1397,13 @@ void ShowBoardInfo(){
             PrintCenter(wbinfo, 1, property[player[currentplayer].position].name);
             ShowTourismInfo();
 
-            wgetch(wbinfo);
+            if(player[currentplayer].isbot) {
+                // Jika BOT maka Auto Turn
+                napms(1500);
+            } else {
+                // Jika PLAYER maka meminta input
+                wgetch(wpinfo);
+            }
             break;
         }
 

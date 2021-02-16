@@ -18,6 +18,7 @@ void InitPlayer(){
 
         if (inputPlayerType()=='y'){
             player[i].isbot = true;
+            bot.istherebot = true;
         }else{
             player[i].isbot = false;
         }
