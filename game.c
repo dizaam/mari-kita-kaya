@@ -1239,8 +1239,13 @@ void DrawActionOptionGame(){
 void ShowPlayerInfo(){
     touchwin(wpinfo);
     
-    char buff[10];
-    sprintf(buff, "%s %d", "PLAYER", currentplayer+1);
+    char buff[20];
+    if(player[currentplayer].isbot){
+        sprintf(buff, "%s %d %s", "PLAYER", currentplayer+1, "(BOT)");
+    }else{
+        sprintf(buff, "%s %d", "PLAYER", currentplayer+1);
+    }
+    
     switch(currentplayer){
         case 0:
             wattrset(wpinfo, COLOR_PAIR(PLAYER1_COLOR) | A_REVERSE);

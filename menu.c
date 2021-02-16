@@ -40,10 +40,12 @@ char logotourismwin[6][115]={
 "  \\_/   \\___/  \\___/ \\_| \\_| \\___/ \\____/ \\_|  |_/    \\___/  \\___/  \\____/  \\_/   \\___/ \\_| \\_|  \\_/     (_)(_)(_)",                                                                                                                                                                                                                            
 };
 
-char menu[4][11] = {
+char menu[6][11] = {
     {"New Game"},
     {"Load Game"},
     {"Highscores"},
+    {"Help"},
+    {"Credits"},
     {"Exit"},
 };
 
@@ -77,19 +79,19 @@ void DrawMenu(int* highlight){
     // check jika keluar batas menu
     if (*highlight<0){
         *highlight = 0;
-    }else if (*highlight>3){
-        *highlight = 3;
+    }else if (*highlight>5){
+        *highlight = 5;
     }
 
     // menghighlight menu dipilih
-    for(int cnt = 0; cnt < 4; cnt++){
+    for(int cnt = 0; cnt < 6; cnt++){
         if (cnt==*highlight){
             attrset(A_REVERSE);
         }
         PrintCenter(stdscr, 15+(cnt*2), menu[cnt]);
         attroff(A_REVERSE);
     }
-    PrintCenter(stdscr, 24, "Use Arrow Key To Move...");
+    PrintCenter(stdscr, 28, "Use Arrow Key To Move...");
     refresh();
 }
 
