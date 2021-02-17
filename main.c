@@ -49,7 +49,7 @@ int main(){
                 break;
 
         }
-    }while((menuchoose==2) || (menuchoose==3) || (menuchoose==4));
+    }while(menuchoose!=5);
     
     free(turn);
     getch();
