@@ -133,6 +133,7 @@ void TurnSetup(){
 
 // menginisialisasi awal permainan
 void NewGame(){
+    clear();
     addstr("SETUP NEW GAME\n");
 
     // menentukan berapa player
