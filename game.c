@@ -350,7 +350,6 @@ void PlayGame(){
             DrawActionEndTurn();
         }
 
-
         if(isDefaultWin()){
             // default win
             clear();
@@ -1460,13 +1459,15 @@ void ShowTourismInfo(){
 
 // modul untuk mengecek default win
 bool isDefaultWin(){
+    int activecount = 0;
     for(int i=0; i<totalplayer; i++){
         if(!player[i].isbankrupt){
+            activecount++;
             playerwinner = i;
         }
     }
     wintype = 0;
-    return (remainingplayer==1) ? true:false;
+    return (activecount==1) ? true:false;
 }
 
 // modul untuk mengecek line win
