@@ -208,3 +208,14 @@ void Credits(){
     mvprintw(3,0, "Dan terinspirasi dari Line: Lets Get Rich");
     getch();
 }
+
+// menu keluar permainan
+void Exit(){
+    clear();
+    PrintCenter(stdscr, 10, "Terima Kasih Telah Bermain");
+    PrintCenter(stdscr, 11, "Sampai Ketemu Lagi...");
+    FreeAll();
+    refresh();
+    getch();
+    endwin();
+}

@@ -6,8 +6,6 @@ int main(){
     initscr();
     InitColor();
 
-    
-
     do{
         clear();
         MainMenu();
@@ -32,27 +30,23 @@ int main(){
             case 3:
                 // help
                 Help();
-
                 break;
+
             case 4:
                 // credits
                 Credits();
-
                 break;
+                
             case 5:
                 // exit
-                clear();
-                addstr("bye bye\n");
-
+                Exit();
                 break;
+
             default:
                 break;
 
         }
     }while(menuchoose!=5);
-    
-    free(turn);
-    getch();
-    endwin();
+
     return 0;
 }

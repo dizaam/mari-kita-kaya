@@ -208,18 +208,18 @@ void PlayGame(){
     InitWindow();
 
     while(1){
-        // mereset dadu untuk giliran player sekarang
-        ResetDice();
+        // mereset dadu ke nilai awal
+        ResetDice();        
         currentplayer = turn[currentturn];
 
         if(player[currentplayer].isjailed){
         // jika pemain dipenjara
             refresh();
-            DrawMap();
             DrawWidget();
             ShowPlayerInfo();
 
             playerchoose = 0;
+
             if(player[currentplayer].jailcount > 2) {
                 playerchoose = 2;
                 player[currentplayer].jailcount = 0;
@@ -247,7 +247,8 @@ void PlayGame(){
                 DrawDiceSymbol();
                 player[currentplayer].jailcount += 1;
                 if(dice.isdouble){
-                    // dadu berhasil double
+                    // dadu berhasil double, pemain keluar penjara
+                    player[currentplayer].jailcount = 0;
                     player[currentplayer].isjailed=false;
                     MovePlayer("goto", dice.totaldice);
                     ShowBoardInfo();
@@ -356,8 +357,6 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoDefaultWin();
             ShowScore();
-            InputName();
-            SaveScore(winner);
             refresh();
             break;
         
@@ -367,8 +366,6 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoTourismWin();
             ShowScore();
-            InputName();
-            SaveScore(winner);
             refresh();
             break;
             
@@ -378,8 +375,6 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoLineWin();
             ShowScore();
-            InputName();
-            SaveScore(winner);
             refresh();
             break;
             
@@ -403,11 +398,15 @@ void PlayGame(){
                     SaveGame();
                 } else if(playerchoose == 2) {
                     // exit game
+                    Exit();
+                    exit(1);
                 }
             }while(playerchoose == 1);  
         }
     }
 
+    InputName();
+    SaveScore(winner);
 }
 
 // modul interaksi dengan tiap2 petak
@@ -1640,6 +1639,7 @@ void LoadGame(){
 	
 }
 
+// menginput nama untuk disimpan di highscore
 void InputName(){
     echo();
     //mvwgetnstr(stdscr, winner.name, 30);
@@ -1698,4 +1698,17 @@ void SaveScore(SAVESCORE hs) {
 
     remove("highscore.dat");
     rename("copyscore.dat","highscore.dat");
+}
+
+// free heap memory
+void FreeAll(){
+    free(turn);
+    free(player);
+    delwin(wmap);
+    delwin(wpinfo);
+    delwin(waction);
+    delwin(wbinfo);
+    delwin(wbinfoborder);
+    delwin(wpinfoborder);
+    delwin(wactionborder);
 }

@@ -13,6 +13,7 @@ void DrawMenu(int* highlight);
 void MainMenu();
 void Credits();
 void Help();
+void Exit();
 void DrawLogoDefaultWin();
 void DrawLogoLineWin();
 void DrawLogoTourismWin();

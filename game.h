@@ -67,6 +67,7 @@ void SaveGame();
 void LoadGame();
 void InputName();
 void SaveScore(SAVESCORE hs);
+void FreeAll();
 
 void DrawActionListJailed(int* highlight);
 void DrawActionListNeedMoney(int* highlight);
