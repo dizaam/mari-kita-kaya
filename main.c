@@ -6,35 +6,50 @@ int main(){
     initscr();
     InitColor();
 
-    MainMenu();
-    clear();
+    
 
-    switch(menuchoose){
-        case 0:
-            // new game
-            NewGame();
-            PlayGame();
-            break;
+    do{
+        clear();
+        MainMenu();
+        switch(menuchoose){
+            case 0:
+                // new game
+                NewGame();
+                PlayGame();
+                break;
 
-        case 1:
-            // load game
-            LoadGame();
-            PlayGame();
-            break;
-        
-        case 2:
-            // highscores
-            addstr("not yet implemented :(\n");
-            break;
+            case 1:
+                // load game
+                LoadGame();
+                PlayGame();
+                break;
 
-        case 3:
-            // exit
-            addstr("bye bye\n");
-            break;
+            case 2:
+                // highscores
+                ShowHighScore();
+                break;
 
-        default:
-            break;
-    }
+            case 3:
+                // help
+                Help();
+
+                break;
+            case 4:
+                // credits
+                Credits();
+
+                break;
+            case 5:
+                // exit
+                clear();
+                addstr("bye bye\n");
+
+                break;
+            default:
+                break;
+
+        }
+    }while((menuchoose==2) || (menuchoose==3) || (menuchoose==4));
     
     free(turn);
     getch();

@@ -27,6 +27,11 @@ typedef struct SAVEDATA{
     char map[40][100];
 }SAVEDATA;
 
+typedef struct SAVESCORE{
+    char name[30];
+    int score;
+}SAVESCORE;
+
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
 extern char actionlistunowned[2][30];
@@ -35,6 +40,7 @@ extern char actionlistjailed[3][30];
 extern char actionlistoptiongame[3][30];
 
 extern int wintype;
+extern SAVESCORE winner;
 
 void InitWindow();
 void InitColor();
@@ -59,6 +65,8 @@ int getAsset(int thisplayer);
 int getScore(int wintype, int asset);
 void SaveGame();
 void LoadGame();
+void InputName();
+void SaveScore(SAVESCORE hs);
 
 void DrawActionListJailed(int* highlight);
 void DrawActionListNeedMoney(int* highlight);

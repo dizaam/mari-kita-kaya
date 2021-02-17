@@ -109,6 +109,7 @@ void MainMenu(){
     noecho();
 
     // menunggu keypad input
+    menuchoose = 0;
     do{
         choose = getch();
         switch(choose){
@@ -128,6 +129,7 @@ void MainMenu(){
                 break;
         }
     }while(choose != '\n');
+    mvprintw(20, 0, "menu choose: %d", menuchoose);
     echo();
 }
 
@@ -156,4 +158,53 @@ void DrawLogoTourismWin(){
     }
     addstr("\n");
     PrintCenter(stdscr, 10, "Score x5 !");
+}
+
+// menampilkan highscore
+void ShowHighScore() {
+    clear();
+    FILE *fp;
+	fp = fopen("highscore.dat","r");
+	
+	SAVESCORE s1;
+	
+	if(fp==NULL) {
+		// error open file
+	}
+	
+	int rank = 1;
+	printw("Rank\tNama\tScore\n");
+	while(fread(&s1,sizeof(SAVESCORE),1,fp)) {
+		printw("%d\t%s\t%d\n",rank,s1.name,s1.score);
+		rank++;
+	}
+	
+	fclose(fp);
+
+    printw("ketik apa saja untuk kembali...");
+    getch();
+    clear();
+}
+
+// menu help
+void Help(){
+    clear();
+    mvprintw(0,0, "Selamat datang di mari kita kaya!");
+    mvprintw(1,0, "Gunakan tombol arrow pada keyboard untuk navigasi");
+    mvprintw(2,0, "Peraturan sama seperti monopoli klasik");
+    mvprintw(3,0, "Akan tetapi ada rules tambahan, seperti:");
+    mvprintw(5,0, "1. Ada tambahan 2 kondisi menang");
+    mvprintw(6,0, "2. Meski hanya memiliki 1 block property, bisa diupgrade");
+
+    getch();
+}
+
+// menu credits
+void Credits(){
+    clear();
+    mvprintw(0,0, "Aplikasi ini dibuat oleh");
+    mvprintw(1,0, "Luthfi Maajid dan Sobri Waskito Aji");
+    mvprintw(2,0, "Game ini turunan dari monopoli klasik");
+    mvprintw(3,0, "Dan terinspirasi dari Line: Lets Get Rich");
+    getch();
 }

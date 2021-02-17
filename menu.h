@@ -11,8 +11,11 @@ void PrintCenter(WINDOW* win, int row, char* text);
 void DrawLogo();
 void DrawMenu(int* highlight);
 void MainMenu();
+void Credits();
+void Help();
 void DrawLogoDefaultWin();
 void DrawLogoLineWin();
 void DrawLogoTourismWin();
+void ShowHighScore();
 
 #endif

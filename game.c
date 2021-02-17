@@ -3,6 +3,7 @@
 WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 WINDOW*  waction, *wpinfo, *wbinfo;
 
+
 char actionlistunowned[2][30] = {
     "Beli Properti",
     "Do Nothing",
@@ -31,6 +32,7 @@ char actionlistneedmoney[2][30] = {
 };
 
 int wintype = 0;
+SAVESCORE winner;
 
 // menginisialisasi warna
 void InitColor(){
@@ -354,8 +356,9 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoDefaultWin();
             ShowScore();
+            InputName();
+            SaveScore(winner);
             refresh();
-            getch();
             break;
         
         }else if(isTourismWin()){
@@ -364,8 +367,9 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoTourismWin();
             ShowScore();
+            InputName();
+            SaveScore(winner);
             refresh();
-            getch();
             break;
             
         }else if(isLineWin()){
@@ -374,8 +378,9 @@ void PlayGame(){
             touchwin(stdscr);
             DrawLogoLineWin();
             ShowScore();
+            InputName();
+            SaveScore(winner);
             refresh();
-            getch();
             break;
             
         }else{
@@ -1467,17 +1472,22 @@ bool isDefaultWin(){
 bool isLineWin(){
     bool ret = false;
 
-    for(int i=0; i<totalplayer; i++){
-        if(player[i].linecount[0]==6){
-            ret = true;
-        }else if(player[i].linecount[1]==5){
-            ret = true;
-        }else if(player[i].linecount[2]==6){
-            ret = true;
-        }else if(player[i].linecount[3]==5){
-            ret = true;
-        }
+    if(player[currentplayer].linecount[0]==6){
+        ret = true;
     }
+    
+    if(player[currentplayer].linecount[1]==5){
+        ret = true;
+    }
+    
+    if(player[currentplayer].linecount[2]==6){
+        ret = true;
+    }
+    
+    if(player[currentplayer].linecount[3]==5){
+        ret = true;
+    }
+    
 
     wintype = 1;
     playerwinner = currentplayer;
@@ -1509,11 +1519,12 @@ void ShowScore(){
     char scoretext[100];
     char playertext[100];
 
-    int asset = getAsset(currentplayer);
+    int asset = getAsset(playerwinner);
     int score = getScore(wintype, asset);
+    winner.score = score;
 
     sprintf(playertext,"Player %d Menang !", playerwinner+1);
-    sprintf(moneytext, "Total Uang  : %d", player[currentplayer].money);
+    sprintf(moneytext, "Total Uang  : %d", player[playerwinner].money);
     sprintf(assettext, "Total Asset : %d", asset);
     sprintf(scoretext, "Score       : %d", score);
 
@@ -1521,6 +1532,7 @@ void ShowScore(){
     PrintCenter(stdscr, 15, moneytext);
     PrintCenter(stdscr, 17, assettext);
     PrintCenter(stdscr, 19, scoretext);
+    
 
 }
 
@@ -1624,4 +1636,64 @@ void LoadGame(){
 
 	fclose(savefile);
 	
+}
+
+void InputName(){
+    echo();
+    //mvwgetnstr(stdscr, winner.name, 30);
+    mvaddstr(21, 0, "Masukkan Nama : ");
+    mvwgetnstr(stdscr, 21, 16, winner.name, 30);
+}
+
+
+// save score
+void SaveScore(SAVESCORE hs) {
+    FILE *fs1, *fs2;
+	int i,j;
+    SAVESCORE savescore1; // Menampung struct score pada file highscore.dat
+    SAVESCORE savescore2; // Struct Score yang akan ditambah
+    SAVESCORE sortscore[12]; /// Menampung struct score pada file dan yang akan ditambah untuk di sorting
+
+    //char winnername[32] = "Player";
+    strcpy(savescore2.name, hs.name);
+    savescore2.score = hs.score;
+
+    fs1 = fopen("highscore.dat","r+");
+	fs2 = fopen("copyscore.dat","a+");
+    
+    if(fs1==NULL) {
+        // show error message "system error while saving"
+    }
+
+    i = 0;
+    while(fread(&savescore1,sizeof(SAVESCORE),1,fs1)) {
+		sortscore[i] = savescore1;
+        i++;
+	}
+
+    sortscore[10] = savescore2;
+
+    for(i=0; i<10; i++) {
+        int max = i;
+        for(j=i+1; j<11; j++) {
+            if(sortscore[max].score < sortscore[j].score) {
+                max = j;
+            }
+        }
+        if(max != i) {
+            sortscore[11] = sortscore[i];
+            sortscore[i] = sortscore[max];
+            sortscore[max] = sortscore[11];
+        }
+    }
+
+    for(i=0; i<10; i++) {
+        fwrite(&sortscore[i],sizeof(SAVESCORE),1,fs2);
+    }
+
+    fclose(fs1);
+    fclose(fs2);
+
+    remove("highscore.dat");
+    rename("copyscore.dat","highscore.dat");
 }
