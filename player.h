@@ -13,7 +13,7 @@ typedef struct PPLAYER{
 
     int position; 
     int touristcount;
-    int linecount[3];
+    int linecount[4];
     int money;
     int jailcount;
 

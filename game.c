@@ -647,7 +647,7 @@ void MovePlayer(char* typeMove, int stepMove){
 
         if(player[currentplayer].position > 31){
             player[currentplayer].position = player[currentplayer].position-32;
-            player[currentplayer].money += 200;
+            player[currentplayer].money += 100;
         }
 
         if(player[currentplayer].position < 0){

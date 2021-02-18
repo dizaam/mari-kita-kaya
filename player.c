@@ -28,7 +28,10 @@ void InitPlayer(){
         player[i].jailcard = false;
         player[i].position = 0;
         player[i].touristcount = 0;
-        memset(player[i].linecount, 0, 4*sizeof(int));
+        for(int j=0; j<4; j++){
+            player[i].linecount[j] = 0;
+        }
+        //memset(player[i].linecount, 0, 4*sizeof(int));
         player[i].money = 2000;
 
 
