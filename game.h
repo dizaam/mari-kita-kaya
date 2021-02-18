@@ -32,41 +32,205 @@ typedef struct SAVESCORE{
     int score;
 }SAVESCORE;
 
+
+// deklarasi variabel global
 extern WINDOW*  wactionborder, *wpinfoborder, *wbinfoborder;
 extern WINDOW*  waction, *wpinfo, *wbinfo;
 extern char actionlistunowned[2][30];
 extern char actionlistupgrade[2][30];
 extern char actionlistjailed[3][30];
 extern char actionlistoptiongame[3][30];
-
 extern int wintype;
 extern SAVESCORE winner;
 
+/*
+    Author      : LM
+    Tujuan      : Menginisialisasi window (layar)
+    I.S         : Layar belum ada niali
+    F.S         : Layar sudah ada nilai
+*/
 void InitWindow();
+
+/*
+    Author      : LM
+    Tujuan      : Menginisialisasi nilai warna
+    I.S         : Warna belum ada/bernilai
+    F.S         : Warna bernilai
+*/
 void InitColor();
-int* shuffleTurn(int temp[totalplayer][2]);
+
+/*
+    Author      : LM
+    Tujuan      : Mengocok giliran
+    I.S         : Giliran dalam kondisi terurut
+    F.S         : Giliran dalam kondisi acak
+*/
+void ShuffleTurn(int temp[totalplayer][2]);
+
+/*
+    Author      : LM
+    Tujuan      : Menginisialisasi giliran
+    I.S         : Giliran belum terinisialisasi
+    F.S         : Giliran terinisialisasi
+*/
 void TurnSetup();
+
+/*
+    Author      : LM
+    Tujuan      : Mengatur permainan baru
+    I.S         : Permainan belum mulai
+    F.S         : Permainan mulai
+*/
 void NewGame();
+
+/*
+    Author      : LM
+    Tujuan      : Menggambar border aksi
+    I.S         : Di layar belum ada border aksi
+    F.S         : Di layar ada border aksi
+*/
 void DrawActionBorder();
+
+/*
+    Author      : LM
+    Tujuan      : Menggambar border informasi pemain
+    I.S         : Di layar belum ada border informasi pemain
+    F.S         : Di layar ada border informasi pemain
+*/
 void DrawPlayerInfoBorder();
+
+/*
+    Author      : LM
+    Tujuan      : Menggambar border informasi petak
+    I.S         : Di layar belum ada border informasi petak
+    F.S         : Di layar ada border informasi petak
+*/
 void DrawBoardInfoBorder();
+
+/*
+    Author      : LM
+    Tujuan      : Menggambar layar layar pendukung
+    I.S         : Di layar belum ada layar pendukung
+    F.S         : Di layar ada layar pendukung
+*/
 void DrawWidget();
 
+/*
+    Author      : LM
+    Tujuan      : Aksi pemain ke tiap petak
+    I.S         : Pemain belum beraksi
+    F.S         : Pemain beraksi
+*/
 void Action();
+
+/*
+    Author      : LM
+    Tujuan      : Memainkan monopoli
+    I.S         : Permainan belum mulai
+    F.S         : Permainan mulai
+*/
 void PlayGame();
+
+/*
+    Author      : SWA
+    Tujuan      : Memindahkan pemain
+    I.S         : Pemain berada di x
+    F.S         : Pemain berada di y
+*/
 void MovePlayer(char* typeMove, int stepMove);
+
+/*
+    Author      : LM
+    Tujuan      : Mengganti giliran
+    I.S         : Giliran pemain x
+    F.S         : Giliran pemain y
+*/
 void ChangeTurn();
+
+/*
+    Author      : LM
+    Tujuan      : Aksi membutuhkan uang
+    I.S         : Pemain kekurangan uang
+    F.S         : Pemain mendapatkan uang / pemain bangkrut
+*/
 void ActionNeedMoney(int playerchoose, int moneyneeded);
+
+/*
+    Author      : LM
+    Tujuan      : Mengecek kemenangan default
+*/
 bool isDefaultWin();
+
+/*
+    Author      : LM
+    Tujuan      : Mengecek kemenangan tempat pariwisata
+*/
 bool isTourismWin();
+
+/*
+    Author      : LM
+    Tujuan      : Mengecek kemenangan satu garis
+*/
 bool isLineWin();
+
+/*
+    Author      : LM
+    Tujuan      : Menampilkan skor pemain
+    I.S         : Di layar belum tampil skor pemain
+    F.S         : Di layar tampil skor pemain
+*/
 void ShowScore();
+
+/*
+    Author      : LM
+    Tujuan      : Mendapatkan nilai asset
+*/
 int getAsset(int thisplayer);
+
+/*
+    Author      : LM
+    Tujuan      : Mendapatkan nilai skor
+*/
 int getScore(int wintype, int asset);
+
+/*
+    Author      : SWA
+    Tujuan      : Mengesave permainan
+    I.S         : Data save belum ada
+    F.S         : Data save ada
+*/
 void SaveGame();
+
+/*
+    Author      : SWA
+    Tujuan      : Meload permainan
+    I.S         : Data permainan belum ada
+    F.S         : Data permainan ada
+*/
 void LoadGame();
+
+/*
+    Author      : LM
+    Tujuan      : Menginput nama pemain
+    I.S         : Nama pemain belum ada
+    F.S         : Nama pemain ada
+*/
 void InputName();
+
+/*
+    Author      : SWA
+    Tujuan      : Mengesave skor
+    I.S         : Data skor belum tersave
+    F.S         : Data skor tersave
+*/
 void SaveScore(SAVESCORE hs);
+
+/*
+    Author      : LM
+    Tujuan      : Memfree heap memory
+    I.S         : Heap memory masih ada
+    F.S         : Heap memory sudah tidak ada
+*/
 void FreeAll();
 
 void DrawActionListJailed(int* highlight);

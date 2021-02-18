@@ -63,9 +63,7 @@ void InitWindow(){
 
 
 // modul untuk mensortir giliran
-int* shuffleTurn(int temp[totalplayer][2]){
-    int* turn = (int*) calloc(totalplayer, sizeof(int));
-
+void ShuffleTurn(int temp[totalplayer][2]){
     // selection sort
     for(int i=0; i<totalplayer; i++){
         int maxVal=i;
@@ -86,8 +84,6 @@ int* shuffleTurn(int temp[totalplayer][2]){
         temp[maxVal][0] = tempValue;
         temp[maxVal][1] = tempIndex;    
     }
-    
-    return turn;
 }
 
 // modul untuk menentukan giliran
@@ -121,7 +117,7 @@ void TurnSetup(){
     }
 
     printw("\n");
-    turn = shuffleTurn(temp);
+    ShuffleTurn(temp);
 
     for(int i=0; i<totalplayer; i++){
         printw("Giliran ke-%d: Player %d\n", i+1, turn[i]+1);

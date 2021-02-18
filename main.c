@@ -24,7 +24,7 @@ int main(){
 
             case 2:
                 // highscores
-                ShowHighScore();
+                HighScore();
                 break;
 
             case 3:

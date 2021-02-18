@@ -161,7 +161,7 @@ void DrawLogoTourismWin(){
 }
 
 // menampilkan highscore
-void ShowHighScore() {
+void HighScore() {
     clear();
     FILE *fp;
 	fp = fopen("highscore.dat","r");

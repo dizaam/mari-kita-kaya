@@ -14,7 +14,20 @@ typedef struct PPROPERTY{
 }PPROPERTY;
 
 extern PPROPERTY property[32];
+/*
+    Author      : LM 
+    Tujuan      : Mereset nilai property ke nilai default
+    I.S         : Nilai property berbeda dengan default
+    F.S         : Nilai property sama dengan default
+*/
 void SetDefaultProperty();
+
+/*
+    Author      : LM 
+    Tujuan      : Mengembalikan pemilik property
+    I.S         : Property milik pemain lain
+    F.S         : Property tidak ada pemilik
+*/
 void AutoSellProperty(int moneyneeded);
 
 #endif

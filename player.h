@@ -31,8 +31,26 @@ extern int playerchoose;
 extern int remainingplayer;
 extern int playerwinner;
 
+/*
+    Author      : LM 
+    Tujuan      : Menginisialisasi data pemain
+    I.S         : Data pemain belum ada
+    F.S         : Data pemain sudah ada
+*/
 void InitPlayer();
+
+/*
+    Author      : LM 
+    Tujuan      : Menginput tipe main
+*/
 char inputPlayerType();
+
+/*
+    Author      : LM 
+    Tujuan      : Mengubah status pemain menjadi bangkrut
+    I.S         : Pemain aktif
+    F.S         : Pemain tidak aktif / bangkrut
+*/
 void PlayerBankrupt();
 
 #endif

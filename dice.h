@@ -17,12 +17,28 @@ typedef struct DDICE{
 extern DDICE dice;
 extern char dicesymbol[10][10][10];
 
-// prosedur untuk mereset nilai dadu
+/*
+    Author      : SWA
+    Tujuan      : Mereset dadu ke nilai awal
+    I.S         : Nilai dadu sudah ada acak
+    F.S         : Nilai dadu berubah ke nilai awal
+*/
 void ResetDice();
 
-// prosedur untuk mengocok dadu
+/*
+    Author      : SWA
+    Tujuan      : Mengocok dadu
+    I.S         : Dadu bernilai default
+    F.S         : Dadu bernilai acak
+*/
 void ShakeDice();
 
+/*
+    Author      : SWA
+    Tujuan      : Menggambar simbol dadu
+    I.S         : Di layar belum tampil simbol dadu
+    F.S         : Di layar belum simbol dadu
+*/
 void DrawDiceSymbol();
 
 #endif
