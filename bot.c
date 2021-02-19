@@ -76,10 +76,10 @@ void BotLeaveJail() {
         playerchoose = 1;
     } else {
         // Jika tidak punya kartu bebas penjara
-        if(bot.level == 0) {
+        if(bot.level == 0) {            // 1.a
             // BOT memilih menyogok
             playerchoose = 2;
-        } else if(bot.level == 1) {
+        } else if(bot.level == 1) {     // 2.b
             // BOT lempar dadu satu kali kemudian menyogok
             if(player[currentplayer].jailcount == 1) {
                 playerchoose = 2;
@@ -110,7 +110,8 @@ void BotVisitTourism() {
 void BotVisitProperty() {
     if(bot.level == 0) {
         // BOT membeli properti secara random (1:4)
-        int botEasy[5] = {1,1,1,0,1};
+        // 0 = ngambil, 1 = tidak
+        int botEasy[5] = {1,1,1,0,1};                        
         playerchoose = botEasy[randNum(1,5)-1];
     } else if(bot.level == 1) {
         // BOT membeli properti secara random (1:2)

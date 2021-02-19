@@ -3,8 +3,6 @@
 
 #include "allheader.h"
 
-
-
 typedef struct PPLAYER{
     bool isbankrupt;
     bool isbot;
@@ -16,20 +14,18 @@ typedef struct PPLAYER{
     int linecount[4];
     int money;
     int jailcount;
-
     char pawn;
 }PPLAYER;
 
 
 
 extern PPLAYER* player;
-extern int totalplayer;
+extern int totalplayer;                                     // ini sebenarnnya bisa lokal
 extern int* turn;
-extern int currentturn;
-extern int currentplayer;
-extern int playerchoose;
-extern int remainingplayer;
-extern int playerwinner;
+extern int currentturn;                                      // ini sebenarnnya bisa lokal
+extern int currentplayer;                                    // ini sebenarnnya bisa lokal
+extern int playerchoose;                                       // ini sebenarnnya bisa lokal
+extern int playerwinner;                                        // ini sebenarnnya bisa lokal
 
 /*
     Author      : LM 

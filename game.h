@@ -40,8 +40,8 @@ extern char actionlistunowned[2][30];
 extern char actionlistupgrade[2][30];
 extern char actionlistjailed[3][30];
 extern char actionlistoptiongame[3][30];
-extern int wintype;
-extern SAVESCORE winner;
+extern int wintype;                                             // ini sebenarnnya bisa lokal
+extern SAVESCORE winner;                                        // ini sebenarnnya bisa lokal
 
 /*
     Author      : LM

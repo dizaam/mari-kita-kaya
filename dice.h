@@ -14,7 +14,7 @@ typedef struct DDICE{
 }DDICE;
 
 // variabel global
-extern DDICE dice;
+extern DDICE dice;                              // ini sebenarnnya bisa lokal
 extern char dicesymbol[10][10][10];
 
 /*

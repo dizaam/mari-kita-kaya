@@ -1,5 +1,7 @@
 #include "allheader.h"
 
+
+// bisa lokal
 int menuchoose;
 
 char logo[8][69]= {

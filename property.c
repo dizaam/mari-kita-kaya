@@ -9,7 +9,7 @@ PPROPERTY property[32] = {
     {{"Cidadap"}, -1, 0, {20, 30, 40, 50, 60}, 20, 0},   
     {{"0"}, -1, 0, {0,0,0,0,0},0, 0},                                      // Kartu Kesempatan
     {{"Gedebage"}, -1, 0, {20, 35, 45, 55, 65}, 20, 0},
-    {{"Gunung Tangkubang Perahu"}, -1, 0, {50, 100, 200, 200, 200},0, 0},      // tempat wisata 1
+    {{"Gunung Tangkubang Perahu"}, -1, 0, {50, 100, 200, 200, 200},0, 0},  // tempat wisata 1
     {{"Cibiru"}, -1, 0, {45, 60, 75, 90, 105}, 30, 0},
     {{"Bojongloa"}, -1, 0, {50, 65, 80, 95, 110}, 30, 0},
     {{"Buahbatu"}, -1, 0, {55, 70, 85, 100, 115}, 30, 0},

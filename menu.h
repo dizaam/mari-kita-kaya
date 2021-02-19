@@ -3,7 +3,7 @@
 
 #include "allheader.h"
 
-extern int menuchoose;
+extern int menuchoose;      // ini sebenarnnya bisa lokal
 extern char logo[8][69];
 extern char menu[6][11];
 

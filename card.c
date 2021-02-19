@@ -198,8 +198,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
-                
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 ActionNeedMoney(playerchoose, 200);
                 
             }else{
@@ -208,7 +214,6 @@ void CardAction() {
                 CardUpdateMoney("outcome", 200);
 
             }
-            
             
             break;
         case 10:
@@ -229,7 +234,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 
                 ActionNeedMoney(playerchoose, 100);
                 
@@ -259,7 +271,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 
                 ActionNeedMoney(playerchoose, 100);
                 
@@ -289,7 +308,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 
                 ActionNeedMoney(playerchoose, 100);
                 
@@ -319,7 +345,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
                 
                 ActionNeedMoney(playerchoose, 150);
                 
@@ -349,7 +382,14 @@ void CardAction() {
                 ShowCardNeedMoney();
                 playerchoose = 0;
 
-                DrawActionNeedMoney();
+                if(player[currentplayer].isbot) {
+                    // Jika BOT maka Auto Turn
+                    napms(1500);
+                    BotNeedMoney();
+                }else{
+                    // Jika PLAYER 
+                    DrawActionNeedMoney();
+                }
 
                 ActionNeedMoney(playerchoose, 150);
                 

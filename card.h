@@ -9,8 +9,8 @@ typedef struct CCARD{
 #define DECKSIZE 20
 
 // variabel global
-extern int deckCard[DECKSIZE];
-extern CCARD card;
+extern int deckCard[DECKSIZE];                                   // ini sebenarnnya bisa lokal
+extern CCARD card;                                              // ini sebenarnnya bisa lokal
 
 /*
     Author      : SWA

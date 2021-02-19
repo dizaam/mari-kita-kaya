@@ -1,5 +1,7 @@
 #include "allheader.h"
 
+
+// dadu lokal bisa
 DDICE dice;
 
 char dicesymbol[10][10][10] = {
@@ -143,7 +145,6 @@ void DrawDiceSymbol(){
     }else{
         mvwprintw(wpinfo, 12, 1, "Melaju %d Langkah", dice.totaldice);
     }
-    
     
     wrefresh(wpinfo);
 }
