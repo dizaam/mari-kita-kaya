@@ -145,7 +145,12 @@ void BotUpgrade() {
     } else if(bot.level == 2) {
         // BOT upgrade property sampai level maks
         if(property[player[currentplayer].position].level != 4) {
-            playerchoose = 0;
+            // Jika uang tidak mencukupi, maka lakukan do nothing
+            if(property[player[currentplayer].position].upgradeprice > player[currentplayer].money) {
+                playerchoose = 1;
+            } else {
+                playerchoose = 0;
+            }
         } else {
             playerchoose = 1;
         }
