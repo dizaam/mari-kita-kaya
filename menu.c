@@ -189,12 +189,29 @@ void HighScore() {
 // menu help
 void Help(){
     clear();
-    mvprintw(0,0, "Selamat datang di mari kita kaya!");
-    mvprintw(1,0, "Gunakan tombol arrow pada keyboard untuk navigasi");
-    mvprintw(2,0, "Peraturan sama seperti monopoli klasik");
-    mvprintw(3,0, "Akan tetapi ada rules tambahan, seperti:");
-    mvprintw(5,0, "1. Ada tambahan 2 kondisi menang");
-    mvprintw(6,0, "2. Meski hanya memiliki 1 block property, bisa diupgrade");
+    FILE *fp; 
+  
+    char c; 
+  
+    // membuka file 
+    fp = fopen("help.txt", "r"); 
+    if (fp == NULL) {
+        mvprintw(0,0, "Selamat datang di mari kita kaya!");
+        mvprintw(1,0, "Gunakan tombol arrow pada keyboard untuk navigasi");
+        mvprintw(2,0, "Peraturan sama seperti monopoli klasik");
+        mvprintw(3,0, "Akan tetapi ada rules tambahan, seperti:");
+        mvprintw(5,0, "1. Ada tambahan 2 kondisi menang");
+        mvprintw(6,0, "2. Meski hanya memiliki 1 block property, bisa diupgrade");
+    } 
+  
+    // membaca isi teks
+    c = fgetc(fp); 
+    while (c != EOF) { 
+        printw("%c", c);
+        c = fgetc(fp); 
+    } 
+  
+    fclose(fp); 
 
     getch();
 }
@@ -202,10 +219,23 @@ void Help(){
 // menu credits
 void Credits(){
     clear();
-    mvprintw(0,0, "Aplikasi ini dibuat oleh");
-    mvprintw(1,0, "Luthfi Maajid dan Sobri Waskito Aji");
-    mvprintw(2,0, "Game ini turunan dari monopoli klasik");
-    mvprintw(3,0, "Dan terinspirasi dari Line: Lets Get Rich");
+    DrawLogo();
+    
+    PrintCenter(stdscr, 18, "Copyright(c) 2021 Mari Kita Kaya.");
+    PrintCenter(stdscr, 19, "All rights reserved.");
+
+    PrintCenter(stdscr, 22, "--- Author ---");
+    PrintCenter(stdscr, 23, "Luthfi Maajid (201524050)");
+    PrintCenter(stdscr, 24, "Sobri Waskito Aji (201524060)");
+
+    PrintCenter(stdscr, 26, "JTK Polban 2020");
+    PrintCenter(stdscr, 27, "D-IV Teknik Informatika");
+
+    PrintCenter(stdscr, 31, "--- Supported by ---");
+    PrintCenter(stdscr, 32, "Dosen DDP Praktek Polban");
+    PrintCenter(stdscr, 33, "Ani Rahmani");
+    PrintCenter(stdscr, 34, "Asri Maspupah");
+    PrintCenter(stdscr, 35, "Lukmannul Hakim");
     getch();
 }
 

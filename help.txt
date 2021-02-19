@@ -1,0 +1,47 @@
+Cerita Pengantar:
+Suatu hari kamu lulus dari jurusan Manajemen Aset Polban dan melanjutkan untuk berbisnis properti di
+kota bandung. Akan tetapi, kamu tidak sendiri, ada beberapa pebisnis properti juga di kota ini.
+Tugas kamu ada menjadi orang terkaya dan membuat pebisnis lain bangkrut
+
+Tujuan Permainan:
+Jadilah orang terkaya yang cerdik. Tujuan permainan ini adalah menjadi pemain terakhir yang mampu bertahan
+dari kebangkrutan, pemain yang mampu  menguasai semua properti tempat wisata, atau pemain yang mampu
+menguasai  semua properti dalam satu blok sisi. Kumpulkan uang sebanyak-banyaknya. Kuasai seluruh properti
+yang ada. Hindari menginjak properti yang sudah dibeli pemain lain. Buatlah pemain lain untuk menginjak
+properti milik kamu agar kamu mendapat uang sebanyak mungkin.
+Fokus pada tujuan dan manfaatkan peluang sebaik mungkin!
+
+Cara Bermain:
+1. Ketika mendapat giliran, lempar dadu untuk menggerakkan bidak kamu. Bidak akan bergerak sejauh jumlah
+   angka yang ditunjukkan oleh dadu yang dilempar. Misalnya, jika kedua buah dadu menunjukkan jumlah angka 10,
+   maka bidak kamu akan bergerak sejauh 10 petak.
+2. Setelah bidak anda berpindah dan menempati suatu petak tertentu. Terdapat beberapa aksi yang dapat dipilih
+   oleh kamu sesuai petak yang kamu injak
+   a. Petak Properti
+      Jika properti yang kamu injak belum dimiliki oleh siapapun, maka kamu dapat membeli properti tersebut
+      sesuai harga yang ditampilkan. Jika properti yang kamu injak sudah dimiliki oleh pemain lain, maka kamu
+      harus membayar sewa kepada pemain lain tersebut sesuai harga sewa yang ditampilkan. Jika property yang
+      kamu injak sudah dimiliki oleh  kamu, maka kamu dapat melakukan upgrade pada properti yang kamu miliki.
+   b. Petak Kartu Kesempatan
+      Jika kamu menginjak kartu kesempatan, maka kamu diwajibkan mengambil kartu kesempatan dan melaksanakan
+      segala aksi yang diperintah oleh kartu tersebut.
+   c. Petak Pajak
+      Jika kamu menginjak petak kantor pajak, maka kamu diwajibkan membayar pajak sesuai jumlah pajak yang
+      ditampilkan
+   d. Petak Bebas Parkir
+      Jika kamu menginjak petak bebas parkir, maka kamu hanya singgah tidak dapat melakukan aksi apapun
+   e. Petak Hanya Lewat
+      Jika kamu menginjak petak hanya lewat, maka kamu hanya singgah tidak dapat melakukan aksi apapun
+   f. Petak Masuk Penjara
+      Jika kamu menginjak petak masuk penjara, maka kamu akan masuk ke dalam penjara secara langsung dan
+      otomatis bidakmu berpindah ke petak hanya lewat.
+   g. Petak Start
+      Jika kamu menginjak petak start, maka kamu akan mendapat uang sebesar 100 dan tidak melakukan apa-apa.
+      Selain itu, jika kamu melewati petak start, kamu juga akan mendapat uang sebesar 100.
+3. Jika kamu tidak memiliki uang yang cukup untuk membeli, meng-upgrade, atau membayar sewa properti, maka kamu
+   bisa memerintahkan kepada bank untuk menjual properti yang kamu miliki secara acak bergantung kepada kebutuhan
+   uang kamu.
+4. Hanya jika Ketika anda mendapat jumlah angka dadu kembar, maka kamu akan mendapatkan tambahan giliran sebanyak
+   1 kali. Namun. Jika kamu mendapat jumlah angka dadu kembar setelah itu sebanyak 3 kali berturut-turut, maka
+   kamu akan masuk ke dalam penjara.
+5. Jika kamu berhasil mencapai salah satu dari tiga tujuan permainan, maka kamu akan keluar sebagai pemenang
