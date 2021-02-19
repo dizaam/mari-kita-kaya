@@ -3,15 +3,16 @@
 PPLAYER* player = NULL;
 int totalplayer = 0;
 int* turn = NULL;
+
+// bisa lokal
 int currentturn = 0;
 int currentplayer = 0;
 int playerchoose = 0;
-int remainingplayer = 0;
 int playerwinner = 0;
 
 void InitPlayer(){
     player = (PPLAYER*) realloc(player, sizeof(PPLAYER)*totalplayer);
-    remainingplayer = totalplayer;
+
 
     for(int i=0; i<totalplayer; i++){
         printw("\nPLAYER %d: \n", i+1);
@@ -75,7 +76,6 @@ char inputPlayerType(){
 
 void PlayerBankrupt(){
     player[currentplayer].isbankrupt=true;
-    remainingplayer--;
     SetDefaultProperty();
     RemovePawn();
 }

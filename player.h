@@ -3,8 +3,6 @@
 
 #include "allheader.h"
 
-
-
 typedef struct PPLAYER{
     bool isbankrupt;
     bool isbot;
@@ -16,7 +14,6 @@ typedef struct PPLAYER{
     int linecount[4];
     int money;
     int jailcount;
-
     char pawn;
 }PPLAYER;
 
@@ -28,7 +25,6 @@ extern int* turn;
 extern int currentturn;
 extern int currentplayer;
 extern int playerchoose;
-extern int remainingplayer;
 extern int playerwinner;
 
 /*

@@ -1670,7 +1670,8 @@ void SaveScore(SAVESCORE hs) {
 	}
 
     sortscore[10] = savescore2;
-
+    
+    // sel sort
     for(i=0; i<10; i++) {
         int max = i;
         for(j=i+1; j<11; j++) {
@@ -1685,6 +1686,7 @@ void SaveScore(SAVESCORE hs) {
         }
     }
 
+    // simpan setelah di sort
     for(i=0; i<10; i++) {
         fwrite(&sortscore[i],sizeof(SAVESCORE),1,fs2);
     }
